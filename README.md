@@ -1,28 +1,60 @@
-# Create T3 App
+# NIS Insights
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education.
 
-## What's next? How do I make an app with this?
+## Table of contents
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [Project Name](#project-name)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Usage](#usage)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Introduction
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+NIS Insights is the digital home of our school magazine club. Explore our latest releases, read engaging articles, and discover talented authors on our platform. We're dedicated to sharing knowledge, creativity, and unique perspectives.
 
-## Learn More
+## Features
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- Browse and read our latest releases.
+- Explore a variety of articles covering diverse topics.
+- Learn about the talented authors behind the content.
+- Join us as a member to contribute your own articles.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Getting Started
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Get started with NIS Insights and become a part of our community.
 
-## How do I deploy this?
+## Usage
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Visit our website to:
+
+- Read the latest releases and articles.
+- Learn more about our featured authors.
+- Join us as a member to contribute your own articles.
+
+## Contributing
+
+We welcome new members and contributors to enhance our platform. To contribute:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes and commit them.
+4. Open a pull request.
+
+Please note that we are selective about contributors to maintain the quality of our content.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Thank you to our dedicated team of writers and contributors.
+- Inspired by the passion for sharing knowledge within our school community.
