@@ -23,7 +23,7 @@ export default function HomePage() {
       <Reveal>
         <section className="flex h-screen flex-col flex-nowrap gap-8 md:flex-row md:justify-between">
           <div className="shrink-0 text-center md:w-1/2 md:text-left">
-            <h1 className="relative bg-[url('/images/heading-animation.webp')] bg-cover bg-clip-text bg-[50%] bg-no-repeat text-6xl font-extrabold uppercase text-transparent lg:text-7xl xl:text-8xl">
+            <h1 className="relative bg-[url('/images/animated-10.webp')] bg-cover bg-clip-text bg-[50%] bg-no-repeat text-6xl font-extrabold uppercase text-transparent lg:text-7xl xl:text-8xl">
               <span>NIS</span>
               <br />
               <span>Insights</span>
