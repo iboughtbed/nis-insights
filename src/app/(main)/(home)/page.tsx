@@ -13,6 +13,7 @@ import teamPhoto from "public/images/team-photo.webp";
 
 import { AnimatedButton } from "~/components/animated-button";
 import { Reveal } from "~/components/motion/reveal";
+import { TextShuffle } from "~/components/motion/text-shuffle";
 import { Shell } from "~/components/shells/shell";
 import { buttonVariants } from "~/components/ui/button";
 import { siteConfig } from "~/config/site";
@@ -170,10 +171,15 @@ export default function HomePage() {
         }}
       >
         <section className="flex h-screen flex-col items-center gap-4">
-          <h1 className="bg-gradient-to-br from-slate-400 to-zinc-500 bg-clip-text text-3xl font-extrabold uppercase text-transparent lg:bg-gradient-to-r lg:text-6xl">
+          {/* <h1 className="bg-gradient-to-br from-slate-400 to-zinc-500 bg-clip-text text-3xl font-extrabold uppercase text-transparent lg:bg-gradient-to-r lg:text-6xl">
             <span className="text-slate-400">Insights</span> - Inspire. Create.
             Unite. Our Stories, Your Voice.
-          </h1>
+          </h1> */}
+          <TextShuffle
+            text="INSIGHTS - INSPIRE. CREATE. UNITE. OUR STORIES, YOUR VOICE."
+            className="max-w-full bg-gradient-to-br from-slate-400 to-zinc-500 bg-clip-text text-3xl font-extrabold uppercase text-transparent lg:bg-gradient-to-r lg:text-6xl"
+            interval={30}
+          />
           <p className="text-xl font-extrabold uppercase text-foreground/95 lg:text-2xl">
             &quot;The only way to deal with this life meaningfully is to find
             passion in what you do, understanding that it&apos;s not the

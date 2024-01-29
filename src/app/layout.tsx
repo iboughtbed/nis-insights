@@ -6,7 +6,7 @@ import { ThemeProvider } from "~/components/providers";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { Toaster as Sonner } from "~/components/ui/sonner";
 import { siteConfig } from "~/config/site";
-import { fontSans } from "~/lib/fonts";
+import { fontMono, fontSans } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
 
 export const metadata: Metadata = {
@@ -45,7 +45,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen antialiased", fontSans.className)}>
+      <body
+        className={cn(
+          "min-h-screen font-sans antialiased",
+          fontSans.variable,
+          fontMono.variable,
+        )}
+      >
         {/* <PageTransitionProvider> */}
         <ThemeProvider
           attribute="class"
@@ -55,7 +61,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div vaul-drawer-wrapper="">{children}</div>
           <TailwindIndicator />
-          <Sonner />
+          <Sonner richColors />
         </ThemeProvider>
         {/* </PageTransitionProvider> */}
       </body>
