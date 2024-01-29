@@ -11,6 +11,7 @@ import articlesShowcase2 from "public/images/articles-showcase-2-lower.png";
 
 import teamPhoto from "public/images/team-photo.webp";
 
+import { AnimatedButton } from "~/components/animated-button";
 import { Reveal } from "~/components/motion/reveal";
 import { Shell } from "~/components/shells/shell";
 import { buttonVariants } from "~/components/ui/button";
@@ -30,30 +31,17 @@ export default function HomePage() {
             </h1>
             <p className="pt-6 text-foreground/80">{siteConfig.description}</p>
             <div className="flex flex-col items-center gap-4 pt-6 md:flex-row">
-              <Link
-                href="/releases"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "group relative overflow-hidden",
-                )}
-              >
-                <div className="absolute h-[calc(2.5rem*8)] w-[calc(2.5rem*8)] scale-0 rounded-full bg-purple-600 opacity-0 transition-transform duration-700 group-hover:scale-100 group-hover:opacity-100"></div>
-                <span className="z-[3] transition-colors duration-700 group-hover:text-white">
-                  Read our latest release
-                </span>
-              </Link>
-              <Link
+              <AnimatedButton href="/releases">
+                Read our latest release
+              </AnimatedButton>
+              <AnimatedButton
                 href="/articles"
                 className={cn(
                   buttonVariants({ variant: "secondary", size: "lg" }),
-                  "group relative overflow-hidden",
                 )}
               >
-                <div className="absolute h-[calc(2.5rem*8)] w-[calc(2.5rem*8)] scale-0 rounded-full bg-purple-600 opacity-0 transition-transform duration-700 group-hover:scale-100 group-hover:opacity-100"></div>
-                <span className="z-[3] transition-colors duration-700 group-hover:text-white">
-                  Explore
-                </span>
-              </Link>
+                Explore
+              </AnimatedButton>
             </div>
           </div>
           <div className="relative md:w-1/2">
@@ -112,18 +100,7 @@ export default function HomePage() {
               and intriguing, and share your thoughts.
             </p>
             <div className="pt-6">
-              <Link
-                href="/articles"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "group relative overflow-hidden",
-                )}
-              >
-                <div className="absolute h-[calc(2.5rem*8)] w-[calc(2.5rem*8)] scale-0 rounded-full bg-purple-600 opacity-0 transition-transform duration-700 group-hover:scale-100 group-hover:opacity-100"></div>
-                <span className="z-[3] transition-colors duration-700 group-hover:text-white">
-                  Discover
-                </span>
-              </Link>
+              <AnimatedButton href="/articles">Discover</AnimatedButton>
             </div>
           </div>
           <div className="relative h-full w-full overflow-hidden bg-background/80 lg:w-1/2">
@@ -162,30 +139,17 @@ export default function HomePage() {
               Join Us: Elevate Your Creativity with Our Exceptional Team
             </p>
             <div className="flex flex-col items-center gap-4 pt-6 md:flex-row">
-              <Link
-                href="/join-us"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "group relative overflow-hidden",
-                )}
-              >
-                <div className="absolute h-[calc(2.5rem*8)] w-[calc(2.5rem*8)] scale-0 rounded-full bg-purple-600 opacity-0 transition-transform duration-700 group-hover:scale-100 group-hover:opacity-100"></div>
-                <span className="z-[3] transition-colors duration-700 group-hover:text-white">
-                  Become a part of our team
-                </span>
-              </Link>
-              <Link
+              <AnimatedButton href="/join-us">
+                Become a part of our team
+              </AnimatedButton>
+              <AnimatedButton
                 href="/authors"
                 className={cn(
                   buttonVariants({ variant: "secondary", size: "lg" }),
-                  "group relative overflow-hidden",
                 )}
               >
-                <div className="absolute h-[calc(2.5rem*8)] w-[calc(2.5rem*8)] scale-0 rounded-full bg-purple-600 opacity-0 transition-transform duration-700 group-hover:scale-100 group-hover:opacity-100"></div>
-                <span className="z-[3] transition-colors duration-700 group-hover:text-white">
-                  See all authors
-                </span>
-              </Link>
+                See all authors
+              </AnimatedButton>
             </div>
           </div>
           <div className="relative md:w-1/2">
