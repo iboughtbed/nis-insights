@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import heroImage3 from "public/images/colorful-mess-2.webp";
 import heroImage2 from "public/images/colorful-mess.webp";

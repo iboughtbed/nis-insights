@@ -1,8 +1,8 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+// import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "~/components/ui/button";
@@ -10,7 +10,7 @@ import { Button } from "~/components/ui/button";
 export function OAuthSignIn() {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   async function handleSignIn() {
     // setIsLoading(true);
@@ -26,7 +26,7 @@ export function OAuthSignIn() {
       <Button
         variant="outline"
         onClick={() => router.back()}
-        disabled={isLoading}
+        // disabled={isLoading}
       >
         Back
       </Button>
