@@ -1,69 +1,34 @@
-import { authMiddleware, clerkClient } from "@clerk/nextjs";
+import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-import type { UserRole } from "~/types";
+export default withAuth(function middleware(req) {
+  const token = req.nextauth.token;
+  const pathname = req.nextUrl.pathname;
 
-export default authMiddleware({
-  // debug: true,
-  publicRoutes: [
-    "/",
-    "/signin(.*)",
-    "/sso-callback(.*)",
-    "/article(.*)",
-    "/articles(.*)",
-    "/authors(.*)",
-    "/release(.*)",
-    "/releases(.*)",
-    "/api(.*)",
-  ],
-  async afterAuth(auth, req) {
-    if (auth.isPublicRoute) {
-      //  For public routes, we don't need to do anything
-      return NextResponse.next();
-    }
+  const url = new URL(req.nextUrl.origin);
 
-    const url = new URL(req.nextUrl.origin);
-    const pathname = req.nextUrl.pathname;
+  console.log({ token });
 
-    if (!auth.userId) {
-      //  If user tries to access a private route without being authenticated,
-      //  redirect them to the sign in page
-      url.pathname = "/signin";
+  if (!token?.sub) {
+    url.pathname = "/signin";
+    return NextResponse.redirect(url);
+  }
+
+  if (pathname.startsWith("/new/article")) {
+    if (token?.role !== "ADMIN" && token.role !== "WRITER") {
+      url.pathname = "/";
       return NextResponse.redirect(url);
     }
+  }
 
-    // Set the user's role to user if it doesn't exist
-    const user = await clerkClient.users.getUser(auth.userId);
-
-    if (!user) {
-      throw new Error("User not found.");
+  if (pathname.startsWith("/new/release")) {
+    if (token.role !== "ADMIN") {
+      url.pathname = "/";
+      return NextResponse.redirect(url);
     }
-
-    if (pathname.startsWith("/new/release")) {
-      if (user.publicMetadata.role !== "admin") {
-        url.pathname = "/";
-        return NextResponse.redirect(url);
-      }
-    }
-
-    if (pathname.startsWith("/new/article")) {
-      if (user.publicMetadata.role === "user") {
-        url.pathname = "/";
-        return NextResponse.redirect(url);
-      }
-    }
-
-    // If the user doesn't have a role, set it to user
-    if (!user.publicMetadata.role) {
-      await clerkClient.users.updateUserMetadata(auth.userId, {
-        publicMetadata: {
-          role: "user" satisfies UserRole,
-        },
-      });
-    }
-  },
+  }
 });
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/new/:path*", "/dashboard/:path*"],
 };

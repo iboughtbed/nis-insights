@@ -1,6 +1,5 @@
 import "~/styles/globals.css";
 
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
 
 import { ThemeProvider } from "~/components/providers";
@@ -45,27 +44,25 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(
-            "min-h-screen font-sans antialiased",
-            fontSans.variable,
-            fontMono.variable,
-          )}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          "min-h-screen font-sans antialiased",
+          fontSans.variable,
+          fontMono.variable,
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div vaul-drawer-wrapper="">{children}</div>
-            <TailwindIndicator />
-            <Sonner richColors />
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+          <div vaul-drawer-wrapper="">{children}</div>
+          <TailwindIndicator />
+          <Sonner richColors />
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

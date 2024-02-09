@@ -92,6 +92,6 @@ export const commands = [
     handler: addTable,
     Icon: Icons.table,
   },
-];
+] as const;
 
 export type Commands = typeof commands;

@@ -1,4 +1,4 @@
-# NIS Insights
+# [NIS Insights](https://nis-insights.vercel.app)
 
 Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education.
 
@@ -6,6 +6,7 @@ Discover the pulse of our school with NIS Insights, your go-to source for engagi
 
 - [Project Name](#project-name)
   - [Table of Contents](#table-of-contents)
+  - [Tech stack](#tech-stack)
   - [Introduction](#introduction)
   - [Features](#features)
   - [Getting Started](#getting-started)
@@ -15,6 +16,45 @@ Discover the pulse of our school with NIS Insights, your go-to source for engagi
   - [Contributing](#contributing)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
+
+## Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com)
+- **User Management:** [NextAuth](https://next-auth.js.org)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com)
+<!-- - **File Uploads:** [uploadthing](https://uploadthing.com) -->
+
+## Features to be implemented
+
+Frontend Development:
+
+- [x] Home page
+- [x] Sign in/out pages
+- [ ] Release/(-s) pages
+- [ ] Article/(-s) pages
+- [ ] Dashboard/Account pages
+
+Backend Development:
+
+- [x] Authentication with NextAuth
+- [ ] Database models
+  - [x] User
+  - [ ] Article
+  - [ ] Release
+  - [ ] Comments
+- [ ] Data mutations/fetching
+
+Security:
+
+- [ ] Authorization
+- [ ] Data handling (Data Access Layer)
+
+Performance:
+
+- [ ] Image optimization
+- [ ] Responsive design
 
 ## Introduction
 

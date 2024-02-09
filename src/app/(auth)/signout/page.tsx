@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { LogOutButtons } from "~/components/auth/signout-buttons";
+import { SignOutButtons } from "~/components/auth/signout-buttons";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -26,7 +26,7 @@ export default function SignOutPage() {
           Are you sure you want to sign out?
         </PageHeaderDescription>
       </PageHeader>
-      <LogOutButtons />
+      <SignOutButtons />
     </Shell>
   );
 }

@@ -1,5 +1,5 @@
-import type { User } from "@clerk/nextjs/server";
 import { DashboardIcon, ExitIcon, GearIcon } from "@radix-ui/react-icons";
+import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,15 +19,12 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { siteConfig } from "~/config/site";
-import { getUserEmail } from "~/lib/utils";
 
 interface SiteHeaderProps {
-  user: User | null;
+  user?: Session["user"];
 }
 
 export function SiteHeader({ user }: SiteHeaderProps) {
-  const email = getUserEmail(user);
-
   return (
     <header className="sticky top-0 z-50 w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
@@ -54,10 +51,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {user.firstName} {user.lastName}
+                        {user.name}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        {email}
+                        {user.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
