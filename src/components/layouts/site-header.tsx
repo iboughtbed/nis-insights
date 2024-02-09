@@ -61,7 +61,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/">
+                      <Link href="/dashboard">
                         <DashboardIcon
                           className="mr-2 h-4 w-4"
                           aria-hidden="true"

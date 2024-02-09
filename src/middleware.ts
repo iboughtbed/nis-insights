@@ -10,7 +10,7 @@ export default withAuth(function middleware(req) {
   console.log({ token });
 
   if (!token?.sub) {
-    url.pathname = "/signin";
+    url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
