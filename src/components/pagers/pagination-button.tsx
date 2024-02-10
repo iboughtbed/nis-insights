@@ -1,9 +1,11 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
+  PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
@@ -61,39 +63,48 @@ export function PaginationButton({
     <Pagination>
       <PaginationContent>
         {Number(page) > 1 && (
-          <PaginationPrevious
-            href={`${pathname}?${createQueryString({
-              page: Number(page) - 1,
-              per_page: per_page ?? null,
-            })}`}
-          />
+          <PaginationItem>
+            <PaginationPrevious
+              href={`${pathname}?${createQueryString({
+                page: Number(page) - 1,
+                per_page: per_page ?? null,
+                query: !!query.trim().length ? query.trim() : null,
+              })}`}
+            />
+          </PaginationItem>
         )}
 
         {paginationRange.map((pageNumber, i) =>
           pageNumber === "..." ? (
-            <PaginationEllipsis key={i} />
+            <PaginationItem key={i}>
+              <PaginationEllipsis />
+            </PaginationItem>
           ) : (
-            <PaginationLink
-              key={i}
-              href={`${pathname}?${createQueryString({
-                page: pageNumber,
-                per_page: per_page ?? null,
-                query: query.trim() ?? null,
-              })}`}
-              isActive={Number(page) === pageNumber}
-            >
-              {pageNumber}
-            </PaginationLink>
+            <PaginationItem key={i}>
+              <PaginationLink
+                href={`${pathname}?${createQueryString({
+                  page: pageNumber,
+                  per_page: per_page ?? null,
+                  query: !!query.trim().length ? query.trim() : null,
+                })}`}
+                isActive={Number(page) === pageNumber}
+              >
+                {pageNumber}
+              </PaginationLink>
+            </PaginationItem>
           ),
         )}
 
         {Number(page) !== (pageCount ?? 10) && (
-          <PaginationNext
-            href={`${pathname}?${createQueryString({
-              page: Number(page) + 1,
-              per_page: per_page ?? null,
-            })}`}
-          />
+          <PaginationItem>
+            <PaginationNext
+              href={`${pathname}?${createQueryString({
+                page: Number(page) + 1,
+                per_page: per_page ?? null,
+                query: !!query.trim().length ? query.trim() : null,
+              })}`}
+            />
+          </PaginationItem>
         )}
       </PaginationContent>
     </Pagination>

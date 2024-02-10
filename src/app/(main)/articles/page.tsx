@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 
+import { Articles } from "~/components/articles";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -9,15 +9,19 @@ import {
 import { Shell } from "~/components/shells/shell";
 import { Separator } from "~/components/ui/separator";
 
-const Articles = dynamic(() => import("~/components/articles"));
-
 export const metadata: Metadata = {
   title: "Articles",
   description:
     "Explore articles from our team members, uncover something fresh and intriguing, and share your thoughts.",
 };
 
-export default function ArticlesPage() {
+export default function ArticlesPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
+  console.log({ searchParams });
+
   const mock = [
     {
       id: "random_id",

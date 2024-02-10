@@ -7,8 +7,8 @@ const links = {
 
 export const siteConfig = {
   name: "NIS Insights",
-  url: "http://localhost:3000",
-  // ogImage
+  url: "https://nis-insights.vercel.app/",
+  ogImage: "https://nis-insights.vercel.app/og.png",
   description:
     "Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education.",
   links,

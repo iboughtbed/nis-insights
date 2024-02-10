@@ -3,12 +3,13 @@
 import "~/styles/mdx.css";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Markdown from "react-markdown";
-import rehypeHighlight from "rehype-highlight";
-import remarkBreaks from "remark-breaks";
-import remarkGfm from "remark-gfm";
+// import Markdown from "react-markdown";
+// import rehypeHighlight from "rehype-highlight";
+// import remarkBreaks from "remark-breaks";
+// import remarkGfm from "remark-gfm";
 
 import { EditorMenu } from "~/components/editor-menu";
+import { Markdown as MDX } from "~/components/mdx/markdown";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Textarea } from "~/components/ui/textarea";
 import { commands, type Commands } from "~/config/editor";
@@ -18,8 +19,9 @@ interface EditorProps {
   setValue: (value: string) => void;
 }
 
-export default function Editor({ initialContent = "", setValue }: EditorProps) {
+export function Editor({ initialContent = "", setValue }: EditorProps) {
   const [editorContent, setEditorContent] = useState(initialContent);
+  const [selectedTab, setSelectedTab] = useState<"write" | "preview">("write");
 
   const [history, setHistory] = useState<string[]>([editorContent]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
@@ -34,8 +36,8 @@ export default function Editor({ initialContent = "", setValue }: EditorProps) {
   useEffect(() => {
     if (!selection || !textareaRef.current) return;
     const { start, end } = selection;
-    textareaRef.current.focus();
     textareaRef.current.setSelectionRange(start, end);
+    textareaRef.current.focus();
   }, [selection]);
 
   const handleUndo = useCallback(() => {
@@ -118,17 +120,22 @@ export default function Editor({ initialContent = "", setValue }: EditorProps) {
   }
 
   return (
-    <Tabs defaultValue="write">
+    <Tabs
+      defaultValue="write"
+      onValueChange={(value) => setSelectedTab(value as "write" | "preview")}
+    >
       <div className="flex flex-wrap items-center justify-between">
         <TabsList>
           <TabsTrigger value="write">Write</TabsTrigger>
           <TabsTrigger value="preview">Preview</TabsTrigger>
         </TabsList>
-        <EditorMenu
-          onCommand={onCommand}
-          handleRedo={handleRedo}
-          handleUndo={handleUndo}
-        />
+        {selectedTab === "write" && (
+          <EditorMenu
+            onCommand={onCommand}
+            handleRedo={handleRedo}
+            handleUndo={handleUndo}
+          />
+        )}
       </div>
       <TabsContent value="write">
         <Textarea
@@ -143,13 +150,14 @@ export default function Editor({ initialContent = "", setValue }: EditorProps) {
           {editorContent.trim() === "" ? (
             "Nothing to preview"
           ) : (
-            <Markdown
-              disallowedElements={["img"]}
-              remarkPlugins={[remarkGfm, remarkBreaks]}
-              rehypePlugins={[rehypeHighlight]}
-            >
-              {editorContent}
-            </Markdown>
+            <MDX source={editorContent} />
+            // <Markdown
+            //   disallowedElements={["img"]}
+            //   remarkPlugins={[remarkGfm, remarkBreaks]}
+            //   rehypePlugins={[rehypeHighlight]}
+            // >
+            //   {editorContent}
+            // </Markdown>
           )}
         </div>
       </TabsContent>

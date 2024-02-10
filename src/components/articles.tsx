@@ -23,7 +23,7 @@ interface ArticlesProps {
   pageCount: number;
 }
 
-export default function Articles({ articles, pageCount }: ArticlesProps) {
+export function Articles({ articles, pageCount }: ArticlesProps) {
   // const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -49,24 +49,30 @@ export default function Articles({ articles, pageCount }: ArticlesProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="p-1">
+      <div className="p-1">
         <SearchForm
           initialQuery={searchParams.get("query")}
           createQueryString={createQueryString}
         />
-      </section>
+      </div>
       <Separator />
-      <section className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8">
         {articles.map((article) => (
           <ArticleCard key={article.id} {...article} />
         ))}
-      </section>
+      </div>
       <PaginationButton
+        pageCount={10}
+        page={page}
+        per_page={"10"}
+        createQueryString={createQueryString}
+      />
+      {/* <PaginationButton
         pageCount={pageCount}
         page={page}
         per_page={per_page}
         createQueryString={createQueryString}
-      />
+      /> */}
     </div>
   );
 }
@@ -90,14 +96,13 @@ function SearchForm({ initialQuery, createQueryString }: SearchFormProps) {
   useEffect(() => {
     if (debouncedQuery.length <= 0) {
       setQuery("");
-      return;
     }
 
     startTransition(() => {
       const newQueryString = createQueryString({
         page: Number(page),
         per_page: Number(per_page),
-        query: query.trim() ?? null,
+        query: !!query.trim().length ? query.trim() : null,
       });
 
       router.push(`${pathname}?${newQueryString}`, {

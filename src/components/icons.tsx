@@ -1,5 +1,6 @@
 import {
   AvatarIcon,
+  DashboardIcon,
   GitHubLogoIcon,
   ImageIcon,
   InstagramLogoIcon,
@@ -26,6 +27,7 @@ export type IconProps = React.HTMLAttributes<SVGElement>;
 export const Icons = {
   instagram: InstagramLogoIcon,
   gitHub: GitHubLogoIcon,
+  dashboard: DashboardIcon,
   avatar: AvatarIcon,
   placeholder: ImageIcon,
   questionMark: QuestionMarkCircledIcon,

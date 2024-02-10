@@ -33,22 +33,20 @@ export function ArticleCard({
   return (
     <Card>
       <AspectRatio ratio={16 / 9}>
-        <Link
-          href={`/article/${id}`}
-          className="absolute inset-0 z-[2] h-full w-full opacity-0"
-        />
-        <Image
-          alt="cover"
-          src="/images/dont-close-your-eyes.webp"
-          className="absolute inset-0 rounded-t-lg object-cover"
-          sizes="(max-width: 768px) 90vw, 50vw"
-          fill
-        />
+        <Link href={`/article/${id}`} className="absolute inset-0">
+          <Image
+            alt={title}
+            src="/images/dont-close-your-eyes.webp"
+            className="absolute inset-0 rounded-t-lg object-cover"
+            sizes="(max-width: 768px) 90vw, 50vw"
+            fill
+          />
+        </Link>
       </AspectRatio>
       <CardHeader>
         <CardDescription className="mb-2 flex items-center gap-2">
           <Image
-            alt="avatar"
+            alt={author.username}
             src="/images/avatar.png"
             className="relative h-8 w-8 rounded-full"
             width={64}
@@ -56,7 +54,7 @@ export function ArticleCard({
           />
           <span className="flex flex-col">
             <Link
-              href="/author/${author.username}"
+              href={`/author/${author.username}`}
               className="text-foreground transition-colors hover:text-foreground/80"
             >
               {author.username}
@@ -83,24 +81,17 @@ export function ArticleCard({
         </CardTitle>
         <div className="flex items-center gap-2 pt-1">
           {["News", "Insights", "Art"].map((tag, i) => (
-            <Link
+            <span
               key={i}
-              href="/"
               className={cn(badgeVariants({ variant: "secondary" }))}
             >
               {tag}
-            </Link>
+            </span>
           ))}
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <p>{introduction}</p>
-        {/* <div className="flex justify-end">
-          <Button variant="outline">
-            <BookmarkIcon className="h-4 w-4" aria-hidden="true" />
-            <span className="sr-only">Add do favorites</span>
-          </Button>
-        </div> */}
       </CardContent>
     </Card>
   );

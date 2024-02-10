@@ -35,6 +35,9 @@ Frontend Development:
 - [ ] Release/(-s) pages
 - [ ] Article/(-s) pages
 - [ ] Dashboard/Account pages
+- [ ] New article page:
+  - [ ] Markdown rendering (fully optimized)
+  - [ ] Editor (fully optimized)
 
 Backend Development:
 
@@ -53,6 +56,7 @@ Security:
 
 Performance:
 
+- [ ] Bundle analyzing and reducing JS
 - [ ] Image optimization
 - [ ] Responsive design
 

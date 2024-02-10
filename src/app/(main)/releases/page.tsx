@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { AnimatedButton } from "~/components/animated-button";
 import { Reveal } from "~/components/motion/reveal";
@@ -56,14 +57,16 @@ export default function ReleasesPage() {
               </CardHeader>
               <div className="p-4">
                 <AspectRatio ratio={1 / 1.41}>
-                  <Image
-                    alt="release cover"
-                    src="/images/cover-image.webp"
-                    fill
-                    className="absolute inset-0 rounded-md object-cover"
-                    priority
-                    sizes="(max-width: 768px) 90vw, 30vw"
-                  />
+                  <Link href={`/release`} className="absolute inset-0">
+                    <Image
+                      alt="release cover"
+                      src="/images/cover-image.webp"
+                      fill
+                      className="absolute inset-0 rounded-md object-cover"
+                      priority
+                      sizes="(max-width: 768px) 90vw, 30vw"
+                    />
+                  </Link>
                 </AspectRatio>
               </div>
               <CardContent>

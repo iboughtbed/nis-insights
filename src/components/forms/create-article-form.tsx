@@ -1,11 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import dynamic from "next/dynamic";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Editor } from "~/components/editor";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -16,8 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-
-const Editor = dynamic(() => import("~/components/editor"));
 
 interface CreateArticleFormProps {
   content?: string;
@@ -41,7 +39,11 @@ export function CreateArticleForm({ content }: CreateArticleFormProps) {
 
   function onSubmit(data: FormData) {
     startTransition(async () => {
-      console.log(data.content.trim().replace(/\n{3,}/g, "\n\n"));
+      const content = data.content
+        .split("\n")
+        .map((line) => line.trim())
+        .join("\n");
+      console.log(content);
     });
   }
 
