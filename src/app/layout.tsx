@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 
 import { ThemeProvider } from "~/components/providers";
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <div vaul-drawer-wrapper="">{children}</div>
           <TailwindIndicator />
           <Sonner richColors />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
