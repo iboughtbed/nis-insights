@@ -15,12 +15,14 @@ export const metadata: Metadata = {
     "Explore articles from our team members, uncover something fresh and intriguing, and share your thoughts.",
 };
 
-export default function ArticlesPage({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>;
-}) {
-  console.log({ searchParams });
+export default function ArticlesPage(
+  {
+    // searchParams,
+  }: {
+    searchParams: Record<string, string | string[] | undefined>;
+  },
+) {
+  // console.log({ searchParams });
 
   const mock = [
     {
