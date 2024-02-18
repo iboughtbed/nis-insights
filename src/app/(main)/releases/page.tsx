@@ -13,20 +13,22 @@ export default function ReleasesPage() {
       <Reveal>
         <section className="flex min-h-screen flex-col flex-nowrap gap-8 lg:flex-row">
           <div className="relative lg:w-1/2 lg:px-8 xl:w-1/3">
-            <Card>
-              <div className="p-4">
-                <AspectRatio ratio={1 / 1.41}>
-                  <Image
-                    alt="release cover"
-                    src="/images/cover-image.webp"
-                    fill
-                    className="absolute inset-0 rounded-md object-cover"
-                    priority
-                    sizes="(max-width: 768px) 90vw, 30vw"
-                  />
-                </AspectRatio>
-              </div>
-            </Card>
+            <Link href={""}>
+              <Card>
+                <div className="p-4">
+                  <AspectRatio ratio={1 / 1.41}>
+                    <Image
+                      alt="release cover"
+                      src="/images/cover-image.webp"
+                      fill
+                      className="absolute inset-0 rounded-md object-cover"
+                      priority
+                      sizes="(max-width: 768px) 90vw, 30vw"
+                    />
+                  </AspectRatio>
+                </div>
+              </Card>
+            </Link>
           </div>
           <div className="shrink-0 text-center lg:w-1/2 lg:text-left">
             <h1 className="text-6xl font-extrabold uppercase lg:text-7xl">

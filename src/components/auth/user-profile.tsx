@@ -26,8 +26,8 @@ interface UserProfileProps {
 }
 
 const userProfileSchema = z.object({
-  name: z.string().trim().optional(),
-  username: z.string().trim().max(20).optional(),
+  name: z.string().trim().min(1).optional(),
+  username: z.string().trim().min(1).max(20).optional(),
 });
 
 type FormData = z.infer<typeof userProfileSchema>;

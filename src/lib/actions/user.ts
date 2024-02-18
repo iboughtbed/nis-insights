@@ -40,7 +40,7 @@ export const updateUser = protectedAction(
       },
     });
 
-    revalidatePath("/dashboard/account");
+    revalidatePath("/dashboard");
 
     return { updatedUser };
   },

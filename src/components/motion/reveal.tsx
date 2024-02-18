@@ -1,29 +1,26 @@
 "use client";
 
-import { motion, useAnimation, useInView } from "framer-motion";
+import { motion, useAnimation, useInView, type Variants } from "framer-motion";
 import { useEffect, useRef } from "react";
+
+import { cn } from "~/lib/utils";
 
 interface RevealProps {
   children: React.ReactNode;
-  variants?: {
-    hidden?: {
-      opacity?: number;
-      x?: number;
-      y?: number;
-    };
-    visible?: {
-      opacity?: number;
-      x?: number;
-      y?: number;
-    };
-  };
+  className?: string;
+  variants?: Variants;
   transition?: {
     duration?: number;
     delay?: number;
   };
 }
 
-export function Reveal({ children, variants, transition }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  variants,
+  transition,
+}: RevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -37,7 +34,7 @@ export function Reveal({ children, variants, transition }: RevealProps) {
   }, [isInView]);
 
   return (
-    <div ref={ref} className="relative overflow-hidden">
+    <div ref={ref} className={cn("relative overflow-hidden", className)}>
       <motion.div
         variants={
           variants ?? {
