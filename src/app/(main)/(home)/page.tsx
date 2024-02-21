@@ -104,6 +104,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative h-full w-full overflow-hidden bg-background/80 lg:w-1/2">
+            <div className="absolute inset-0 -right-20 z-[4] from-background to-background/10 lg:bg-gradient-to-l" />
             <div className="absolute inset-0 z-[3]">
               <Image
                 alt="artilces showcase"

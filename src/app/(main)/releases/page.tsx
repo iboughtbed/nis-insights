@@ -11,8 +11,8 @@ export default function ReleasesPage() {
   return (
     <Shell>
       <Reveal>
-        <section className="flex min-h-screen flex-col flex-nowrap gap-8 lg:flex-row">
-          <div className="relative lg:w-1/2 lg:px-8 xl:w-1/3">
+        <section className="flex min-h-screen flex-col flex-nowrap gap-8 md:flex-row">
+          <div className="relative md:w-1/2 md:px-8 xl:w-1/3">
             <Link href={""}>
               <Card>
                 <div className="p-4">
@@ -30,8 +30,8 @@ export default function ReleasesPage() {
               </Card>
             </Link>
           </div>
-          <div className="shrink-0 text-center lg:w-1/2 lg:text-left">
-            <h1 className="text-6xl font-extrabold uppercase lg:text-7xl">
+          <div className="shrink-0 text-center md:w-1/2 md:text-left">
+            <h1 className="text-6xl font-extrabold uppercase md:text-7xl">
               See what you&apos;re <span>missing</span>
             </h1>
             <p className="pt-6 text-foreground/80">
@@ -45,6 +45,7 @@ export default function ReleasesPage() {
           </div>
         </section>
       </Reveal>
+      
       <Reveal
         variants={{
           hidden: { opacity: 0, x: 75 },
