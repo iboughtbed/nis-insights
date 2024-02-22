@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <Shell className="max-w-lg">
+    <Shell className="max-w-lg max-md:p-0">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Sign in</CardTitle>

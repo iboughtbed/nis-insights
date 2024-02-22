@@ -13,7 +13,6 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         <Image
           alt="abstract art"
           src={backgroundImage}
-          quality={100}
           fill
           className="absolute inset-0 object-cover"
           priority
