@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AnimatedButton } from "~/components/animated-button";
+import { CoverReveal } from "~/components/motion/cover-reveal";
 import { Reveal } from "~/components/motion/reveal";
 import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
@@ -10,9 +11,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 export default function ReleasesPage() {
   return (
     <Shell>
-      <Reveal>
-        <section className="flex min-h-screen flex-col flex-nowrap gap-8 md:flex-row">
-          <div className="relative md:w-1/2 md:px-8 xl:w-1/3">
+      <section className="flex min-h-screen flex-col flex-nowrap gap-8 md:flex-row">
+        <div className="relative md:w-1/2 md:px-8 xl:w-1/3">
+          <CoverReveal>
             <Link href={""}>
               <Card>
                 <div className="p-4">
@@ -29,23 +30,29 @@ export default function ReleasesPage() {
                 </div>
               </Card>
             </Link>
-          </div>
-          <div className="shrink-0 text-center md:w-1/2 md:text-left">
+          </CoverReveal>
+        </div>
+        <div className="shrink-0 text-center md:w-1/2 md:text-left">
+          <CoverReveal>
             <h1 className="text-6xl font-extrabold uppercase md:text-7xl">
               See what you&apos;re <span>missing</span>
             </h1>
+          </CoverReveal>
+          <CoverReveal>
             <p className="pt-6 text-foreground/80">
               02/02/24 - don&apos;t miss the most interesting events
             </p>
-            <div className="pt-6">
+          </CoverReveal>
+          <div className="pt-6">
+            <CoverReveal>
               <AnimatedButton href="/release">
                 Read our latest release
               </AnimatedButton>
-            </div>
+            </CoverReveal>
           </div>
-        </section>
-      </Reveal>
-      
+        </div>
+      </section>
+
       <Reveal
         variants={{
           hidden: { opacity: 0, x: 75 },
