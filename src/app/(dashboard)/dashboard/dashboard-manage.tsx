@@ -1,10 +1,11 @@
 "use client";
 
 import type { UserRole } from "@prisma/client";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Dialog, DialogTrigger } from "~/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -14,7 +15,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "~/components/ui/drawer";
+import { Skeleton } from "~/components/ui/skeleton";
 import { useMediaQuery } from "~/hooks/use-media-query";
+import { useMounted } from "~/hooks/use-mounted";
 
 interface DashboardManageProps {
   _count: {
@@ -27,42 +30,47 @@ interface DashboardManageProps {
 
 export function DashboardManage({ _count, role }: DashboardManageProps) {
   const [open, setOpen] = useState(false);
+  const mounted = useMounted();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const dashboardContent = [
-    {
-      template: "Published %d releases",
-      display: role === "ADMIN",
-    },
-    {
-      template: "You have %d articles",
-      display: role === "ADMIN" || role === "WRITER",
-    },
-    {
-      title: "You posted %d comments",
-      display: true,
-    },
-  ];
+  // TODO: finish this bullshit
+
+  if (!mounted) {
+    return (
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-40 w-full" />
+      </div>
+    );
+  }
 
   if (isDesktop) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Card>
-              <CardHeader>
-                <CardTitle>You&apos;ve posted 2 articles</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-            </Card>
-          </DialogTrigger>
-        </Dialog>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {role === "ADMIN" && (
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Card className="cursor-pointer">
+                <CardHeader>
+                  <CardTitle>
+                    {_count.releases} releases have been released
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center">View the list</div>
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+            <DialogContent></DialogContent>
+          </Dialog>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild className="cursor-pointer">
           <Card>
