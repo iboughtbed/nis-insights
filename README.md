@@ -1,6 +1,6 @@
 # [NIS Insights](https://nis-insights.vercel.app)
 
-This is an open source e-commerce skateshop build with everything new in Next.js 13. It is bootstrapped with `create-t3-app`.
+This is an open source school magazine website build with everything new in Next.js 13. It is bootstrapped with `create-t3-app`.
 
 [![NIS Insights](./public/og.png)](https://nis-insights.vercel.app/)
 
