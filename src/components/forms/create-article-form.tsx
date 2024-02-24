@@ -17,24 +17,17 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 
-interface CreateArticleFormProps {
-  content?: string;
-}
-
 const formSchema = z.object({
   content: z.string().trim().min(1),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export function CreateArticleForm({ content }: CreateArticleFormProps) {
+export function CreateArticleForm() {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      content,
-    },
   });
 
   function onSubmit(data: FormData) {
@@ -53,15 +46,12 @@ export function CreateArticleForm({ content }: CreateArticleFormProps) {
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormDescription>Using markdown</FormDescription>
               <FormControl>
-                <Editor
-                  initialContent={field.value}
-                  setValue={(value) => form.setValue("content", value)}
-                />
+                <Editor setValue={(value) => form.setValue("content", value)} />
               </FormControl>
               <FormMessage />
             </FormItem>

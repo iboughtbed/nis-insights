@@ -1,6 +1,5 @@
 import "~/styles/mdx.css";
 
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,9 +12,8 @@ import {
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
-import { buttonVariants } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
-import { cn, formatDate } from "~/lib/utils";
+import { formatDate } from "~/lib/utils";
 
 export default function ArticlePage() {
   const source = `# Hello, this is a heading
@@ -91,19 +89,6 @@ export default function ArticlePage() {
               </span>
             </span>
           </span>
-        </div>
-        <div className="mt-6 flex items-center gap-4">
-          <Link
-            href="#comments"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "flex items-center gap-2 text-xs",
-            )}
-          >
-            <ChatBubbleIcon className="h-4 w-4" />
-            <span className="sr-only">0 comments</span>
-            <span>0</span>
-          </Link>
         </div>
         <Separator className="my-4" />
         <div className="relative mt-6">

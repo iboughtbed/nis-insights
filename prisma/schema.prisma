@@ -58,6 +58,7 @@ model User {
     role          UserRole  @default(USER)
     accounts      Account[]
     sessions      Session[]
+    articles      Article[]
 }
 
 model VerificationToken {
@@ -66,4 +67,24 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// Application
+
+model Release {
+    id         String   @id @default(cuid())
+    date       DateTime
+    coverImage String
+}
+
+model Article {
+    id           String   @id @default(cuid())
+    title        String
+    introduction String
+    content      String
+    coverImage   String?
+    createdAt    DateTime @default(now())
+
+    authorId String
+    author   User   @relation(fields: [authorId], references: [id])
 }

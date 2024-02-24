@@ -3,16 +3,15 @@
 import "~/styles/mdx.css";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-// import Markdown from "react-markdown";
-// import rehypeHighlight from "rehype-highlight";
-// import remarkBreaks from "remark-breaks";
-// import remarkGfm from "remark-gfm";
 
 import { EditorMenu } from "~/components/editor-menu";
 import { Markdown as MDX } from "~/components/mdx/markdown";
+import { Skeleton } from "~/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Textarea } from "~/components/ui/textarea";
 import { commands, type Commands } from "~/config/editor";
+import { useDebounce } from "~/hooks/use-debounce";
+import { useMounted } from "~/hooks/use-mounted";
 
 interface EditorProps {
   initialContent?: string;
@@ -20,7 +19,14 @@ interface EditorProps {
 }
 
 export function Editor({ initialContent = "", setValue }: EditorProps) {
-  const [editorContent, setEditorContent] = useState(initialContent);
+  const content =
+    typeof window !== "undefined"
+      ? localStorage.getItem("editor-draft") ?? initialContent
+      : initialContent;
+
+  const mounted = useMounted();
+  const [editorContent, setEditorContent] = useState(content);
+  const debouncedContent = useDebounce(editorContent, 5000);
   const [selectedTab, setSelectedTab] = useState<"write" | "preview">("write");
 
   const [history, setHistory] = useState<string[]>([editorContent]);
@@ -31,7 +37,8 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
 
   useEffect(() => {
     setValue(editorContent);
-  }, [editorContent, setValue]);
+    localStorage.setItem("editor-draft", debouncedContent);
+  }, [setValue, editorContent, debouncedContent]);
 
   useEffect(() => {
     if (!selection || !textareaRef.current) return;
@@ -43,16 +50,16 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
   const handleUndo = useCallback(() => {
     if (historyIndex > 0) {
       setHistoryIndex(historyIndex - 1);
-      setEditorContent(history[historyIndex - 1] ?? initialContent);
+      setEditorContent(history[historyIndex - 1] ?? content);
     }
-  }, [history, historyIndex, initialContent]);
+  }, [history, historyIndex, content]);
 
   const handleRedo = useCallback(() => {
     if (historyIndex < history.length - 1) {
       setHistoryIndex(historyIndex + 1);
-      setEditorContent(history[historyIndex + 1] ?? initialContent);
+      setEditorContent(history[historyIndex + 1] ?? content);
     }
-  }, [history, historyIndex, initialContent]);
+  }, [history, historyIndex, content]);
 
   useEffect(() => {
     const handleUndoRedo = (event: KeyboardEvent) => {
@@ -73,51 +80,57 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
     };
   }, [handleUndo, handleRedo]);
 
-  function onCommand(command: Commands[number]["title"]) {
-    if (textareaRef.current) {
-      const selectionStart = textareaRef.current.selectionStart;
-      const selectionEnd = textareaRef.current.selectionEnd;
+  const onCommand = useCallback(
+    (command: Commands[number]["title"]) => {
+      if (textareaRef.current) {
+        const selectionStart = textareaRef.current.selectionStart;
+        const selectionEnd = textareaRef.current.selectionEnd;
 
-      const selectedText = textareaRef.current.value.substring(
-        selectionStart,
-        selectionEnd,
-      );
+        const selectedText = textareaRef.current.value.substring(
+          selectionStart,
+          selectionEnd,
+        );
 
-      const commandHandler = commands.find((cmd) => cmd.title === command);
-      if (!commandHandler) return;
+        const commandHandler = commands.find((cmd) => cmd.title === command);
+        if (!commandHandler) return;
 
-      const newSelectedText = commandHandler.handler(
-        !selectedText.length ? undefined : selectedText,
-      );
+        const newSelectedText = commandHandler.handler(
+          !selectedText.length ? undefined : selectedText,
+        );
 
-      const newText =
-        textareaRef.current.value.substring(0, selectionStart) +
-        newSelectedText +
-        textareaRef.current.value.substring(selectionEnd);
+        const newText =
+          textareaRef.current.value.substring(0, selectionStart) +
+          newSelectedText +
+          textareaRef.current.value.substring(selectionEnd);
 
-      setEditorContent(newText);
+        setEditorContent(newText);
+
+        const newHistory = history.slice(0, historyIndex + 1);
+        newHistory.push(newText);
+        setHistory(newHistory);
+        setHistoryIndex(newHistory.length - 1);
+
+        const newSelectionStart = selectionStart + newSelectedText.length;
+        const newSelectionEnd = selectionStart + newSelectedText.length;
+
+        setSelection({ start: newSelectionStart, end: newSelectionEnd });
+      }
+    },
+    [history, historyIndex],
+  );
+
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newContent = e.target.value;
+      setEditorContent(newContent);
 
       const newHistory = history.slice(0, historyIndex + 1);
-      newHistory.push(newText);
+      newHistory.push(newContent);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
-
-      const newSelectionStart = selectionStart + newSelectedText.length;
-      const newSelectionEnd = selectionStart + newSelectedText.length;
-
-      setSelection({ start: newSelectionStart, end: newSelectionEnd });
-    }
-  }
-
-  function onChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const newContent = e.target.value;
-    setEditorContent(newContent);
-
-    const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(newContent);
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
-  }
+    },
+    [history, historyIndex],
+  );
 
   return (
     <Tabs
@@ -138,12 +151,14 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
         )}
       </div>
       <TabsContent value="write">
-        <Textarea
-          className="min-h-[400px]"
-          value={editorContent}
-          onChange={onChange}
-          ref={textareaRef}
-        />
+        {mounted && (
+          <Textarea
+            className="min-h-[400px]"
+            value={editorContent}
+            onChange={onChange}
+            ref={textareaRef}
+          />
+        )}
       </TabsContent>
       <TabsContent value="preview" className="rounded-md border px-3 py-2">
         <div className="prose dark:prose-invert">
@@ -151,13 +166,6 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
             "Nothing to preview"
           ) : (
             <MDX source={editorContent} />
-            // <Markdown
-            //   disallowedElements={["img"]}
-            //   remarkPlugins={[remarkGfm, remarkBreaks]}
-            //   rehypePlugins={[rehypeHighlight]}
-            // >
-            //   {editorContent}
-            // </Markdown>
           )}
         </div>
       </TabsContent>

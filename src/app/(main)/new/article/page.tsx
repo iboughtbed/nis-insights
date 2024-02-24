@@ -5,7 +5,7 @@ import { Shell } from "~/components/shells/shell";
 
 export const metadata: Metadata = {
   title: "New article",
-  description: "Create a new article using the markdown editor.",
+  description: "Write your article and share it with the world",
 };
 
 export default function NewArticlePage() {
