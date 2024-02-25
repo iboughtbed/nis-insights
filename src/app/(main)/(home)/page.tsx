@@ -12,7 +12,6 @@ import teamPhoto from "public/images/team-photo.webp";
 
 import { AnimatedButton } from "~/components/animated-button";
 import { Reveal } from "~/components/motion/reveal";
-import { Sparkles } from "~/components/motion/sparkles";
 import { TextShuffle } from "~/components/motion/text-shuffle";
 import { Shell } from "~/components/shells/shell";
 import { buttonVariants } from "~/components/ui/button";
@@ -171,7 +170,7 @@ export default function HomePage() {
           visible: { opacity: 1, y: 0 },
         }}
       >
-        <section className="relative flex h-screen flex-col items-center gap-4">
+        <section className="flex h-screen flex-col items-center gap-4">
           <TextShuffle
             text="INSIGHTS - INSPIRE. CREATE. UNITE. OUR STORIES, YOUR VOICE."
             className="max-w-full bg-gradient-to-br from-slate-400 to-zinc-500 bg-clip-text text-3xl font-extrabold uppercase text-transparent lg:bg-gradient-to-r lg:text-6xl"
@@ -183,22 +182,6 @@ export default function HomePage() {
             external circumstances that give life its value, but the way we
             choose to respond to them.&quot; - Albert Camus
           </p>
-
-          <Sparkles
-            background="transparent"
-            minSize={0.4}
-            maxSize={1}
-            particleDensity={100}
-            className="absolute"
-            particleColor="#ffffff"
-          />
-
-          <div className="relative h-full w-full">
-            <div className="absolute inset-x-20 top-0 h-[2px] w-3/4 bg-gradient-to-r from-transparent via-indigo-500 to-transparent blur-sm" />
-            <div className="absolute inset-x-20 top-0 h-px w-3/4 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-            <div className="absolute inset-x-60 top-0 h-[5px] w-1/4 bg-gradient-to-r from-transparent via-sky-500 to-transparent blur-sm" />
-            <div className="absolute inset-x-60 top-0 h-px w-1/4 bg-gradient-to-r from-transparent via-sky-500 to-transparent" />
-          </div>
         </section>
       </Reveal>
     </Shell>
