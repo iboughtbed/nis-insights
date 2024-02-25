@@ -1,6 +1,6 @@
 import { createSafeActionClient } from "next-safe-action";
 
-import { getServerAuthSession } from "~/lib/auth";
+import { getServerAuthSession } from "~/server/auth";
 
 export const protectedAction = createSafeActionClient({
   async middleware() {

@@ -8,8 +8,8 @@ import {
 import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
 
 import { env } from "~/env";
-import { db } from "~/lib/db";
 import { removeEmailDomain } from "~/lib/utils";
+import { db } from "~/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

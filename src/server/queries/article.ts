@@ -1,6 +1,6 @@
 import "server-only";
 
-import { db } from "~/lib/db";
+import { db } from "~/server/db";
 
 export async function getArticles() {
   const articles = await db.user.findMany();

@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db } from "~/lib/db";
 import { protectedAction } from "~/lib/safe-action";
+import { db } from "~/server/db";
 
 const updateUserSchema = z.object({
   name: z.string().optional(),

@@ -1,4 +1,4 @@
-import { getServerAuthSession } from "~/lib/auth";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function AuthorsPage() {
   const session = await getServerAuthSession();

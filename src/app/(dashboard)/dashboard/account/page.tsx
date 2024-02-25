@@ -8,8 +8,8 @@ import {
   PageHeaderHeading,
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
-import { getServerAuthSession } from "~/lib/auth";
-import { db } from "~/lib/db";
+import { getServerAuthSession } from "~/server/auth";
+import { db } from "~/server/db";
 
 export const metadata: Metadata = {
   title: "Account",

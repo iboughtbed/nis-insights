@@ -1,9 +1,10 @@
 "use client";
 
-// import { AnimatePresence, motion } from "framer-motion";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 import { TooltipProvider } from "~/components/ui/tooltip";
 
@@ -17,6 +18,27 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     >
       <TooltipProvider>{children}</TooltipProvider>
     </NextThemesProvider>
+  );
+}
+
+export function ReactQueryProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
 

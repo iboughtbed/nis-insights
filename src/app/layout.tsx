@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 
-import { ThemeProvider } from "~/components/providers";
+import { ReactQueryProvider, ThemeProvider } from "~/components/providers";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { Toaster as Sonner } from "~/components/ui/sonner";
 import { siteConfig } from "~/config/site";
@@ -74,17 +74,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontMono.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div vaul-drawer-wrapper="">{children}</div>
-          <TailwindIndicator />
-          <Sonner richColors />
-          <SpeedInsights />
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div vaul-drawer-wrapper="">{children}</div>
+            <TailwindIndicator />
+            <Sonner richColors />
+            <SpeedInsights />
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

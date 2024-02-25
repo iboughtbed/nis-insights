@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
-import { getServerAuthSession } from "~/lib/auth";
-import { DashboardManage } from "./dashboard-manage";
+import { getServerAuthSession } from "~/server/auth";
+import { db } from "~/server/db";
+import { DashboardManager } from "./dashboard-manager";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -19,16 +25,36 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
+  const user = await db.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      role: true,
+    },
+  });
+
+  if (!user) {
+    redirect("/signin");
+  }
+
   return (
     <Shell variant="sidebar">
-      <DashboardManage
-        role={session?.user.role}
-        _count={{
-          articles: 1,
-          comments: 1,
-          releases: 2,
-        }}
-      />
+      <PageHeader className="p-2">
+        <PageHeaderHeading>Dashboard manager</PageHeaderHeading>
+        <PageHeaderDescription>
+          Manage the content by clicking on the cards
+        </PageHeaderDescription>
+      </PageHeader>
+      {session.user.role !== "USER" && (
+        <DashboardManager
+          role={user.role}
+          _count={{
+            articles: 3,
+            releases: 2,
+          }}
+        />
+      )}
     </Shell>
   );
 }

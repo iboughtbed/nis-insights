@@ -1,6 +1,6 @@
 import { SiteFooter } from "~/components/layouts/site-footer";
 import { SiteHeader } from "~/components/layouts/site-header";
-import { getServerAuthSession } from "~/lib/auth";
+import { getServerAuthSession } from "~/server/auth";
 
 interface MainLayoutProps {
   children: React.ReactNode;

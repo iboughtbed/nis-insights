@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { updateUser } from "~/lib/actions/user";
+import { updateUser } from "~/server/actions/user";
 
 interface UserProfileProps {
   user?: {

@@ -3,7 +3,7 @@ import { SiteFooter } from "~/components/layouts/site-footer";
 import { SiteHeader } from "~/components/layouts/site-header";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { dashboardConfig } from "~/config/dashboard";
-import { getServerAuthSession } from "~/lib/auth";
+import { getServerAuthSession } from "~/server/auth";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
