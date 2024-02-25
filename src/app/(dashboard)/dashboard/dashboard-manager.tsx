@@ -3,6 +3,7 @@
 import type { UserRole } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
+import { PlusIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Button, buttonVariants } from "~/components/ui/button";
 import {
@@ -40,6 +41,28 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
 
   return (
     <div className="grid grid-cols-1 gap-8 p-2 md:grid-cols-2">
+      <div className="col-span-full flex flex-wrap gap-4">
+        {role === "ADMIN" && (
+          <Link
+            href="/new/release"
+            className={cn(buttonVariants({ variant: "secondary" }), "gap-1")}
+          >
+            <PlusIcon className="size-4" />
+            <span>New release</span>
+          </Link>
+        )}
+        
+        {(role === "ADMIN" || role === "WRITER") && (
+          <Link
+            href="/new/article"
+            className={cn(buttonVariants({ variant: "secondary" }), "gap-1")}
+          >
+            <PlusIcon className="size-4" />
+            <span>New article</span>
+          </Link>
+        )}
+      </div>
+
       {role === "ADMIN" && (
         <DashboardCardWrapper
           title={`${_count.releases} releases have been released`}

@@ -1,19 +1,12 @@
-import type { Metadata } from "next";
-
-import { CreateArticleForm } from "~/components/forms/create-article-form";
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
+import { Skeleton } from "~/components/ui/skeleton";
 
-export const metadata: Metadata = {
-  title: "New article",
-  description: "Write your article and share it with the world",
-};
-
-export default async function NewArticlePage() {
+export default function NewArticleLoading() {
   return (
     <Shell variant="markdown">
       <PageHeader>
@@ -22,7 +15,14 @@ export default async function NewArticlePage() {
           Publish a new article
         </PageHeaderDescription>
       </PageHeader>
-      <CreateArticleForm />
+
+      <Skeleton className="h-40 w-full" />
+
+      {Array.from({ length: 7 }).map((_, i) => (
+        <Skeleton key={i} className="h-10 w-full" />
+      ))}
+
+      <Skeleton className="h-40 w-full" />
     </Shell>
   );
 }

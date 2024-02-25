@@ -2,7 +2,7 @@ import type { FooterItem, MainNavItem } from "~/types";
 
 const links = {
   instagram: "https://instagram.com/insights.nis",
-  github: "htpps://github.com/iboughtbed/nis-insights",
+  github: "https://github.com/iboughtbed/nis-insights",
 };
 
 export const siteConfig = {

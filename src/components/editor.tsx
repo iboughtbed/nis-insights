@@ -151,13 +151,15 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
         )}
       </div>
       <TabsContent value="write">
-        {mounted && (
+        {mounted ? (
           <Textarea
             className="min-h-[400px]"
             value={editorContent}
             onChange={onChange}
             ref={textareaRef}
           />
+        ) : (
+          <Skeleton className="h-[400px] w-full" />
         )}
       </TabsContent>
       <TabsContent value="preview" className="rounded-md border px-3 py-2">

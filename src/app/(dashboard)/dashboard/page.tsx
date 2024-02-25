@@ -46,15 +46,21 @@ export default async function DashboardPage() {
           Manage the content by clicking on the cards
         </PageHeaderDescription>
       </PageHeader>
-      {session.user.role !== "USER" && (
-        <DashboardManager
-          role={user.role}
-          _count={{
-            articles: 3,
-            releases: 2,
-          }}
-        />
-      )}
+      <section
+        id="content-info"
+        aria-labelledby="content-info-heading"
+        className="w-full overflow-hidden"
+      >
+        {session.user.role !== "USER" && (
+          <DashboardManager
+            role={user.role}
+            _count={{
+              articles: 3,
+              releases: 2,
+            }}
+          />
+        )}
+      </section>
     </Shell>
   );
 }
