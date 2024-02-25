@@ -72,12 +72,9 @@ export default function ArticlePage() {
             height={64}
           />
           <span className="flex flex-col">
-            <Link
-              href="/user"
-              className="text-foreground transition-colors hover:text-foreground/80"
-            >
+            <span className="text-foreground transition-colors hover:text-foreground/80">
               iboughtbed
-            </Link>
+            </span>
             <span className="flex items-center gap-1 text-sm">
               <span>{formatDate(new Date("02.02.2023"))}</span>
               <span>
