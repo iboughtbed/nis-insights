@@ -95,7 +95,7 @@ function DashboardCardWrapper({
       <DrawerTrigger asChild>
         <DashboardCard isOpen={open} {...props} />
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="outline-none">
         <DrawerHeader>
           <DrawerTitle>{props.title}</DrawerTitle>
           <DrawerDescription>{props.description}</DrawerDescription>
