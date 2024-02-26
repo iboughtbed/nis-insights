@@ -53,12 +53,9 @@ export function ArticleCard({
             height={64}
           />
           <span className="flex flex-col">
-            <Link
-              href={`/author/${author.username}`}
-              className="text-foreground transition-colors hover:text-foreground/80"
-            >
+            <span className="text-foreground transition-colors hover:text-foreground/80">
               {author.username}
-            </Link>
+            </span>
             <span className="flex items-center gap-1">
               <span>{formatDate(createdAt)}</span>
               <span>

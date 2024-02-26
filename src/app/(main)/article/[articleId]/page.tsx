@@ -2,9 +2,9 @@ import "~/styles/mdx.css";
 
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import Image from "next/image";
-import Link from "next/link";
 
 import { Markdown } from "~/components/mdx/markdown";
+import { TracingBeam } from "~/components/motion/tracing-beam";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -48,62 +48,65 @@ export default function ArticlePage() {
 
   return (
     <Shell variant="markdown">
-      <article>
-        <PageHeader>
-          <PageHeaderHeading size="lg">
-            How did I create this website?
-          </PageHeaderHeading>
-          <PageHeaderDescription size="sm" className="pt-4">
-            Eternal-return ascetic gains love passion zarathustra noble suicide
-            intentions enlightenment grandeur deceptions mountains. Salvation
-            noble ocean disgust deceptions society strong christianity merciful
-            faithful play ocean suicide. Reason chaos endless revaluation
-            mountains decieve hope. Snare gains joy noble reason law noble
-            merciful grandeur dead. Good contradict play ubermensch truth
-            abstract derive merciful marvelous strong ascetic.
-          </PageHeaderDescription>
-        </PageHeader>
-        <div className="mb-2 flex items-center gap-2 pt-6">
-          <Image
-            alt="avatar"
-            src="/images/avatar.png"
-            className="h-8 w-8 rounded-full"
-            width={64}
-            height={64}
-          />
-          <span className="flex flex-col">
-            <span className="text-foreground transition-colors hover:text-foreground/80">
-              iboughtbed
-            </span>
-            <span className="flex items-center gap-1 text-sm">
-              <span>{formatDate(new Date("02.02.2023"))}</span>
-              <span>
-                (
-                {formatDistanceToNow(new Date("02.02.2023"), {
-                  addSuffix: true,
-                })}
-                )
+      <TracingBeam>
+        <article>
+          <PageHeader>
+            <PageHeaderHeading size="lg">
+              How did I create this website?
+            </PageHeaderHeading>
+            <PageHeaderDescription size="sm" className="pt-4">
+              Eternal-return ascetic gains love passion zarathustra noble
+              suicide intentions enlightenment grandeur deceptions mountains.
+              Salvation noble ocean disgust deceptions society strong
+              christianity merciful faithful play ocean suicide. Reason chaos
+              endless revaluation mountains decieve hope. Snare gains joy noble
+              reason law noble merciful grandeur dead. Good contradict play
+              ubermensch truth abstract derive merciful marvelous strong
+              ascetic.
+            </PageHeaderDescription>
+          </PageHeader>
+          <div className="mb-2 flex items-center gap-2 pt-6">
+            <Image
+              alt="avatar"
+              src="/images/avatar.png"
+              className="h-8 w-8 rounded-full"
+              width={64}
+              height={64}
+            />
+            <span className="flex flex-col">
+              <span className="text-foreground transition-colors hover:text-foreground/80">
+                iboughtbed
+              </span>
+              <span className="flex items-center gap-1 text-sm">
+                <span>{formatDate(new Date("02.02.2023"))}</span>
+                <span>
+                  (
+                  {formatDistanceToNow(new Date("02.02.2023"), {
+                    addSuffix: true,
+                  })}
+                  )
+                </span>
               </span>
             </span>
-          </span>
-        </div>
-        <Separator className="my-4" />
-        <div className="relative mt-6">
-          <AspectRatio ratio={16 / 9}>
-            <Image
-              alt="cover"
-              src="/images/dont-close-your-eyes.webp"
-              className="rounded-lg object-cover"
-              sizes="(max-width: 768px) 90vw, 50vw"
-              fill
-            />
-          </AspectRatio>
-        </div>
-        <Separator className="my-8" />
-        <div className="prose dark:prose-invert">
-          <Markdown source={source} />
-        </div>
-      </article>
+          </div>
+          <Separator className="my-4" />
+          <div className="relative mt-6">
+            <AspectRatio ratio={16 / 9}>
+              <Image
+                alt="cover"
+                src="/images/dont-close-your-eyes.webp"
+                className="rounded-lg object-cover"
+                sizes="(max-width: 768px) 90vw, 50vw"
+                fill
+              />
+            </AspectRatio>
+          </div>
+          <Separator className="my-8" />
+          <div className="prose relative dark:prose-invert">
+            <Markdown source={source} />
+          </div>
+        </article>
+      </TracingBeam>
     </Shell>
   );
 }

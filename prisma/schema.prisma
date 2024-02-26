@@ -75,6 +75,8 @@ model Release {
     id         String   @id @default(cuid())
     date       DateTime
     coverImage String
+    embedUrl   String
+    createdAt  DateTime @default(now())
 }
 
 model Article {

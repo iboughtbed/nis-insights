@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -30,6 +31,7 @@ import { createRelease } from "~/server/actions/release";
 const formSchema = z.object({
   date: z.date(),
   coverImage: z.string().url(),
+  embedUrl: z.string().url(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -53,6 +55,9 @@ export function CreateReleaseForm() {
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      embedUrl: "",
+    },
   });
 
   function onSubmit(data: FormData) {
@@ -118,6 +123,20 @@ export function CreateReleaseForm() {
                     />
                   </PopoverContent>
                 </Popover>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="embedUrl"
+          render={({ field }) => (
+            <FormItem className="flex flex-col items-start gap-4">
+              <FormLabel>Release date</FormLabel>
+              <FormControl>
+                <Input placeholder="Canva embed url" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

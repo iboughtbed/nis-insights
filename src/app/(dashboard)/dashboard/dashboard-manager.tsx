@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { PlusIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { buttonVariants } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,8 +15,8 @@ import {
 } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { useMounted } from "~/hooks/use-mounted";
-import { cn } from "~/lib/utils";
-import { getReleasesCount } from "~/server/queries/release";
+import { cn, formatDateToLocale } from "~/lib/utils";
+import { getArticles, getReleases } from "~/server/queries/dashboard";
 import { DashboardCardWrapper } from "./helpers";
 
 interface DashboardManagerProps {
@@ -51,7 +51,7 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
             <span>New release</span>
           </Link>
         )}
-        
+
         {(role === "ADMIN" || role === "WRITER") && (
           <Link
             href="/new/article"
@@ -85,31 +85,35 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
 }
 
 function ManageReleases() {
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["dashboard-releases"],
-  //   queryFn: async () => {
-  //     const { count } = await getReleasesCount();
-  //     return { count };
-  //   },
-  // });
+  const { isLoading, data } = useQuery({
+    queryKey: ["dashboard-releases"],
+    queryFn: async () => {
+      const { releases } = await getReleases();
+      return { releases };
+    },
+  });
 
-  // if (isLoading) {
-  //   return <span>Loading...</span>;
-  // }
+  if (isLoading) {
+    return <Skeleton className="h-20 w-full" />;
+  }
+
+  if (!data?.releases && !data?.releases.length) {
+    return <p>Nothing here yet...</p>;
+  }
 
   return (
-    <div className="flex h-screen flex-col gap-4 pr-4">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <Card key={i}>
+    <div className="flex flex-col gap-4 pr-4">
+      {data?.releases.map((release) => (
+        <Card key={release.id}>
           <CardHeader>
-            <CardTitle>02/02/24</CardTitle>
+            <CardTitle>{formatDateToLocale(release.date)}</CardTitle>
             <CardDescription>
-              This release was posted on 03/02/24
+              This release was posted on {formatDateToLocale(release.createdAt)}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              href="/release"
+              href={`/release/${release.id}/edit`}
               className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit
@@ -122,22 +126,35 @@ function ManageReleases() {
 }
 
 function ManageArticles() {
+  const { isLoading, data } = useQuery({
+    queryKey: ["dashboard-releases"],
+    queryFn: async () => {
+      const { articles } = await getArticles();
+      return { articles };
+    },
+  });
+
+  if (isLoading) {
+    return <Skeleton className="h-20 w-full" />;
+  }
+
+  if (!data?.articles && !data?.articles.length) {
+    return <p>Nothing here yet...</p>;
+  }
+
   return (
-    <div className="flex h-screen flex-col gap-4 pr-4">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <Card key={i}>
+    <div className="flex flex-col gap-4 pr-4">
+      {data?.articles.map((article) => (
+        <Card key={article.id}>
           <CardHeader>
-            <CardTitle className="line-clamp-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius
-              dolores?
-            </CardTitle>
+            <CardTitle className="line-clamp-2">{article.title}</CardTitle>
             <CardDescription>
-              This article was posted on 03/02/24
+              This article was posted on {formatDateToLocale(article.createdAt)}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link
-              href="/article"
+              href={`/article/${article.id}/edit`}
               className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit

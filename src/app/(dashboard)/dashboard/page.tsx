@@ -9,6 +9,7 @@ import {
 import { Shell } from "~/components/shells/shell";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+import { getCounts } from "~/server/queries/dashboard";
 import { DashboardManager } from "./dashboard-manager";
 
 export const metadata: Metadata = {
@@ -38,6 +39,8 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
+  const { articlesCount, releasesCount } = await getCounts();
+
   return (
     <Shell variant="sidebar">
       <PageHeader className="p-2">
@@ -55,8 +58,8 @@ export default async function DashboardPage() {
           <DashboardManager
             role={user.role}
             _count={{
-              articles: 3,
-              releases: 2,
+              articles: articlesCount,
+              releases: releasesCount,
             }}
           />
         )}
