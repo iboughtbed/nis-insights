@@ -127,7 +127,7 @@ function ManageReleases() {
 
 function ManageArticles() {
   const { isLoading, data } = useQuery({
-    queryKey: ["dashboard-releases"],
+    queryKey: ["dashboard-articles"],
     queryFn: async () => {
       const { articles } = await getArticles();
       return { articles };
