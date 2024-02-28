@@ -8,44 +8,34 @@ import {
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
 import { Separator } from "~/components/ui/separator";
+import { articlesSearchParamsSchema } from "~/lib/validations/params";
+import { getArticles } from "~/server/queries/article";
 
 export const metadata: Metadata = {
   title: "Articles",
   description:
-    "Explore articles from our team members, uncover something fresh and intriguing, and share your thoughts.",
+    "Explore articles from our team members, uncover something fresh and intriguing, and share your thoughts",
 };
 
-export default function ArticlesPage(
-  {
-    // searchParams,
-  }: {
-    searchParams: Record<string, string | string[] | undefined>;
-  },
-) {
-  // console.log({ searchParams });
+export default async function ArticlesPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
+  const { page, per_page } = articlesSearchParamsSchema.parse(searchParams);
 
-  const mock = [
-    {
-      id: "random_id",
-      title: "Don't close your eyes",
-      introduction:
-        "Eternal-return ascetic gains love passion zarathustra noble suicide intentions enlightenment grandeur deceptions mountains. Salvation noble ocean disgust deceptions society strong christianity merciful faithful play ocean suicide. Reason chaos endless revaluation mountains decieve hope. Snare gains joy noble reason law noble merciful grandeur dead. Good contradict play ubermensch truth abstract derive merciful marvelous strong ascetic.",
-      createdAt: new Date("02.02.2023"),
-      author: {
-        username: "iboughtbed",
-      },
-    },
-    {
-      id: "random_id1",
-      title: "Don't close your eyes",
-      introduction:
-        "Eternal-return ascetic gains love passion zarathustra noble suicide intentions enlightenment grandeur deceptions mountains. Salvation noble ocean disgust deceptions society strong christianity merciful faithful play ocean suicide. Reason chaos endless revaluation mountains decieve hope. Snare gains joy noble reason law noble merciful grandeur dead. Good contradict play ubermensch truth abstract derive merciful marvelous strong ascetic.",
-      createdAt: new Date("02.02.2023"),
-      author: {
-        username: "iboughtbed",
-      },
-    },
-  ];
+  const pageAsNumber = Number(page);
+  const fallbackPage =
+    isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
+  const perPageAsNumber = Number(per_page);
+  // Number of items per page
+  const limit = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
+  // Number of items to skip
+  const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0;
+
+  const { data } = await getArticles({ limit, offset });
+
+  const pageCount = Math.ceil((data?.count ?? 0) / limit);
 
   return (
     <Shell variant="markdown">
@@ -56,7 +46,11 @@ export default function ArticlesPage(
         </PageHeaderDescription>
       </PageHeader>
       <Separator />
-      <Articles articles={mock} pageCount={1} />
+      {data?.articles ? (
+        <Articles articles={data.articles} pageCount={pageCount} />
+      ) : (
+        <p>No articles yet...</p>
+      )}
     </Shell>
   );
 }

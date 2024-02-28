@@ -15,16 +15,7 @@ const createReleaseSchema = z.object({
 export const createRelease = protectedAction(
   createReleaseSchema,
   async ({ date, coverImage, embedUrl }, { session }) => {
-    const user = await db.user.findUnique({
-      where: {
-        id: session.user.id,
-      },
-      select: {
-        role: true,
-      },
-    });
-
-    if (user?.role !== "ADMIN") {
+    if (session.user.role !== "ADMIN") {
       throw new Error("Unauthorized");
     }
 

@@ -23,7 +23,7 @@ export default async function ReleasePage({
           loading="lazy"
           src={encodeURI(embedUrl)}
           allowFullScreen
-          className="h-[500px] w-full"
+          className="h-[80vh] w-full"
         ></iframe>
       </div>
     </Shell>

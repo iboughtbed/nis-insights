@@ -1,15 +1,9 @@
 "use server";
 
 import { z } from "zod";
+
 import { action } from "~/lib/safe-action";
-
 import { db } from "~/server/db";
-
-export async function getReleasesCount() {
-  const count = await db.user.count();
-
-  return { count };
-}
 
 const getReleaseSchema = z.object({
   id: z.string(),
@@ -26,4 +20,16 @@ export const getRelease = action(getReleaseSchema, async ({ id }) => {
   });
 
   return { release };
+});
+
+export const getReleases = action(z.object({}), async () => {
+  const releases = await db.release.findMany({
+    select: {
+      id: true,
+      date: true,
+      coverImage: true,
+    },
+  });
+
+  return { releases };
 });

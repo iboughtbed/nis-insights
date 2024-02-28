@@ -7,7 +7,20 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "uploadthing.com",
+      },
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+      },
+    ],
+  },
+};
 
 // const withBundleAnalyzer = NextBundleAnalyzer({
 //   enabled: process.env.ANALYZE_BUNDLE === "true",

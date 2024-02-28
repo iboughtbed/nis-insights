@@ -1,10 +1,10 @@
 "use client";
 
 import type { UserRole } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
-
 import { PlusIcon } from "@radix-ui/react-icons";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+
 import { buttonVariants } from "~/components/ui/button";
 import {
   Card,
@@ -33,6 +33,10 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
   if (!mounted) {
     return (
       <div className="grid grid-cols-1 gap-8 p-2 md:grid-cols-2">
+        <div className="col-span-full flex flex-wrap gap-4">
+          <Skeleton className="h-9 w-28" />
+          <Skeleton className="h-9 w-28" />
+        </div>
         <Skeleton className="h-24 w-full" />
         <Skeleton className="h-24 w-full" />
       </div>
@@ -113,7 +117,7 @@ function ManageReleases() {
           </CardHeader>
           <CardContent>
             <Link
-              href={`/release/${release.id}/edit`}
+              href={`/edit/release/${release.id}`}
               className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit
@@ -154,7 +158,7 @@ function ManageArticles() {
           </CardHeader>
           <CardContent>
             <Link
-              href={`/article/${article.id}/edit`}
+              href={`/edit/article/${article.id}`}
               className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit

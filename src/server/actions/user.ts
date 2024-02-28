@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { protectedAction } from "~/lib/safe-action";
@@ -14,19 +14,6 @@ const updateUserSchema = z.object({
 export const updateUser = protectedAction(
   updateUserSchema,
   async ({ name, username }, { session }) => {
-    const user = await db.user.findUnique({
-      where: {
-        id: session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    if (!user) {
-      throw new Error("Session is not valid");
-    }
-
     const updatedUser = await db.user.update({
       where: {
         id: session.user.id,
@@ -40,7 +27,7 @@ export const updateUser = protectedAction(
       },
     });
 
-    revalidatePath("/dashboard");
+    // revalidatePath("/dashboard");
 
     return { updatedUser };
   },

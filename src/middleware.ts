@@ -21,7 +21,10 @@ export default withAuth(function middleware(req) {
     }
   }
 
-  if (pathname.startsWith("/new/release")) {
+  if (
+    pathname.startsWith("/new/release") ||
+    pathname.startsWith("/edit/release")
+  ) {
     if (token.role !== "ADMIN") {
       url.pathname = "/";
       return NextResponse.redirect(url);
@@ -30,5 +33,5 @@ export default withAuth(function middleware(req) {
 });
 
 export const config = {
-  matcher: ["/new/:path*", "/dashboard/:path*"],
+  matcher: ["/new/:path*", "/edit/:path", "/dashboard/:path*"],
 };

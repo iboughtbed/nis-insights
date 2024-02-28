@@ -4,6 +4,14 @@ export const commandMenuConfig = {
       title: "Latest release",
       href: "/releases",
     },
+    {
+      title: "Articles",
+      href: "/articles",
+    },
+    {
+      title: "Dashboard",
+      href: "/dashboard",
+    },
   ],
 };
 

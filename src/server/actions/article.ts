@@ -15,16 +15,7 @@ const createArticleSchema = z.object({
 export const createArticle = protectedAction(
   createArticleSchema,
   async ({ title, introduction, content, coverImage }, { session }) => {
-    const user = await db.user.findUnique({
-      where: {
-        id: session.user.id,
-      },
-      select: {
-        role: true,
-      },
-    });
-
-    if (user?.role === "USER") {
+    if (session.user.role === "USER") {
       throw new Error("Unauthorized");
     }
 
@@ -51,5 +42,48 @@ export const createArticle = protectedAction(
     });
 
     return { newArticle };
+  },
+);
+
+const updateArticleSchema = z.object({
+  id: z.string(),
+  title: z.string().trim().min(1).optional(),
+  introduction: z.string().trim().min(1).optional(),
+  content: z.string().trim().min(1).optional(),
+  coverImage: z.string().url().optional(),
+});
+
+export const updateArticle = protectedAction(
+  updateArticleSchema,
+  async ({ id, title, introduction, content, coverImage }, { session }) => {
+    const article = await db.article.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        authorId: true,
+      },
+    });
+
+    if (article?.authorId !== session.user.id) {
+      throw new Error("Unauthorized");
+    }
+
+    const updatedArticle = await db.article.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        introduction,
+        content,
+        coverImage,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return { updatedArticle };
   },
 );

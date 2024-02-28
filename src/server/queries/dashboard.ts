@@ -10,16 +10,7 @@ export async function getCounts() {
     throw new Error("Unauthorized");
   }
 
-  const user = await db.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (user?.role === "USER") {
+  if (session.user.role === "USER") {
     throw new Error("Unauthorized");
   }
 
@@ -36,16 +27,7 @@ export async function getReleases() {
     throw new Error("Unauthorized");
   }
 
-  const user = await db.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (user?.role !== "ADMIN") {
+  if (session.user.role !== "ADMIN") {
     throw new Error("Unauthorized");
   }
 
@@ -67,16 +49,7 @@ export async function getArticles() {
     throw new Error("Unauthorized");
   }
 
-  const user = await db.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (user?.role === "USER") {
+  if (session.user.role === "USER") {
     throw new Error("Unauthorized");
   }
 

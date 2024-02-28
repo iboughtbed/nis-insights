@@ -45,7 +45,7 @@ const DashboardCard = React.forwardRef<
     <div ref={ref} className="group relative rounded-lg" {...props}>
       <div
         className={cn(
-          "absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100",
+          "absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100",
           isOpen && "opacity-100",
         )}
       />

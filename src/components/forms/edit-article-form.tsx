@@ -20,21 +20,33 @@ import {
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { UploadDropzone } from "~/lib/utils/uploadthing";
-import { createArticle } from "~/server/actions/article";
+import { updateArticle } from "~/server/actions/article";
+
+interface EditArticleFormProps {
+  id: string;
+  title: string;
+  introduction: string;
+  content: string;
+  coverImage: string | null;
+}
 
 const formSchema = z.object({
-  title: z.string().trim().min(1),
-  introduction: z.string().trim().min(1),
-  content: z.string().trim().min(1),
-  coverImage: z.string().url(),
+  title: z.string().trim().min(1).optional(),
+  introduction: z.string().trim().min(1).optional(),
+  content: z.string().trim().min(1).optional(),
+  coverImage: z.string().url().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export function CreateArticleForm() {
+export function EditArticleForm({ id, ...props }: EditArticleFormProps) {
   const { isPending, mutate } = useMutation({
     mutationFn: async (data: FormData) => {
-      const result = await createArticle(data);
+      const result = await updateArticle({ id, ...data });
+
+      if (!result.data?.updatedArticle) {
+        throw new Error("Something went wrong");
+      }
 
       if (result.serverError ?? result.validationErrors) {
         toast.error("Something went wrong");
@@ -44,7 +56,7 @@ export function CreateArticleForm() {
       return result.data;
     },
     onSuccess: (data) => {
-      console.log(data?.newArticle);
+      console.log(data.updatedArticle);
       toast.success("Successfully created an article");
     },
   });
@@ -52,8 +64,7 @@ export function CreateArticleForm() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      introduction: "",
+      ...props,
     },
   });
 
@@ -70,9 +81,6 @@ export function CreateArticleForm() {
           render={() => (
             <FormItem>
               <FormLabel>Cover image</FormLabel>
-              <FormDescription>
-                Upload images with 16:9 resolution for better experience
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

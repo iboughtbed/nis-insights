@@ -8,7 +8,6 @@ import {
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
 import { getServerAuthSession } from "~/server/auth";
-import { db } from "~/server/db";
 import { getCounts } from "~/server/queries/dashboard";
 import { DashboardManager } from "./dashboard-manager";
 
@@ -18,24 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  // TODO: add responsive design and clean up
-
   const session = await getServerAuthSession();
 
   if (!session?.user) {
-    redirect("/signin");
-  }
-
-  const user = await db.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (!user) {
     redirect("/signin");
   }
 
@@ -56,7 +40,7 @@ export default async function DashboardPage() {
       >
         {session.user.role !== "USER" && (
           <DashboardManager
-            role={user.role}
+            role={session.user.role}
             _count={{
               articles: articlesCount,
               releases: releasesCount,

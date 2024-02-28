@@ -11,9 +11,11 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const pathname = usePathname();
 
+  const darkThemePathnames = ["/", "/dashboard", "/dashboard/account"];
+
   return (
     <NextThemesProvider
-      forcedTheme={pathname === "/" ? "dark" : undefined}
+      forcedTheme={darkThemePathnames.includes(pathname) ? "dark" : undefined}
       {...props}
     >
       <TooltipProvider>{children}</TooltipProvider>
