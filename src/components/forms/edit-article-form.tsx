@@ -39,10 +39,18 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function EditArticleForm({ id, ...props }: EditArticleFormProps) {
+export function EditArticleForm({
+  id,
+  coverImage,
+  ...props
+}: EditArticleFormProps) {
   const { isPending, mutate } = useMutation({
     mutationFn: async (data: FormData) => {
-      const result = await updateArticle({ id, ...data });
+      const result = await updateArticle({
+        id,
+        coverImage: coverImage ?? undefined,
+        ...data,
+      });
 
       if (!result.data?.updatedArticle) {
         throw new Error("Something went wrong");
@@ -64,6 +72,7 @@ export function EditArticleForm({ id, ...props }: EditArticleFormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      coverImage: coverImage ?? undefined,
       ...props,
     },
   });
