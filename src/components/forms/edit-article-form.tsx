@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -28,6 +29,7 @@ interface EditArticleFormProps {
   introduction: string;
   content: string;
   coverImage: string | null;
+  coverImageKey: string | null;
 }
 
 const formSchema = z.object({
@@ -35,6 +37,7 @@ const formSchema = z.object({
   introduction: z.string().trim().min(1).optional(),
   content: z.string().trim().min(1).optional(),
   coverImage: z.string().url().optional(),
+  coverImageKey: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -42,30 +45,28 @@ type FormData = z.infer<typeof formSchema>;
 export function EditArticleForm({
   id,
   coverImage,
+  coverImageKey,
   ...props
 }: EditArticleFormProps) {
+  const router = useRouter();
+
   const { isPending, mutate } = useMutation({
-    mutationFn: async (data: FormData) => {
-      const result = await updateArticle({
+    mutationFn: async (formData: FormData) => {
+      const { data, serverError, validationErrors } = await updateArticle({
         id,
-        coverImage: coverImage ?? undefined,
-        ...data,
+        ...formData,
       });
 
-      if (!result.data?.updatedArticle) {
-        throw new Error("Something went wrong");
-      }
-
-      if (result.serverError ?? result.validationErrors) {
+      if (serverError ?? validationErrors) {
         toast.error("Something went wrong");
         throw new Error("Something went wrong");
       }
 
-      return result.data;
+      return data;
     },
     onSuccess: (data) => {
-      console.log(data.updatedArticle);
-      toast.success("Successfully created an article");
+      toast.success("Successfully updated the article");
+      router.push(`/article/${data?.updatedArticle.id}`);
     },
   });
 
@@ -73,11 +74,12 @@ export function EditArticleForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       coverImage: coverImage ?? undefined,
+      coverImageKey: coverImageKey ?? undefined,
       ...props,
     },
   });
 
-  async function onSubmit(data: FormData) {
+  function onSubmit(data: FormData) {
     mutate(data);
   }
 
@@ -90,6 +92,10 @@ export function EditArticleForm({
           render={() => (
             <FormItem>
               <FormLabel>Cover image</FormLabel>
+              <FormDescription>
+                If you change the cover image, the old one will be deleted.
+                Upload images with 16:9 resolution for better experience
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -101,6 +107,7 @@ export function EditArticleForm({
             const file = res[0];
             if (file) {
               form.setValue("coverImage", file.url);
+              form.setValue("coverImageKey", file.key);
               toast.success("Uploaded the cover image");
             }
           }}
@@ -163,7 +170,7 @@ export function EditArticleForm({
 
         <div className="mt-4 flex items-center justify-end">
           <Button type="submit" variant="secondary" disabled={isPending}>
-            Publish
+            Update
           </Button>
         </div>
       </form>

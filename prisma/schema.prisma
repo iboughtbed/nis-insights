@@ -72,20 +72,22 @@ model VerificationToken {
 // Application
 
 model Release {
-    id         String   @id @default(cuid())
-    date       DateTime
-    coverImage String
-    embedUrl   String
-    createdAt  DateTime @default(now())
+    id            String   @id @default(cuid())
+    date          DateTime
+    coverImage    String
+    coverImageKey String
+    embedUrl      String
+    createdAt     DateTime @default(now())
 }
 
 model Article {
-    id           String   @id @default(cuid())
-    title        String
-    introduction String
-    content      String
-    coverImage   String?
-    createdAt    DateTime @default(now())
+    id            String   @id @default(cuid())
+    title         String
+    introduction  String
+    content       String
+    coverImage    String?
+    coverImageKey String?
+    createdAt     DateTime @default(now())
 
     authorId String
     author   User   @relation(fields: [authorId], references: [id])

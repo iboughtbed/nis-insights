@@ -20,7 +20,6 @@ export default async function ReleasePage({
     <Shell className="min-h-screen">
       <div className="h-full w-full">
         <iframe
-          loading="lazy"
           src={encodeURI(embedUrl)}
           allowFullScreen
           className="h-[80vh] w-full"

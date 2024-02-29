@@ -153,7 +153,7 @@ export function Editor({ initialContent = "", setValue }: EditorProps) {
       <TabsContent value="write">
         {mounted ? (
           <Textarea
-            className="min-h-[400px]"
+            className="min-h-[400px] text-base"
             value={editorContent}
             onChange={onChange}
             ref={textareaRef}

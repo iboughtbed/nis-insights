@@ -29,6 +29,9 @@ export const getReleases = action(z.object({}), async () => {
       date: true,
       coverImage: true,
     },
+    orderBy: {
+      date: "desc",
+    },
   });
 
   return { releases };

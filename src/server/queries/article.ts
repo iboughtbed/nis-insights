@@ -19,6 +19,7 @@ export const getArticle = action(getArticleSchema, async ({ id }) => {
       introduction: true,
       content: true,
       coverImage: true,
+      coverImageKey: true,
       createdAt: true,
       author: {
         select: {
@@ -53,6 +54,9 @@ export const getArticles = action(
             username: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 

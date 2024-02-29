@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,25 +31,30 @@ import { createRelease } from "~/server/actions/release";
 const formSchema = z.object({
   date: z.date(),
   coverImage: z.string().url(),
+  coverImageKey: z.string(),
   embedUrl: z.string().url(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export function CreateReleaseForm() {
-  const { isPending, mutate } = useMutation({
-    mutationFn: async (data: FormData) => {
-      const result = await createRelease(data);
+  const router = useRouter();
 
-      if (result.serverError ?? result.validationErrors) {
+  const { isPending, mutate } = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const { data, serverError, validationErrors } =
+        await createRelease(formData);
+
+      if (serverError ?? validationErrors) {
         toast.error("Something went wrong");
         throw new Error("Something went wrong");
       }
 
-      return result.data;
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Successfully created a new release");
+      router.push(`/release/${data?.newRelease.id}`);
     },
   });
 
@@ -83,6 +89,7 @@ export function CreateReleaseForm() {
             const file = res[0];
             if (file) {
               form.setValue("coverImage", file.url);
+              form.setValue("coverImageKey", file.key);
               toast.success("Uploaded the cover image");
             }
           }}

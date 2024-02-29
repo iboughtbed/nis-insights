@@ -36,20 +36,20 @@ export default async function EditArticlePage({
     redirect("/");
   }
 
-  const result = await getArticle({ id: params.articleId });
+  const { data } = await getArticle({ id: params.articleId });
 
-  if (!result.data?.article) {
+  if (!data?.article) {
     notFound();
   }
 
-  const { article } = result.data;
+  const { article } = data;
 
   return (
     <Shell variant="markdown">
       <PageHeader>
-        <PageHeaderHeading size="sm">New article</PageHeaderHeading>
+        <PageHeaderHeading size="sm">Edit article</PageHeaderHeading>
         <PageHeaderDescription size="sm">
-          Publish a new article
+          Edit your article
         </PageHeaderDescription>
       </PageHeader>
       <div className="mb-2 flex items-center gap-2 pt-6">
@@ -65,10 +65,10 @@ export default async function EditArticlePage({
             {article.author.username}
           </span>
           <span className="flex items-center gap-1 text-sm">
-            <span>{formatDate(new Date("02.02.2023"))}</span>
+            <span>{formatDate(article.createdAt)}</span>
             <span>
               (
-              {formatDistanceToNow(new Date("02.02.2023"), {
+              {formatDistanceToNow(article.createdAt, {
                 addSuffix: true,
               })}
               )
@@ -100,6 +100,7 @@ export default async function EditArticlePage({
         introduction={article.introduction}
         content={article.content}
         coverImage={article.coverImage}
+        coverImageKey={article.coverImageKey}
       />
     </Shell>
   );

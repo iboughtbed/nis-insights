@@ -1,20 +1,12 @@
-import { redirect } from "next/navigation";
-
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
-import { getServerAuthSession } from "~/server/auth";
+import { Skeleton } from "~/components/ui/skeleton";
 
-export default async function EditReleasePage() {
-  const session = await getServerAuthSession();
-
-  if (session?.user.role !== "ADMIN") {
-    redirect("/");
-  }
-
+export default function NewReleaseLoading() {
   return (
     <Shell variant="markdown">
       <PageHeader>
@@ -23,6 +15,9 @@ export default async function EditReleasePage() {
           Edit the release
         </PageHeaderDescription>
       </PageHeader>
+
+      <Skeleton className="h-40 w-full" />
+      <Skeleton className="h-10 w-full" />
     </Shell>
   );
 }

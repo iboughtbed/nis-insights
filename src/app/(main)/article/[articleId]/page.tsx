@@ -31,9 +31,9 @@ export default async function ArticlePage({
   const article = data.article;
 
   return (
-    <Shell variant="markdown">
+    <Shell variant="markdown" className="relative">
       <TracingBeam>
-        <article>
+        <article className="relative">
           <PageHeader>
             <PageHeaderHeading size="lg">{article.title}</PageHeaderHeading>
             <PageHeaderDescription size="sm" className="pt-4">

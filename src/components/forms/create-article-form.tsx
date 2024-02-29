@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -27,25 +28,29 @@ const formSchema = z.object({
   introduction: z.string().trim().min(1),
   content: z.string().trim().min(1),
   coverImage: z.string().url(),
+  coverImageKey: z.string(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export function CreateArticleForm() {
-  const { isPending, mutate } = useMutation({
-    mutationFn: async (data: FormData) => {
-      const result = await createArticle(data);
+  const router = useRouter();
 
-      if (result.serverError ?? result.validationErrors) {
+  const { isPending, mutate } = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const { data, serverError, validationErrors } =
+        await createArticle(formData);
+
+      if (serverError ?? validationErrors) {
         toast.error("Something went wrong");
         throw new Error("Something went wrong");
       }
 
-      return result.data;
+      return data;
     },
     onSuccess: (data) => {
-      console.log(data?.newArticle);
       toast.success("Successfully created an article");
+      router.push(`/article/${data?.newArticle.id}`);
     },
   });
 
@@ -84,6 +89,7 @@ export function CreateArticleForm() {
             const file = res[0];
             if (file) {
               form.setValue("coverImage", file.url);
+              form.setValue("coverImageKey", file.key);
               toast.success("Uploaded the cover image");
             }
           }}
@@ -100,6 +106,9 @@ export function CreateArticleForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
+              <FormDescription>
+                Do I fucking need to explain what this is?
+              </FormDescription>
               <FormControl>
                 <Input placeholder="How to eat spoon" {...field} />
               </FormControl>
