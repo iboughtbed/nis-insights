@@ -25,14 +25,19 @@ export default async function ReleasesPage() {
                 <Card>
                   <div className="p-4">
                     <AspectRatio ratio={1 / 1.41}>
-                      <Image
-                        alt="release cover"
-                        src={latestRelease.coverImage}
-                        fill
-                        className="absolute inset-0 rounded-md object-cover"
-                        priority
-                        sizes="(max-width: 768px) 90vw, 30vw"
-                      />
+                      <Link
+                        href={`/release/${latestRelease.id}`}
+                        className="absolute inset-0"
+                      >
+                        <Image
+                          alt="release cover"
+                          src={latestRelease.coverImage}
+                          fill
+                          className="absolute inset-0 rounded-md object-cover"
+                          priority
+                          sizes="(max-width: 768px) 90vw, 30vw"
+                        />
+                      </Link>
                     </AspectRatio>
                   </div>
                 </Card>
@@ -66,39 +71,40 @@ export default async function ReleasesPage() {
           visible: { opacity: 1, x: 0 },
         }}
       >
-        <section className="grid min-h-screen grid-cols-1 gap-8 md:grid-cols-4">
-          {data?.releases.map((release) => (
-            <Card key={release.id}>
-              <CardHeader className="py-4">
-                <CardTitle>{format(release.date, "dd/MM/yy")}</CardTitle>
-              </CardHeader>
-              <div className="p-4">
-                <AspectRatio ratio={1 / 1.41}>
-                  <Link
+        <section className="relative min-h-screen">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+            {data?.releases.map((release) => (
+              <Card key={release.id}>
+                <CardHeader className="py-4">
+                  <CardTitle>{format(release.date, "dd/MM/yy")}</CardTitle>
+                </CardHeader>
+                <div className="p-4">
+                  <AspectRatio ratio={1 / 1.41}>
+                    <Link
+                      href={`/release/${release.id}`}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        alt="release cover"
+                        src={release.coverImage}
+                        fill
+                        className="absolute inset-0 rounded-md object-cover"
+                        sizes="(max-width: 768px) 90vw, 30vw"
+                      />
+                    </Link>
+                  </AspectRatio>
+                </div>
+                <CardContent>
+                  <AnimatedButton
                     href={`/release/${release.id}`}
-                    className="absolute inset-0"
+                    className="w-full"
                   >
-                    <Image
-                      alt="release cover"
-                      src={release.coverImage}
-                      fill
-                      className="absolute inset-0 rounded-md object-cover"
-                      priority
-                      sizes="(max-width: 768px) 90vw, 30vw"
-                    />
-                  </Link>
-                </AspectRatio>
-              </div>
-              <CardContent>
-                <AnimatedButton
-                  href={`/release/${release.id}`}
-                  className="w-full"
-                >
-                  Read
-                </AnimatedButton>
-              </CardContent>
-            </Card>
-          ))}
+                    Read
+                  </AnimatedButton>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </section>
       </Reveal>
     </Shell>
