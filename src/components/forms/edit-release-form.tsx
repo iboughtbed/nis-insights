@@ -14,6 +14,7 @@ import { Calendar } from "~/components/ui/calendar";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,24 +27,34 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { UploadDropzone } from "~/lib/utils/uploadthing";
-import { createRelease } from "~/server/actions/release";
+import { updateRelease } from "~/server/actions/release";
+
+interface EditReleaseFormProps {
+  id: string;
+  date: Date;
+  coverImage: string;
+  coverImageKey: string;
+  embedUrl: string;
+}
 
 const formSchema = z.object({
-  date: z.date(),
-  coverImage: z.string().url(),
-  coverImageKey: z.string(),
-  embedUrl: z.string().url(),
+  date: z.date().optional(),
+  coverImage: z.string().url().optional(),
+  coverImageKey: z.string().optional(),
+  embedUrl: z.string().url().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export function CreateReleaseForm() {
+export function EditReleaseForm({ id, ...props }: EditReleaseFormProps) {
   const router = useRouter();
 
   const { isPending, mutate } = useMutation({
     mutationFn: async (formData: FormData) => {
-      const { data, serverError, validationErrors } =
-        await createRelease(formData);
+      const { data, serverError, validationErrors } = await updateRelease({
+        id,
+        ...formData,
+      });
 
       if (serverError ?? validationErrors) {
         toast.error("Something went wrong");
@@ -53,15 +64,15 @@ export function CreateReleaseForm() {
       return data;
     },
     onSuccess: (data) => {
-      toast.success("Successfully created a new release");
-      router.push(`/release/${data?.newRelease.id}`);
+      toast.success("Successfully updated the release");
+      router.push(`/release/${data?.updatedRelease.id}`);
     },
   });
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      embedUrl: "",
+      ...props,
     },
   });
 
@@ -78,6 +89,10 @@ export function CreateReleaseForm() {
           render={() => (
             <FormItem>
               <FormLabel>Cover image</FormLabel>
+              <FormDescription>
+                If you change the cover image, the old one will be deleted.
+                Upload images with A4 - 1:1.41 resolution for better experience
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

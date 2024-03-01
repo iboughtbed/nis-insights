@@ -30,7 +30,7 @@ export const appFileRouter = {
 
       if (!session?.user) throw new UploadThingError("Unauthorized");
 
-      if (session.user.role === "USER")
+      if (session.user.role !== "ADMIN")
         throw new UploadThingError("Unauthorized");
 
       return {};

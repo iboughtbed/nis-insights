@@ -56,6 +56,15 @@ export const updateRelease = protectedAction(
       throw new Error("Unauthorized");
     }
 
+    const release = await db.release.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        coverImageKey: true,
+      },
+    });
+
     const updatedRelease = await db.release.update({
       where: {
         id,
@@ -70,6 +79,10 @@ export const updateRelease = protectedAction(
         id: true,
       },
     });
+
+    if (release?.coverImageKey !== coverImageKey && release?.coverImageKey) {
+      await utapi.deleteFiles(release.coverImageKey);
+    }
 
     revalidatePath("/release");
     revalidatePath("/edit/release");

@@ -121,7 +121,7 @@ function ManageReleases() {
   });
 
   if (isLoading) {
-    return <Skeleton className="h-20 w-full" />;
+    return <Skeleton className="h-56 w-full" />;
   }
 
   if (!data?.releases && !data?.releases.length) {
@@ -204,7 +204,7 @@ function ManageArticles() {
   });
 
   if (isLoading) {
-    return <Skeleton className="h-20 w-full" />;
+    return <Skeleton className="h-56 w-full" />;
   }
 
   if (!data?.articles && !data?.articles.length) {

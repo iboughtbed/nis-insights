@@ -11,6 +11,7 @@ interface ArticlesProps {
     id: string;
     title: string;
     introduction: string;
+    coverImage: string | null;
     createdAt: Date;
     author: {
       username: string;

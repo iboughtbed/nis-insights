@@ -137,7 +137,7 @@ export default function HomePage() {
               Meet our team
             </h1>
             <p className="pt-6 text-foreground/80">
-              Join Us: Elevate Your Creativity with Our Exceptional Team
+              Join Us: Elevate your creativity with our exceptional team
             </p>
             <div className="flex flex-col items-center gap-4 pt-6 md:flex-row">
               <AnimatedButton href="/join-us">
@@ -159,6 +159,7 @@ export default function HomePage() {
               src={teamPhoto}
               className="aspect-video rounded-xl object-cover"
               sizes="(max-width: 768px) 80vw, 30vw"
+              draggable="false"
             />
           </div>
         </section>

@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import Image from "next/image";
 import Link from "next/link";
+import { PlaceholderImage } from "~/components/placeholder-image";
 
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { badgeVariants } from "~/components/ui/badge";
@@ -17,6 +18,7 @@ interface ArticleCardProps {
   id: string;
   title: string;
   introduction: string;
+  coverImage: string | null;
   createdAt: Date;
   author: {
     username: string;
@@ -27,21 +29,26 @@ export function ArticleCard({
   id,
   title,
   introduction,
+  coverImage,
   createdAt,
   author,
 }: ArticleCardProps) {
   return (
     <Card>
       <AspectRatio ratio={16 / 9}>
-        <Link href={`/article/${id}`} className="absolute inset-0">
-          <Image
-            alt={title}
-            src="/images/dont-close-your-eyes.webp"
-            className="absolute inset-0 rounded-t-lg object-cover"
-            sizes="(max-width: 768px) 90vw, 50vw"
-            fill
-          />
-        </Link>
+        {coverImage ? (
+          <Link href={`/article/${id}`} className="absolute inset-0">
+            <Image
+              alt={title}
+              src={coverImage}
+              className="absolute inset-0 rounded-t-lg object-cover"
+              sizes="(max-width: 768px) 90vw, 50vw"
+              fill
+            />
+          </Link>
+        ) : (
+          <PlaceholderImage className="rounded-t-lg" asChild />
+        )}
       </AspectRatio>
       <CardHeader>
         <CardDescription className="mb-2 flex items-center gap-2">

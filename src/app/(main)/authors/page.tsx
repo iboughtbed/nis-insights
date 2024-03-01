@@ -23,7 +23,7 @@ export default async function AuthorsPage() {
         </PageHeaderDescription>
       </PageHeader>
       <ul className="relative mt-10 grid grid-cols-1 gap-16 text-center md:grid-cols-3">
-        {authorsConfig.map((author, i) => (
+        {authorsConfig.items.map((author, i) => (
           <li key={i}>
             <div className="relative mx-auto h-24 w-24 rounded-full">
               <Image

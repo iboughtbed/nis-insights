@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 
 import { Shell } from "~/components/shells/shell";
-import { getRelease } from "~/server/queries/release";
+import { getReleaseEmbed } from "~/server/queries/release";
 
 export default async function ReleasePage({
   params,
 }: {
   params: { releaseId: string };
 }) {
-  const { data } = await getRelease({ id: params.releaseId });
+  const { data } = await getReleaseEmbed({ id: params.releaseId });
 
   if (!data?.release) {
     notFound();

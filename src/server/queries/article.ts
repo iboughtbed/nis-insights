@@ -48,6 +48,7 @@ export const getArticles = action(
         id: true,
         title: true,
         introduction: true,
+        coverImage: true,
         createdAt: true,
         author: {
           select: {
