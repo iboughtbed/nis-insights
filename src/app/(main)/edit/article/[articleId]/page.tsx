@@ -85,6 +85,7 @@ export default async function EditArticlePage({
               src={article.coverImage}
               className="rounded-lg object-cover"
               sizes="(max-width: 768px) 90vw, 50vw"
+              priority
               fill
             />
           </AspectRatio>

@@ -156,12 +156,15 @@ export function EditArticleForm({
         <FormField
           control={form.control}
           name="content"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormDescription>Using markdown</FormDescription>
               <FormControl>
-                <Editor setValue={(value) => form.setValue("content", value)} />
+                <Editor
+                  initialContent={field.value}
+                  setValue={(value) => form.setValue("content", value)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

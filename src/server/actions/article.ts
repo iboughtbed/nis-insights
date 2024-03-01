@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { protectedAction } from "~/lib/safe-action";
+import { createId, slugify } from "~/lib/utils";
 import { db } from "~/server/db";
 import { utapi } from "~/server/uploadthing";
 
@@ -25,6 +26,8 @@ export const createArticle = protectedAction(
       throw new Error("Unauthorized");
     }
 
+    const id = `${slugify(title)}-${createId()}`;
+
     const filteredContent = content
       .split("\n")
       .map((line) => line.trim())
@@ -32,6 +35,7 @@ export const createArticle = protectedAction(
 
     const newArticle = await db.article.create({
       data: {
+        id,
         title,
         introduction,
         content: filteredContent,

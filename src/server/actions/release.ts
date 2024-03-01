@@ -1,10 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { protectedAction } from "~/lib/safe-action";
 import { createId, formatDateToLocale } from "~/lib/utils";
 import { db } from "~/server/db";
+import { utapi } from "~/server/uploadthing";
 
 const createReleaseSchema = z.object({
   date: z.date(),
@@ -69,6 +71,38 @@ export const updateRelease = protectedAction(
       },
     });
 
+    revalidatePath("/release");
+    revalidatePath("/edit/release");
+
     return { updatedRelease };
+  },
+);
+
+const deleteReleaseSchema = z.object({
+  id: z.string(),
+});
+
+export const deleteRelease = protectedAction(
+  deleteReleaseSchema,
+  async ({ id }, { session }) => {
+    if (session.user.role !== "ADMIN") {
+      throw new Error("Unauthorized");
+    }
+
+    const deletedRelease = await db.release.delete({
+      where: {
+        id,
+      },
+      select: {
+        coverImageKey: true,
+      },
+    });
+
+    if (deletedRelease.coverImageKey) {
+      await utapi.deleteFiles(deletedRelease.coverImageKey);
+    }
+
+    revalidatePath("/release");
+    revalidatePath("/edit/release");
   },
 );

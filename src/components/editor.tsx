@@ -18,11 +18,16 @@ interface EditorProps {
   setValue: (value: string) => void;
 }
 
-export function Editor({ initialContent = "", setValue }: EditorProps) {
-  const content =
-    typeof window !== "undefined"
-      ? localStorage.getItem("editor-draft") ?? initialContent
-      : initialContent;
+export function Editor({ initialContent, setValue }: EditorProps) {
+  let content = "";
+
+  if (initialContent) {
+    content = initialContent;
+  } else {
+    if (typeof window === "undefined") {
+      content = localStorage.getItem("editor-draft") ?? "";
+    }
+  }
 
   const mounted = useMounted();
   const [editorContent, setEditorContent] = useState(content);

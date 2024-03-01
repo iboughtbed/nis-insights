@@ -2,10 +2,22 @@
 
 import type { UserRole } from "@prisma/client";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-import { buttonVariants } from "~/components/ui/button";
+import { format } from "date-fns";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
+import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,7 +27,9 @@ import {
 } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { useMounted } from "~/hooks/use-mounted";
-import { cn, formatDateToLocale } from "~/lib/utils";
+import { cn } from "~/lib/utils";
+import { deleteArticle } from "~/server/actions/article";
+import { deleteRelease } from "~/server/actions/release";
 import { getArticles, getReleases } from "~/server/queries/dashboard";
 import { DashboardCardWrapper } from "./helpers";
 
@@ -89,11 +103,20 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
 }
 
 function ManageReleases() {
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ["dashboard-releases"],
     queryFn: async () => {
       const { releases } = await getReleases();
       return { releases };
+    },
+  });
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: async (id: string) => {
+      await deleteRelease({ id });
+    },
+    onSuccess: async () => {
+      await refetch();
     },
   });
 
@@ -105,23 +128,56 @@ function ManageReleases() {
     return <p>Nothing here yet...</p>;
   }
 
+  function handleDelete(id: string) {
+    mutate(id);
+  }
+
   return (
     <div className="flex flex-col gap-4 pr-4">
       {data?.releases.map((release) => (
         <Card key={release.id}>
           <CardHeader>
-            <CardTitle>{formatDateToLocale(release.date)}</CardTitle>
+            <CardTitle>
+              <Link href={`/release/${release.id}`} className="hover:underline">
+                {format(release.date, "dd/MM/yy")}
+              </Link>
+            </CardTitle>
             <CardDescription>
-              This release was posted on {formatDateToLocale(release.createdAt)}
+              This release was posted on {format(release.createdAt, "dd/MM/yy")}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col gap-4">
             <Link
               href={`/edit/release/${release.id}`}
               className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit
             </Link>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="w-full">
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    the releases and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDelete(release.id)}
+                    disabled={isPending}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardContent>
         </Card>
       ))}
@@ -130,11 +186,20 @@ function ManageReleases() {
 }
 
 function ManageArticles() {
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ["dashboard-articles"],
     queryFn: async () => {
       const { articles } = await getArticles();
       return { articles };
+    },
+  });
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: async (id: string) => {
+      await deleteArticle({ id });
+    },
+    onSuccess: async () => {
+      await refetch();
     },
   });
 
@@ -146,23 +211,56 @@ function ManageArticles() {
     return <p>Nothing here yet...</p>;
   }
 
+  function handleDelete(id: string) {
+    mutate(id);
+  }
+
   return (
     <div className="flex flex-col gap-4 pr-4">
       {data?.articles.map((article) => (
         <Card key={article.id}>
           <CardHeader>
-            <CardTitle className="line-clamp-2">{article.title}</CardTitle>
+            <CardTitle className="line-clamp-2">
+              <Link href={`/article/${article.id}`} className="hover:underline">
+                {article.title}
+              </Link>
+            </CardTitle>
             <CardDescription>
-              This article was posted on {formatDateToLocale(article.createdAt)}
+              This article was posted on {format(article.createdAt, "dd/MM/yy")}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col gap-4">
             <Link
               href={`/edit/article/${article.id}`}
               className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit
             </Link>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="w-full">
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    the release and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDelete(article.id)}
+                    disabled={isPending}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardContent>
         </Card>
       ))}

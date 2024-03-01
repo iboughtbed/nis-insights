@@ -39,33 +39,32 @@ Frontend Development:
 
 - [x] Home page
 - [x] Sign in/out pages
-- [ ] Release/(-s) pages
-- [ ] Article/(-s) pages
-- [ ] Dashboard/Account pages
-- [ ] New article page:
-  - [ ] Markdown rendering (fully optimized)
-  - [ ] Editor (fully optimized)
+- [x] Release/(-s) pages
+- [x] Article/(-s) pages
+- [x] Dashboard/Account pages
+- [x] New article page:
+  - [x] Markdown rendering (fully optimized)
+  - [x] Editor (fully optimized)
 
 Backend Development:
 
 - [x] Authentication with NextAuth
 - [ ] Database models
   - [x] User
-  - [ ] Article
-  - [ ] Release
-  - [ ] Comments
-- [ ] Data mutations/fetching
+  - [x] Article
+  - [x] Release
+- [x] Data mutations/fetching
 
 Security:
 
-- [ ] Authorization
-- [ ] Data handling (Data Access Layer)
+- [x] Authorization
+- [x] Data handling (Data Access Layer)
 
 Performance:
 
 - [ ] Bundle analyzing and reducing JS
-- [ ] Image optimization
-- [ ] Responsive design
+- [x] Image optimization
+- [x] Responsive design
 
 ## Introduction
 

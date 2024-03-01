@@ -56,6 +56,16 @@ export function formatDate(date: Date) {
   }
 }
 
+export function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
 export function removeEmailDomain(email: string) {
   return email.split("@")[0];
 }
