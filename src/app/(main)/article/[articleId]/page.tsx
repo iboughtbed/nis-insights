@@ -49,7 +49,7 @@ export async function generateMetadata({
       title: article.title,
       description,
       type: "article",
-      url: article.coverImage ?? undefined,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}${params.articleId}`,
       images: [
         {
           url: siteConfig.ogImage,

@@ -35,7 +35,7 @@ export async function generateMetadata({
       title: `${date} - release`,
       description: `Read the ${date} release`,
       type: "article",
-      url: release.coverImage ?? undefined,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}${params.releaseId}`,
       images: [
         {
           url: siteConfig.ogImage,
