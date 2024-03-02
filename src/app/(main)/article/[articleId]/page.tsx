@@ -88,7 +88,7 @@ export default async function ArticlePage({
             <PageHeaderHeading size="lg">
               {data.article.title}
             </PageHeaderHeading>
-            <PageHeaderDescription size="sm" className="pt-4">
+            <PageHeaderDescription className="pt-4">
               {data.article.introduction}
             </PageHeaderDescription>
           </PageHeader>
