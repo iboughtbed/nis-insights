@@ -15,6 +15,7 @@ import {
 import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Separator } from "~/components/ui/separator";
+import { siteConfig } from "~/config/site";
 import { formatDate, truncate } from "~/lib/utils";
 import { db } from "~/server/db";
 import { getArticle } from "~/server/queries/article";
@@ -31,6 +32,7 @@ export async function generateMetadata({
     select: {
       title: true,
       introduction: true,
+      coverImage: true,
     },
   });
 
@@ -38,9 +40,32 @@ export async function generateMetadata({
     return {};
   }
 
+  const description = truncate(article.introduction);
+
   return {
     title: article.title,
-    description: truncate(article.introduction),
+    description,
+    openGraph: {
+      title: article.title,
+      description,
+      type: "article",
+      url: article.coverImage ?? undefined,
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 603,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description,
+      images: [siteConfig.ogImage],
+      creator: "@iboughtbed",
+    },
   };
 }
 

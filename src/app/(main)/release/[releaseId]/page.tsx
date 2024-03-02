@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Shell } from "~/components/shells/shell";
+import { siteConfig } from "~/config/site";
 import { db } from "~/server/db";
 import { getReleaseEmbed } from "~/server/queries/release";
 
@@ -17,6 +18,7 @@ export async function generateMetadata({
     },
     select: {
       date: true,
+      coverImage: true,
     },
   });
 
@@ -29,6 +31,27 @@ export async function generateMetadata({
   return {
     title: `${date} - release`,
     description: `Read the ${date} release`,
+    openGraph: {
+      title: `${date} - release`,
+      description: `Read the ${date} release`,
+      type: "article",
+      url: release.coverImage ?? undefined,
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 603,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${date} - release`,
+      description: `Read the ${date} release`,
+      images: [siteConfig.ogImage],
+      creator: "@iboughtbed",
+    },
   };
 }
 
