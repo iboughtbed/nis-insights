@@ -30,7 +30,7 @@ const addUnorderedList = (text = "item") =>
 const addTaskList = (text = "task") =>
   text
     .split("\n")
-    .map((item) => `- [] ${item}`)
+    .map((item) => `- [ ] ${item}`)
     .join("\n");
 
 const addTable = () =>

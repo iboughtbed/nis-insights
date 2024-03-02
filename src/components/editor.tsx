@@ -5,7 +5,7 @@ import "~/styles/mdx.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { EditorMenu } from "~/components/editor-menu";
-import { Markdown as MDX } from "~/components/mdx/markdown";
+import { Mdx } from "~/components/mdx/mdx-components";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Textarea } from "~/components/ui/textarea";
@@ -24,7 +24,7 @@ export function Editor({ initialContent, setValue }: EditorProps) {
   if (initialContent) {
     content = initialContent;
   } else {
-    if (typeof window === "undefined") {
+    if (typeof window !== "undefined") {
       content = localStorage.getItem("editor-draft") ?? "";
     }
   }
@@ -167,12 +167,15 @@ export function Editor({ initialContent, setValue }: EditorProps) {
           <Skeleton className="h-[400px] w-full" />
         )}
       </TabsContent>
-      <TabsContent value="preview" className="rounded-md border px-3 py-2">
+      <TabsContent
+        value="preview"
+        className="h-[400px] overflow-y-scroll rounded-md border px-3 py-2"
+      >
         <div className="prose dark:prose-invert">
           {editorContent.trim() === "" ? (
             "Nothing to preview"
           ) : (
-            <MDX source={editorContent} />
+            <Mdx source={editorContent} />
           )}
         </div>
       </TabsContent>

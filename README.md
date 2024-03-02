@@ -1,6 +1,6 @@
 # [NIS Insights](https://nis-insights.vercel.app)
 
-This is an open source school magazine website build with everything new in Next.js 13. It is bootstrapped with `create-t3-app`.
+This is an open source school magazine website build with everything new in Next.js 14. It is bootstrapped with `create-t3-app`.
 
 [![NIS Insights](./public/og.png)](https://nis-insights.vercel.app/)
 
@@ -31,7 +31,7 @@ Discover the pulse of our school with NIS Insights, your go-to source for engagi
 - **User Management:** [NextAuth](https://next-auth.js.org)
 - **ORM:** [Prisma](https://www.prisma.io/)
 - **UI Components:** [shadcn/ui](https://ui.shadcn.com)
-<!-- - **File Uploads:** [uploadthing](https://uploadthing.com) -->
+- **File Uploads:** [uploadthing](https://uploadthing.com)
 
 ## Features to be implemented
 

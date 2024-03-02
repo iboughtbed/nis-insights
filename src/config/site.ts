@@ -11,7 +11,7 @@ export const siteConfig = {
   ogImage: "https://nis-insights.vercel.app/og.png",
   description:
     "Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education",
-  slogan: "Insights - inspire. create. unite. our storied, your voice.",
+  slogan: "Insights - inspire. create. unite. our stories, your voice.",
   links,
   mainNav: [
     { title: "Releases", href: "/releases" },
