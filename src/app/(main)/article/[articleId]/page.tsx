@@ -15,7 +15,7 @@ import {
 import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Separator } from "~/components/ui/separator";
-import { formatDate } from "~/lib/utils";
+import { formatDate, truncate } from "~/lib/utils";
 import { db } from "~/server/db";
 import { getArticle } from "~/server/queries/article";
 
@@ -40,7 +40,7 @@ export async function generateMetadata({
 
   return {
     title: article.title,
-    description: article.introduction,
+    description: truncate(article.introduction),
   };
 }
 

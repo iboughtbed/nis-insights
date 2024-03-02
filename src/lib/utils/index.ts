@@ -66,6 +66,16 @@ export function slugify(str: string) {
     .replace(/-+$/, "");
 }
 
+export function truncate(text: string, maxLength = 160, ellipsis = true) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  const truncatedText = text.substring(0, maxLength - (ellipsis ? 3 : 0));
+
+  return ellipsis ? truncatedText + "..." : truncatedText;
+}
+
 export function removeEmailDomain(email: string) {
   return email.split("@")[0];
 }
