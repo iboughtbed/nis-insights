@@ -26,11 +26,13 @@ export function OAuthSignIn() {
   return (
     <div className="flex w-full flex-col gap-4">
       <Button onClick={handleSignIn} disabled={isLoading}>
-        <Icons.google className="mr-2 h-4 w-4" />
+        <Icons.google className="mr-2 size-4" />
         Google
       </Button>
       <Button
+        aria-label="Go back to the previous page"
         variant="outline"
+        className="w-full"
         onClick={() => router.back()}
         disabled={isLoading}
       >

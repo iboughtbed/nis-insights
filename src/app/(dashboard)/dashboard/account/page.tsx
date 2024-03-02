@@ -9,7 +9,6 @@ import {
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
 import { getServerAuthSession } from "~/server/auth";
-import { db } from "~/server/db";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -20,20 +19,6 @@ export default async function AccountPage() {
   const session = await getServerAuthSession();
 
   if (!session?.user) {
-    redirect("/signin");
-  }
-
-  const user = await db.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      name: true,
-      username: true,
-    },
-  });
-
-  if (!user) {
     redirect("/signin");
   }
 
@@ -54,7 +39,12 @@ export default async function AccountPage() {
         aria-labelledby="user-account-info-heading"
         className="w-full overflow-hidden"
       >
-        <UserProfile user={user} />
+        <UserProfile
+          user={{
+            username: session.user.username,
+            name: session.user.name,
+          }}
+        />
       </section>
     </Shell>
   );

@@ -1,6 +1,5 @@
 "use server";
 
-// import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { protectedAction } from "~/lib/safe-action";
@@ -26,8 +25,6 @@ export const updateUser = protectedAction(
         id: true,
       },
     });
-
-    // revalidatePath("/dashboard");
 
     return { updatedUser };
   },

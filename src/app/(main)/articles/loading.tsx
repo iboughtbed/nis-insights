@@ -13,7 +13,7 @@ export default function ArticlesLoading() {
       <PageHeader>
         <PageHeaderHeading size="sm">Articles</PageHeaderHeading>
         <PageHeaderDescription size="sm">
-          Read and search articles from out best writers in the world!
+          Read and search articles from our best writers in the world!
         </PageHeaderDescription>
       </PageHeader>
       <Separator />

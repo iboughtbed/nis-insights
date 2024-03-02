@@ -16,27 +16,29 @@ export function SignOutButtons() {
   const mounted = useMounted();
   const [isPending, startTransition] = useTransition();
 
+  function handleSignOut() {
+    startTransition(async () => {
+      try {
+        await signOut({
+          callbackUrl: "/",
+        });
+      } catch {
+        toast.error("Something went wrong, please try again.");
+      }
+    });
+  }
+
   return (
-    <div className="flex w-full items-center space-x-2">
+    <div className="flex w-full items-center gap-2">
       {mounted ? (
         <Button
           aria-label="Sign out"
           size="sm"
           className="w-full"
-          onClick={() =>
-            startTransition(async () => {
-              try {
-                await signOut({
-                  callbackUrl: "/",
-                });
-              } catch {
-                toast.error("Something went wrong, please try again.");
-              }
-            })
-          }
+          onClick={handleSignOut}
           disabled={isPending}
         >
-          {isPending && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          {isPending && <Icons.spinner className="mr-2 size-4 animate-spin" />}
           Sign out
         </Button>
       ) : (

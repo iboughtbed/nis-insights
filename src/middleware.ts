@@ -14,7 +14,10 @@ export default withAuth(function middleware(req) {
     return NextResponse.redirect(url);
   }
 
-  if (pathname.startsWith("/new/article")) {
+  if (
+    pathname.startsWith("/new/article") ||
+    pathname.startsWith("/edit/article")
+  ) {
     if (token?.role !== "ADMIN" && token.role !== "WRITER") {
       url.pathname = "/";
       return NextResponse.redirect(url);

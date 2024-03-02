@@ -54,7 +54,7 @@ export function ArticleCard({
         <CardDescription className="mb-2 flex items-center gap-2">
           <Image
             alt={author.username}
-            src="/images/avatar.png"
+            src="/avatars/morty.png"
             className="relative h-8 w-8 rounded-full"
             width={64}
             height={64}

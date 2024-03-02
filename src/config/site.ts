@@ -11,6 +11,7 @@ export const siteConfig = {
   ogImage: "https://nis-insights.vercel.app/og.png",
   description:
     "Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education",
+  slogan: "Insights - inspire. create. unite. our storied, your voice.",
   links,
   mainNav: [
     { title: "Releases", href: "/releases" },
@@ -21,10 +22,10 @@ export const siteConfig = {
     {
       title: "Help",
       items: [
-        { title: "About", href: "/about", external: false },
-        { title: "Contact", href: "/contact", external: false },
-        { title: "Terms", href: "/terms", external: false },
-        { title: "Privacy", href: "/privacy", external: false },
+        { title: "About", href: "/", external: false },
+        { title: "Contact", href: "/", external: false },
+        { title: "Terms", href: "/", external: false },
+        { title: "Privacy", href: "/", external: false },
       ],
     },
     {

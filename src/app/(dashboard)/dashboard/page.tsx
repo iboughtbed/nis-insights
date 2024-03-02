@@ -9,11 +9,11 @@ import {
 import { Shell } from "~/components/shells/shell";
 import { getServerAuthSession } from "~/server/auth";
 import { getCounts } from "~/server/queries/dashboard";
-import { DashboardManager } from "./dashboard-manager";
+import { DashboardManager } from "./_components/dashboard-manager";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Manage your articles and comments.",
+  description: "Manage your articles and comments",
 };
 
 export default async function DashboardPage() {

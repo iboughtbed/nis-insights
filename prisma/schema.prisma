@@ -90,5 +90,5 @@ model Article {
     createdAt     DateTime @default(now())
 
     authorId String
-    author   User   @relation(fields: [authorId], references: [id])
+    author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

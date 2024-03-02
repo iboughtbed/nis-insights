@@ -1,7 +1,8 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 
-import avatarRickImage from "public/images/avatar-rick.png";
-import avatarImage from "public/images/avatar.png";
+import mortyAvatar from "public/avatars/morty.png";
+import rickAvatar from "public/avatars/rick.png";
 
 import {
   PageHeader,
@@ -10,6 +11,11 @@ import {
 } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
 import { authorsConfig } from "~/config/authors";
+
+export const metadata: Metadata = {
+  title: "Authors",
+  description: "Meet our team",
+};
 
 export default async function AuthorsPage() {
   return (
@@ -30,8 +36,8 @@ export default async function AuthorsPage() {
                 alt="avatar"
                 src={
                   author.name === "Zhangaliev Sanzhar"
-                    ? avatarRickImage
-                    : avatarImage
+                    ? rickAvatar
+                    : mortyAvatar
                 }
                 className="rounded-full"
               />

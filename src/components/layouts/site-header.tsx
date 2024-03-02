@@ -3,7 +3,7 @@ import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 
-import avatarImage from "public/images/avatar.png";
+import mortyAvatar from "public/avatars/morty.png";
 
 import { CommandMenu } from "~/components/command-menu";
 import { MainNav } from "~/components/layouts/main-nav";
@@ -42,7 +42,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                   >
                     <Image
                       alt="avatar"
-                      src={avatarImage}
+                      src={mortyAvatar}
                       className="rounded-full"
                     />
                   </Button>

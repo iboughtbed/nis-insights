@@ -59,7 +59,11 @@ export function TextShuffle({
 
   return (
     <h1
-      className={cn(className, isComplete ? "break-words" : "break-all")}
+      className={cn(
+        "uppercase",
+        className,
+        isComplete ? "break-words" : "break-all",
+      )}
       ref={ref}
     >
       {shuffledText}

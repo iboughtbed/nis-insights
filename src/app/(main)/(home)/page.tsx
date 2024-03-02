@@ -1,12 +1,12 @@
 import Image from "next/image";
 
+import heroImage2 from "public/images/colorful-mess-1.webp";
 import heroImage3 from "public/images/colorful-mess-2.webp";
-import heroImage2 from "public/images/colorful-mess.webp";
 import heroImage1 from "public/images/dont-close-your-eyes.webp";
 import heroImage4 from "public/images/history-of-paper.webp";
 
-import articlesShowcase1 from "public/images/articles-showcase-1-lower.png";
-import articlesShowcase2 from "public/images/articles-showcase-2-lower.png";
+import articlesShowcase1 from "public/images/articles-showcase-1.png";
+import articlesShowcase2 from "public/images/articles-showcase-2.png";
 
 import teamPhoto from "public/images/team-photo.webp";
 
@@ -24,7 +24,7 @@ export default function HomePage() {
       <Reveal>
         <section className="flex h-screen flex-col flex-nowrap gap-8 md:flex-row md:justify-between">
           <div className="shrink-0 text-center md:w-1/2 md:text-left">
-            <h1 className="relative bg-[url('/images/animated-10.webp')] bg-cover bg-clip-text bg-[50%] bg-no-repeat text-6xl font-extrabold uppercase text-transparent lg:text-7xl xl:text-8xl">
+            <h1 className="relative bg-[url('/images/heading-animation.webp')] bg-cover bg-clip-text bg-[50%] bg-no-repeat text-6xl font-extrabold uppercase text-transparent lg:text-7xl xl:text-8xl">
               <span>NIS</span>
               <br />
               <span>Insights</span>
@@ -173,7 +173,7 @@ export default function HomePage() {
       >
         <section className="flex h-screen flex-col items-center gap-4">
           <TextShuffle
-            text="INSIGHTS - INSPIRE. CREATE. UNITE. OUR STORIES, YOUR VOICE."
+            text={siteConfig.slogan}
             className="max-w-full bg-gradient-to-br from-slate-400 to-zinc-500 bg-clip-text text-3xl font-extrabold uppercase text-transparent lg:bg-gradient-to-r lg:text-6xl"
             interval={30}
           />

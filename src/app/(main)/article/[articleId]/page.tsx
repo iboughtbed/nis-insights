@@ -1,6 +1,7 @@
 import "~/styles/mdx.css";
 
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -15,7 +16,33 @@ import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Separator } from "~/components/ui/separator";
 import { formatDate } from "~/lib/utils";
+import { db } from "~/server/db";
 import { getArticle } from "~/server/queries/article";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { articleId: string };
+}): Promise<Metadata> {
+  const article = await db.article.findUnique({
+    where: {
+      id: params.articleId,
+    },
+    select: {
+      title: true,
+      introduction: true,
+    },
+  });
+
+  if (!article) {
+    return {};
+  }
+
+  return {
+    title: article.title,
+    description: article.introduction,
+  };
+}
 
 export default async function ArticlePage({
   params,
@@ -28,35 +55,35 @@ export default async function ArticlePage({
     notFound();
   }
 
-  const article = data.article;
-
   return (
     <Shell variant="markdown" className="relative">
       <TracingBeam>
         <article className="relative">
           <PageHeader>
-            <PageHeaderHeading size="lg">{article.title}</PageHeaderHeading>
+            <PageHeaderHeading size="lg">
+              {data.article.title}
+            </PageHeaderHeading>
             <PageHeaderDescription size="sm" className="pt-4">
-              {article.introduction}
+              {data.article.introduction}
             </PageHeaderDescription>
           </PageHeader>
           <div className="mb-2 flex items-center gap-2 pt-6">
             <Image
               alt="avatar"
-              src="/images/avatar.png"
+              src="/avatars/morty.png"
               className="h-8 w-8 rounded-full"
               width={64}
               height={64}
             />
             <span className="flex flex-col">
               <span className="text-foreground transition-colors hover:text-foreground/80">
-                {article.author.username}
+                {data.article.author.username}
               </span>
               <span className="flex items-center gap-1 text-sm">
-                <span>{formatDate(article.createdAt)}</span>
+                <span>{formatDate(data.article.createdAt)}</span>
                 <span>
                   (
-                  {formatDistanceToNow(article.createdAt, {
+                  {formatDistanceToNow(data.article.createdAt, {
                     addSuffix: true,
                   })}
                   )
@@ -64,14 +91,14 @@ export default async function ArticlePage({
               </span>
             </span>
           </div>
-          {article.coverImage && (
+          {data.article.coverImage && (
             <>
               <Separator className="my-4" />
               <div className="relative mt-6">
                 <AspectRatio ratio={16 / 9}>
                   <Image
-                    alt="cover"
-                    src={article.coverImage}
+                    alt="article cover"
+                    src={data.article.coverImage}
                     className="rounded-lg object-cover"
                     sizes="(max-width: 768px) 90vw, 50vw"
                     priority
@@ -83,7 +110,7 @@ export default async function ArticlePage({
           )}
           <Separator className="my-8" />
           <div className="prose relative dark:prose-invert">
-            <Markdown source={article.content} />
+            <Markdown source={data.article.content} />
           </div>
         </article>
       </TracingBeam>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { CreateReleaseForm } from "~/components/forms/create-release-form";
 import {
   PageHeader,
@@ -10,7 +11,7 @@ import { Shell } from "~/components/shells/shell";
 
 export const metadata: Metadata = {
   title: "New release",
-  description: "Publish the new release",
+  description: "Publish a new release",
 };
 
 export default function NewReleasePage() {

@@ -1,7 +1,36 @@
+import { format } from "date-fns";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Shell } from "~/components/shells/shell";
+import { db } from "~/server/db";
 import { getReleaseEmbed } from "~/server/queries/release";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { releaseId: string };
+}): Promise<Metadata> {
+  const release = await db.release.findUnique({
+    where: {
+      id: params.releaseId,
+    },
+    select: {
+      date: true,
+    },
+  });
+
+  if (!release) {
+    return {};
+  }
+
+  const date = format(release.date, "dd/MM/yy");
+
+  return {
+    title: `${date} - release`,
+    description: `Read the ${date} release`,
+  };
+}
 
 export default async function ReleasePage({
   params,
@@ -18,11 +47,11 @@ export default async function ReleasePage({
 
   return (
     <Shell className="min-h-screen">
-      <div className="h-full w-full">
+      <div className="relative h-full w-full">
         <iframe
           src={encodeURI(embedUrl)}
           allowFullScreen
-          className="h-[80vh] w-full"
+          className="relative h-[80vh] w-full"
         ></iframe>
       </div>
     </Shell>

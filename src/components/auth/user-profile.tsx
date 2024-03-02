@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -33,7 +33,22 @@ const userProfileSchema = z.object({
 type FormData = z.infer<typeof userProfileSchema>;
 
 export function UserProfile({ user }: UserProfileProps) {
-  const [isPending, startTransition] = useTransition();
+  const { isPending, mutate } = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const { data, serverError, validationErrors } =
+        await updateUser(formData);
+
+      if (serverError ?? validationErrors) {
+        toast.error("Something went wrong");
+        throw new Error("Something went wrong");
+      }
+
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Updated your data");
+    },
+  });
 
   const form = useForm<FormData>({
     resolver: zodResolver(userProfileSchema),
@@ -44,17 +59,7 @@ export function UserProfile({ user }: UserProfileProps) {
   });
 
   function onSubmit(data: FormData) {
-    startTransition(async () => {
-      const result = await updateUser(data);
-
-      if (result.data?.updatedUser.id) {
-        toast.success("Updated the profile data");
-      }
-
-      if (result.serverError) {
-        toast.error("Something went wrong");
-      }
-    });
+    mutate(data);
   }
 
   return (
@@ -89,7 +94,7 @@ export function UserProfile({ user }: UserProfileProps) {
             </FormItem>
           )}
         />
-        <Button disabled={isPending || !form.formState.isDirty}>Submit</Button>
+        <Button disabled={isPending}>Submit</Button>
       </form>
     </Form>
   );

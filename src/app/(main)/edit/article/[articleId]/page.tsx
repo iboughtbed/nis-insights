@@ -42,8 +42,6 @@ export default async function EditArticlePage({
     notFound();
   }
 
-  const { article } = data;
-
   return (
     <Shell variant="markdown">
       <PageHeader>
@@ -55,20 +53,20 @@ export default async function EditArticlePage({
       <div className="mb-2 flex items-center gap-2 pt-6">
         <Image
           alt="avatar"
-          src="/images/avatar.png"
+          src="/avatars/morty.png"
           className="h-8 w-8 rounded-full"
           width={64}
           height={64}
         />
         <span className="flex flex-col">
           <span className="text-foreground transition-colors hover:text-foreground/80">
-            {article.author.username}
+            {data.article.author.username}
           </span>
           <span className="flex items-center gap-1 text-sm">
-            <span>{formatDate(article.createdAt)}</span>
+            <span>{formatDate(data.article.createdAt)}</span>
             <span>
               (
-              {formatDistanceToNow(article.createdAt, {
+              {formatDistanceToNow(data.article.createdAt, {
                 addSuffix: true,
               })}
               )
@@ -78,11 +76,11 @@ export default async function EditArticlePage({
       </div>
       <Separator className="my-4" />
       <div className="relative mt-6">
-        {article.coverImage ? (
+        {data.article.coverImage ? (
           <AspectRatio ratio={16 / 9}>
             <Image
-              alt="cover"
-              src={article.coverImage}
+              alt="article cover"
+              src={data.article.coverImage}
               className="rounded-lg object-cover"
               sizes="(max-width: 768px) 90vw, 50vw"
               priority
@@ -97,11 +95,11 @@ export default async function EditArticlePage({
 
       <EditArticleForm
         id={params.articleId}
-        title={article.title}
-        introduction={article.introduction}
-        content={article.content}
-        coverImage={article.coverImage}
-        coverImageKey={article.coverImageKey}
+        title={data.article.title}
+        introduction={data.article.introduction}
+        content={data.article.content}
+        coverImage={data.article.coverImage}
+        coverImageKey={data.article.coverImageKey}
       />
     </Shell>
   );

@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,6 +10,11 @@ import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getReleases } from "~/server/queries/release";
+
+export const metadata: Metadata = {
+  title: "Releases",
+  description: "Read our latest releases and discover new things",
+};
 
 export default async function ReleasesPage() {
   const { data } = await getReleases({});

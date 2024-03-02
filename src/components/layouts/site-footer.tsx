@@ -67,7 +67,7 @@ export function SiteFooter() {
                 }),
               )}
             >
-              <Icons.gitHub className="h-4 w-4" aria-hidden="true" />
+              <Icons.gitHub className="size-4" aria-hidden="true" />
               <span className="sr-only">GitHub</span>
             </Link>
             <ModeToggle />

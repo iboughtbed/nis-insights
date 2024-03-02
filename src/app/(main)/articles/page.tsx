@@ -46,7 +46,7 @@ export default async function ArticlesPage({
         </PageHeaderDescription>
       </PageHeader>
       <Separator />
-      {data?.articles ? (
+      {!!data?.articles.length ? (
         <Articles articles={data.articles} pageCount={pageCount} />
       ) : (
         <p>No articles yet...</p>

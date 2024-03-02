@@ -49,7 +49,7 @@ Frontend Development:
 Backend Development:
 
 - [x] Authentication with NextAuth
-- [ ] Database models
+- [x] Database models
   - [x] User
   - [x] Article
   - [x] Release
