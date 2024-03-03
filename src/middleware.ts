@@ -7,8 +7,6 @@ export default withAuth(function middleware(req) {
 
   const url = new URL(req.nextUrl.origin);
 
-  console.log({ token });
-
   if (!token?.sub) {
     url.pathname = "/";
     return NextResponse.redirect(url);
