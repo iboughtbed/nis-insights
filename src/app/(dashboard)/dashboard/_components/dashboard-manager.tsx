@@ -30,7 +30,11 @@ import { useMounted } from "~/hooks/use-mounted";
 import { cn } from "~/lib/utils";
 import { deleteArticle } from "~/server/actions/article";
 import { deleteRelease } from "~/server/actions/release";
-import { getArticles, getReleases } from "~/server/queries/dashboard";
+import {
+  getArticles,
+  getCounts,
+  getReleases,
+} from "~/server/queries/dashboard";
 import { DashboardCardWrapper } from "./helpers";
 
 interface DashboardManagerProps {
@@ -43,6 +47,19 @@ interface DashboardManagerProps {
 
 export function DashboardManager({ _count, role }: DashboardManagerProps) {
   const mounted = useMounted();
+
+  const { data } = useQuery({
+    queryKey: ["dashboard-count"],
+    queryFn: async () => {
+      const counts = await getCounts();
+      return counts;
+    },
+    initialData: {
+      releasesCount: _count.releases,
+      articlesCount: _count.articles,
+    },
+    refetchOnWindowFocus: true,
+  });
 
   if (!mounted) {
     return (
@@ -83,7 +100,7 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
 
       {role === "ADMIN" && (
         <DashboardCardWrapper
-          title={`${_count.releases} releases have been released`}
+          title={`${data.releasesCount} releases have been released`}
           description="Releases can be modified or posted only by admins"
         >
           <ManageReleases />
@@ -92,7 +109,7 @@ export function DashboardManager({ _count, role }: DashboardManagerProps) {
 
       {(role === "ADMIN" || role === "WRITER") && (
         <DashboardCardWrapper
-          title={`You have posted ${_count.articles} articles`}
+          title={`You have posted ${data.articlesCount} articles`}
           description="Manage your articles"
         >
           <ManageArticles />
@@ -155,7 +172,11 @@ function ManageReleases() {
             </Link>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="w-full">
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  disabled={isPending}
+                >
                   Delete
                 </Button>
               </AlertDialogTrigger>
@@ -238,7 +259,11 @@ function ManageArticles() {
             </Link>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="w-full">
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  disabled={isPending}
+                >
                   Delete
                 </Button>
               </AlertDialogTrigger>

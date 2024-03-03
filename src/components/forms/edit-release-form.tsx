@@ -166,7 +166,7 @@ export function EditReleaseForm({ id, ...props }: EditReleaseFormProps) {
 
         <div className="mt-4 flex items-center justify-end">
           <Button type="submit" variant="secondary" disabled={isPending}>
-            Publish
+            Update
           </Button>
         </div>
       </form>
