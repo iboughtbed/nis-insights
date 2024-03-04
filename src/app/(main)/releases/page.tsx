@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { kk } from "date-fns/locale";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,8 +57,8 @@ export default async function ReleasesPage() {
                 See what you&apos;re <span>missing</span>
               </h1>
               <p className="pt-6 text-foreground/80">
-                {format(latestRelease.date, "dd/MM/yy")} - don&apos;t miss the
-                most interesting events
+                {format(latestRelease.date, "dd/MM/yy", { locale: kk })} -
+                don&apos;t miss the most interesting events
               </p>
               <div className="pt-6">
                 <AnimatedButton href={`/release/${latestRelease.id}`}>
