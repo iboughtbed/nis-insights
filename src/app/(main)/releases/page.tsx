@@ -11,6 +11,7 @@ import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { buttonVariants } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 import { getReleases } from "~/server/queries/release";
 
@@ -26,7 +27,7 @@ export default async function ReleasesPage() {
   const latestRelease = releases ? releases.shift() : undefined;
 
   return (
-    <Shell>
+    <Shell className="gap-16">
       {latestRelease && (
         <Reveal>
           <section className="flex min-h-screen flex-col flex-nowrap gap-8 md:flex-row">
@@ -69,6 +70,8 @@ export default async function ReleasesPage() {
           </section>
         </Reveal>
       )}
+
+      <Separator />
 
       {!!releases?.length && (
         <>
