@@ -1,6 +1,5 @@
 import { ExternalLinkIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { kk } from "date-fns/locale";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -30,7 +29,7 @@ export async function generateMetadata({
     return {};
   }
 
-  const date = format(release.date, "dd/MM/yy", { locale: kk });
+  const date = format(release.date, "dd/MM/yy");
 
   return {
     title: `${date} - release`,
