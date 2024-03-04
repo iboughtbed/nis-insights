@@ -1,6 +1,7 @@
 "use server";
 
 import { format } from "date-fns";
+import { kk } from "date-fns/locale";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -23,7 +24,7 @@ export const createRelease = protectedAction(
       throw new Error("Unauthorized");
     }
 
-    const id = `${format(date, "dd-MM-yy")}-${createId()}`;
+    const id = `${format(date, "dd-MM-yy", { locale: kk })}-${createId()}`;
 
     const newRelease = await db.release.create({
       data: {
