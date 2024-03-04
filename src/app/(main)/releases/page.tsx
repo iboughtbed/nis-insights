@@ -8,7 +8,9 @@ import { Reveal } from "~/components/motion/reveal";
 import { PageHeader, PageHeaderHeading } from "~/components/page-header";
 import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
+import { buttonVariants } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { cn } from "~/lib/utils";
 import { getReleases } from "~/server/queries/release";
 
 export const metadata: Metadata = {
@@ -42,6 +44,7 @@ export default async function ReleasesPage() {
                         className="absolute inset-0 rounded-md object-cover"
                         priority
                         sizes="(max-width: 768px) 90vw, 30vw"
+                        quality={100}
                       />
                     </Link>
                   </AspectRatio>
@@ -79,13 +82,13 @@ export default async function ReleasesPage() {
             }}
           >
             <section className="relative min-h-screen">
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-3 xl:grid-cols-4">
                 {data?.releases.map((release) => (
                   <Card key={release.id}>
                     <CardHeader className="py-4">
                       <CardTitle>{format(release.date, "dd/MM/yy")}</CardTitle>
                     </CardHeader>
-                    <div className="p-4">
+                    <div className="px-6 py-4">
                       <AspectRatio ratio={1 / 1.41}>
                         <Link
                           href={`/release/${release.id}`}
@@ -97,6 +100,7 @@ export default async function ReleasesPage() {
                             fill
                             className="absolute inset-0 rounded-md object-cover"
                             sizes="(max-width: 768px) 90vw, 30vw"
+                            quality={100}
                           />
                         </Link>
                       </AspectRatio>
@@ -104,7 +108,10 @@ export default async function ReleasesPage() {
                     <CardContent>
                       <AnimatedButton
                         href={`/release/${release.id}`}
-                        className="w-full"
+                        className={cn(
+                          buttonVariants({ variant: "secondary" }),
+                          "w-full",
+                        )}
                       >
                         Read
                       </AnimatedButton>

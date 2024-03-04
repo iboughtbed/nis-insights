@@ -1,10 +1,11 @@
 "use server";
 
+import { format } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { protectedAction } from "~/lib/safe-action";
-import { createId, formatDateToLocale } from "~/lib/utils";
+import { createId } from "~/lib/utils";
 import { db } from "~/server/db";
 import { utapi } from "~/server/uploadthing";
 
@@ -22,7 +23,7 @@ export const createRelease = protectedAction(
       throw new Error("Unauthorized");
     }
 
-    const id = `${formatDateToLocale(date)}-${createId()}`;
+    const id = `${format(date, "dd-MM-yy")}-${createId()}`;
 
     const newRelease = await db.release.create({
       data: {

@@ -1,8 +1,11 @@
+import { ExternalLinkIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Shell } from "~/components/shells/shell";
+import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
 import { db } from "~/server/db";
 import { getReleaseEmbed } from "~/server/queries/release";
@@ -70,6 +73,21 @@ export default async function ReleasePage({
 
   return (
     <Shell className="min-h-screen">
+      <span className="inline-flex items-center rounded-lg bg-muted px-3 py-1 text-sm font-medium">
+        <InfoCircledIcon className="mr-1 size-4" />
+        <Separator className="mr-2 h-4" orientation="vertical" />
+        <span className="inline">
+          Zoom is not supported in full screen mode. Just zoom without using
+          full screen mode.{" "}
+          <Link
+            href={data.release.embedUrl}
+            className="inline-flex underline underline-offset-4"
+          >
+            View original canva
+            <ExternalLinkIcon className="size-3" />
+          </Link>
+        </span>
+      </span>
       <div className="relative h-full w-full">
         <iframe
           src={encodeURI(embedUrl)}
