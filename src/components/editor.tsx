@@ -99,9 +99,19 @@ export function Editor({ initialContent, setValue }: EditorProps) {
         const commandHandler = commands.find((cmd) => cmd.title === command);
         if (!commandHandler) return;
 
-        const newSelectedText = commandHandler.handler(
+        let newSelectedText = commandHandler.handler(
           !selectedText.length ? undefined : selectedText,
         );
+
+        const isInlineCommand =
+          commandHandler.title === "Bold" ||
+          commandHandler.title === "Italic" ||
+          commandHandler.title === "Code" ||
+          commandHandler.title === "Link";
+
+        if (!isInlineCommand) {
+          newSelectedText = "\n" + newSelectedText;
+        }
 
         const newText =
           textareaRef.current.value.substring(0, selectionStart) +
