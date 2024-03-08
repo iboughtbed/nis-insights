@@ -21,7 +21,6 @@ export async function generateMetadata({
     },
     select: {
       date: true,
-      coverImage: true,
     },
   });
 

@@ -32,7 +32,6 @@ export async function generateMetadata({
     select: {
       title: true,
       introduction: true,
-      coverImage: true,
     },
   });
 

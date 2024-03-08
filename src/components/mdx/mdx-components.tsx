@@ -1,5 +1,7 @@
 import ReactMarkdown from "react-markdown";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
+import rehypeSlug from "rehype-slug";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 
@@ -158,7 +160,19 @@ export function Mdx({ source }: MdxProps) {
       components={components}
       // disallowedElements={["img"]}
       remarkPlugins={[remarkGfm, remarkBreaks]}
-      rehypePlugins={[rehypeHighlight]}
+      rehypePlugins={[
+        rehypeSlug,
+        rehypeHighlight,
+        [
+          rehypeAutolinkHeadings,
+          {
+            properties: {
+              className: ["subheading-anchor"],
+              ariaLabel: "Link to section",
+            },
+          },
+        ],
+      ]}
     >
       {source}
     </ReactMarkdown>
