@@ -1,5 +1,3 @@
-// import NextBundleAnalyzer from "@next/bundle-analyzer";
-
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
@@ -22,9 +20,4 @@ const config = {
   },
 };
 
-// const withBundleAnalyzer = NextBundleAnalyzer({
-//   enabled: process.env.ANALYZE_BUNDLE === "true",
-// });
-
 export default config;
-// export default withBundleAnalyzer(config);

@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { customAlphabet } from "nanoid";
 import { twMerge } from "tailwind-merge";
 
+import { env } from "~/env";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -122,6 +124,10 @@ export function truncate(text: string, maxLength = 160, ellipsis = true) {
 
 export function removeEmailDomain(email: string) {
   return email.split("@")[0];
+}
+
+export function absoluteUrl(path: string) {
+  return `${env.NEXT_PUBLIC_APP_URL}${path}`;
 }
 
 export function isMacOs() {

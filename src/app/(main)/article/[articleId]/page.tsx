@@ -16,7 +16,7 @@ import { Shell } from "~/components/shells/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
-import { formatDate, truncate } from "~/lib/utils";
+import { absoluteUrl, formatDate, truncate } from "~/lib/utils";
 import { db } from "~/server/db";
 import { getArticle } from "~/server/queries/article";
 
@@ -48,7 +48,7 @@ export async function generateMetadata({
       title: article.title,
       description,
       type: "article",
-      url: `${process.env.NEXT_PUBLIC_APP_URL}${params.articleId}`,
+      url: absoluteUrl(`/article/${params.articleId}`),
       images: [
         {
           url: siteConfig.ogImage,

@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { Shell } from "~/components/shells/shell";
 import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
+import { absoluteUrl } from "~/lib/utils";
 import { db } from "~/server/db";
 import { getReleaseEmbed } from "~/server/queries/release";
 
@@ -37,7 +38,7 @@ export async function generateMetadata({
       title: `${date} - release`,
       description: `Read the ${date} release`,
       type: "article",
-      url: `${process.env.NEXT_PUBLIC_APP_URL}${params.releaseId}`,
+      url: absoluteUrl(`/release/${params.releaseId}`),
       images: [
         {
           url: siteConfig.ogImage,
