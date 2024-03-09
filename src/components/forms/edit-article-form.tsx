@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -78,6 +79,13 @@ export function EditArticleForm({
       ...props,
     },
   });
+
+  const onChange = useCallback(
+    (content: string) => {
+      form.setValue("content", content);
+    },
+    [form],
+  );
 
   function onSubmit(data: FormData) {
     mutate(data);
@@ -161,10 +169,7 @@ export function EditArticleForm({
               <FormLabel>Content</FormLabel>
               <FormDescription>Using markdown</FormDescription>
               <FormControl>
-                <Editor
-                  initialContent={field.value}
-                  setValue={(value) => form.setValue("content", value)}
-                />
+                <Editor initialContent={field.value} setValue={onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
