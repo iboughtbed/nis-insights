@@ -15,7 +15,11 @@ export async function getCounts() {
   }
 
   const releasesCount = await db.release.count();
-  const articlesCount = await db.article.count();
+  const articlesCount = await db.article.count({
+    where: {
+      authorId: session.user.id,
+    },
+  });
 
   return { releasesCount, articlesCount };
 }
