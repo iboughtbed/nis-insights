@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { Mdx } from "~/components/mdx/mdx-components";
+import { Markdown } from "~/components/mdx/markdown";
 import { TracingBeam } from "~/components/motion/tracing-beam";
 import {
   PageHeader,
@@ -133,9 +133,7 @@ export default async function ArticlePage({
             </>
           )}
           <Separator className="my-8" />
-          <div className="prose relative dark:prose-invert">
-            <Mdx source={data.article.content} />
-          </div>
+          <Markdown source={data.article.content} />
         </article>
       </TracingBeam>
     </Shell>

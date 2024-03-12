@@ -22,10 +22,10 @@ export const siteConfig = {
     {
       title: "Help",
       items: [
-        { title: "About", href: "/", external: false },
-        { title: "Contact", href: "/", external: false },
-        { title: "Terms", href: "/", external: false },
-        { title: "Privacy", href: "/", external: false },
+        { title: "About", href: "/about", external: false },
+        { title: "Contact", href: "/contact", external: false },
+        { title: "Terms", href: "/terms", external: false },
+        { title: "Privacy", href: "/privacy", external: false },
       ],
     },
     {

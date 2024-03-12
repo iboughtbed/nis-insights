@@ -5,7 +5,7 @@ import "~/styles/mdx.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { EditorMenu } from "~/components/editor-menu";
-import { Mdx } from "~/components/mdx/mdx-components";
+import { Markdown } from "~/components/mdx/markdown";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Textarea } from "~/components/ui/textarea";
@@ -181,13 +181,11 @@ export function Editor({ initialContent, setValue }: EditorProps) {
         value="preview"
         className="h-[400px] overflow-y-scroll rounded-md border px-3 py-2"
       >
-        <div className="prose dark:prose-invert">
-          {editorContent.trim() === "" ? (
-            "Nothing to preview"
-          ) : (
-            <Mdx source={editorContent} />
-          )}
-        </div>
+        {editorContent.trim() === "" ? (
+          "Nothing to preview"
+        ) : (
+          <Markdown source={editorContent} />
+        )}
       </TabsContent>
     </Tabs>
   );
