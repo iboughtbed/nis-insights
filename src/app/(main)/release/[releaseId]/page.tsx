@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
 import { absoluteUrl } from "~/lib/utils";

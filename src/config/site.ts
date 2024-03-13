@@ -16,6 +16,7 @@ export const siteConfig = {
   mainNav: [
     { title: "Releases", href: "/releases" },
     { title: "Articles", href: "/articles" },
+    { title: "Blog", href: "/blog" },
     { title: "Authors", href: "/authors" },
   ] satisfies MainNavItem[],
   footerNav: [

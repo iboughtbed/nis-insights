@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { OAuthSignIn } from "~/components/auth/oauth-signin";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import {
   Card,
   CardContent,

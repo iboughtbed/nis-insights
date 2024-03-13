@@ -28,34 +28,17 @@ export function formatDateToLocale(date: Date) {
   return formattedDate;
 }
 
-export function formatDate(date: Date) {
-  const currentDate = new Date();
-
-  const inputYear = date.getFullYear();
-  const currentYear = currentDate.getFullYear();
-
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}`;
-
-  if (inputYear !== currentYear) {
-    return `${formattedDate}, ${inputYear}`;
-  } else {
-    return formattedDate;
-  }
+export function formatDate(
+  date: Date | string | number,
+  options: Intl.DateTimeFormatOptions = {},
+) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: options.month ?? "long",
+    day: options.day ?? "numeric",
+    year: options.year ?? "numeric",
+    timeZone: "Asia/Oral",
+    ...options,
+  }).format(new Date(date));
 }
 
 export function transliterate(input: string) {

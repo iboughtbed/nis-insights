@@ -2,14 +2,14 @@ import Link from "next/link";
 
 import { Icons } from "~/components/icons";
 import { ModeToggle } from "~/components/mode-toogle";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { buttonVariants } from "~/components/ui/button";
 import { siteConfig } from "~/config/site";
 import { cn } from "~/lib/utils";
 
 export function SiteFooter() {
   return (
-    <footer className="w-full bg-background">
+    <footer className="w-full border-t bg-background">
       <Shell>
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
           <div>

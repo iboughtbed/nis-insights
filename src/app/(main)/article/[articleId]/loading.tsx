@@ -1,4 +1,4 @@
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { Separator } from "~/components/ui/separator";
 import { Skeleton } from "~/components/ui/skeleton";
 

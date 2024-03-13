@@ -6,7 +6,7 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { getServerAuthSession } from "~/server/auth";
 import { getCounts } from "~/server/queries/dashboard";
 import { DashboardManager } from "./_components/dashboard-manager";

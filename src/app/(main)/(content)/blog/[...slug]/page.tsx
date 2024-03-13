@@ -8,7 +8,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Mdx } from "~/components/mdx/mdx-components";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { buttonVariants } from "~/components/ui/button";
 import { siteConfig } from "~/config/site";

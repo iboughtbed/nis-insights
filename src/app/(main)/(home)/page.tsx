@@ -13,7 +13,7 @@ import teamPhoto from "public/images/team-photo.webp";
 import { AnimatedButton } from "~/components/animated-button";
 import { Reveal } from "~/components/motion/reveal";
 import { TextShuffle } from "~/components/motion/text-shuffle";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { buttonVariants } from "~/components/ui/button";
 import { siteConfig } from "~/config/site";
 import { cn } from "~/lib/utils";

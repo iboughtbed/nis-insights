@@ -1,5 +1,5 @@
 import { PlaceholderImage } from "~/components/placeholder-image";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 
 export default function ReleaseLoading() {

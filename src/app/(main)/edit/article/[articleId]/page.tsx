@@ -8,7 +8,7 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Separator } from "~/components/ui/separator";
 import { formatDate } from "~/lib/utils";

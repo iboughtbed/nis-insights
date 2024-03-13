@@ -3,7 +3,7 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
-import { Shell } from "~/components/shells/shell";
+import { Shell } from "~/components/shell";
 import { ArticleCardSkeleton } from "~/components/skeletons/article-card-skeleton";
 import { Separator } from "~/components/ui/separator";
 
