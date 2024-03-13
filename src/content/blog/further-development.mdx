@@ -1,0 +1,213 @@
+---
+title: Further development of the website
+description: Explore our website's growth journey. Discover the latest enhancements and features
+image: "/images/blog/blog-post-2.jpg"
+date: "2024-03-12"
+authors:
+  - iboughtbed
+---
+
+Hey everyone, I'm excited to share my plans for developing the website further. There's a lot to work on
+
+## Features to be implemented in the future
+
+One of the most important things is adding the static content on the website.
+It can be done using the [contentlayer](https://contentlayer.dev) library and **MDX**.
+
+### 1. Support
+
+Adding the support pages - ["/about"](/about), ["/terms"](/terms), ["/privacy"](/privacy) and ["/contact"](/contact)
+
+### 2. Explore page
+
+In the explore page users can visit the articles page or our blog. They can quickly find some interesting news or announcements and visit the content they want to see.
+I want this page to be really user-friendly by ading a fresh design.
+
+### 3. Blog
+
+We will be annoucing news and sharing our progress, talk about how we're developing the community of our school.
+Also I will be sharing the website development process.
+
+### 4. Authors page
+
+We already have the authors page, but to be honest it's really boring. So, I'm going to add some cool design and details.
+Then users can visit each author's page on "/author/[username]".
+They can personalize their page with info about themselves and showcase their articles.
+
+## Development process and progress
+
+For editor and article rendering I'm using the react-markdown library.
+
+```tsx
+import ReactMarkdown from "react-markdown";
+
+interface MarkdownProps {
+  source: string;
+}
+
+export function Markdown({ source }: MarkdownProps) {
+  return (
+    <div className="prose overflow-hidden dark:prose-invert">
+      <ReactMarkdown
+        components={components}
+        // Here I've added the github flavored markdown
+        // Also I've added the remark-breaks plugin
+        // Instead of adding two whitespaces at the end of the line to break
+        // You only need to hit Enter key (\n)
+        remarkPlugins={[remarkGfm, remarkBreaks]}
+        rehypePlugins={[
+          rehypeSlug,
+          // Here I've added the rehype-highlight library
+          // It adds syntax highlighting
+          // The readon why I didn't add the rehype-pretty-code instead is
+          // rehype-pretty-code library is async
+          // which means I can't render it client-side for editor preview
+          rehypeHighlight,
+          [
+            rehypeAutolinkHeadings,
+            {
+              properties: {
+                className: ["subheading-anchor"],
+                ariaLabel: "Link to section",
+              },
+            },
+          ],
+        ]}
+      >
+        {source}
+      </ReactMarkdown>
+    </div>
+  );
+}
+```
+
+Currently I have already added the support and blog pages.
+I'm using the contentlayer to add static content.
+
+Here you can see the config of contentlayer
+
+```ts
+import {
+  defineDocumentType,
+  makeSource,
+  type ComputedFields,
+} from "contentlayer/source-files";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
+
+const computedFields: ComputedFields = {
+  slug: {
+    type: "string",
+    resolve: (doc) => `/${doc._raw.flattenedPath}`,
+  },
+  slugAsParams: {
+    type: "string",
+    resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
+  },
+};
+
+// defining document types
+
+export const Post = defineDocumentType(() => ({
+  name: "Post",
+  filePathPattern: `blog/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+    },
+    date: {
+      type: "date",
+      required: true,
+    },
+    published: {
+      type: "boolean",
+      default: true,
+    },
+    image: {
+      type: "string",
+      required: true,
+    },
+    authors: {
+      // Reference types are not embedded.
+      // Until this is fixed, we can use a simple list.
+      // type: "reference",
+      // of: Author,
+      type: "list",
+      of: { type: "string" },
+      required: true,
+    },
+  },
+  computedFields,
+}));
+
+export const Author = defineDocumentType(() => ({
+  name: "Author",
+  filePathPattern: `authors/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+    },
+    avatar: {
+      type: "string",
+      required: true,
+    },
+    instagram: {
+      type: "string",
+      required: true,
+    },
+  },
+  computedFields,
+}));
+
+export const Page = defineDocumentType(() => ({
+  name: "Page",
+  filePathPattern: `pages/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+    },
+  },
+  computedFields,
+}));
+
+export default makeSource({
+  contentDirPath: "./src/content",
+  documentTypes: [Post, Author, Page],
+  mdx: {
+    // here I've added the github flavored markdown plugin
+    // It adds task lists, tables, strikethroughs and other cool stuff
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      // here i've added the rehype pretty code plugin
+      // It adds syntax-highlighting to code blocks
+      [
+        // @ts-expect-error - rehype-pretty-code types are not compatible with rehype plugins
+        rehypePrettyCode,
+        {
+          theme: "github-dark",
+        },
+      ],
+      // other rehype plugins for useful sutff
+      rehypeAutolinkHeadings,
+      rehypeSlug,
+    ],
+  },
+});
+```

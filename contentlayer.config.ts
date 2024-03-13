@@ -107,9 +107,6 @@ export default makeSource({
         rehypePrettyCode,
         {
           theme: "github-dark",
-          defaultLang: {
-            block: "typescript",
-          },
         },
       ],
       rehypeAutolinkHeadings,
