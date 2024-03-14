@@ -1,5 +1,5 @@
 import { allPosts } from "contentlayer/generated";
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import * as React from "react";
 
 import {

@@ -1,7 +1,7 @@
 import "~/styles/mdx.css";
 
 import { allPages } from "contentlayer/generated";
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Mdx } from "~/components/mdx/mdx-components";

@@ -2,7 +2,7 @@ import "~/styles/mdx.css";
 
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { allAuthors, allPosts } from "contentlayer/generated";
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
