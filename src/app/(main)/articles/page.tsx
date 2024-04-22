@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
 
-import { Articles } from "~/components/articles";
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "~/components/page-header";
-import { Shell } from "~/components/shell";
-import { Separator } from "~/components/ui/separator";
 import { articlesSearchParamsSchema } from "~/lib/validations/params";
 import { getArticles } from "~/server/queries/article";
+import { ArticleCategoriesNav } from "./_components/article-categories-nav";
+import { Articles } from "./_components/articles";
 
 export const metadata: Metadata = {
   title: "Articles",
-  description:
-    "Explore articles from our team members, uncover something fresh and intriguing, and share your thoughts",
+  description: "Learn more about NIS Insights, our journey, and school news",
 };
 
 export default async function ArticlesPage({
@@ -28,29 +21,28 @@ export default async function ArticlesPage({
   const fallbackPage =
     isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
   const perPageAsNumber = Number(per_page);
-  // Number of items per page
   const limit = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
-  // Number of items to skip
   const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0;
 
-  const { data } = await getArticles({ limit, offset });
-
-  const pageCount = Math.ceil((data?.count ?? 0) / limit);
+  const { articles, pageCount } = await getArticles({ limit, offset });
 
   return (
-    <Shell variant="markdown">
-      <PageHeader>
-        <PageHeaderHeading size="sm">Articles</PageHeaderHeading>
-        <PageHeaderDescription size="sm">
-          Read and search articles from out best writers in the world!
-        </PageHeaderDescription>
-      </PageHeader>
-      <Separator />
-      {!!data?.articles.length ? (
-        <Articles articles={data.articles} pageCount={pageCount} />
-      ) : (
-        <p>No articles yet...</p>
-      )}
-    </Shell>
+    <div className="bg-circuit container lg:max-w-[60rem] xl:max-w-[76rem]">
+      <div className="relative flex flex-col gap-8 pb-8 pt-6 md:py-8 md:pb-10">
+        <div>
+          <h1 className="mt-16 text-sm font-medium text-indigo-600">
+            Articles
+          </h1>
+          <p className="mt-4 text-4xl font-bold leading-[3rem] tracking-tight text-gray-950 sm:text-5xl sm:leading-[4rem] md:text-6xl md:leading-[4.5rem]">
+            News, insights and more
+          </p>
+          <p className="mt-4 text-lg text-gray-700">
+            Learn more about NIS Insights, our journey, and school news.
+          </p>
+        </div>
+        <ArticleCategoriesNav />
+        <Articles articles={articles} pageCount={pageCount} />
+      </div>
+    </div>
   );
 }

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 
-import { OAuthSignIn } from "~/components/auth/oauth-signin";
-import { Shell } from "~/components/shell";
 import {
   Card,
   CardContent,
@@ -9,15 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { OAuthSignIn } from "../_components/oauth-signin";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "Sign in",
   description: "Sign in to your account",
 };
 
 export default function SignInPage() {
   return (
-    <Shell className="max-w-lg max-md:p-0">
+    <div className="container flex max-w-lg flex-col gap-8 p-0 md:py-8 md:pt-6">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Sign in</CardTitle>
@@ -29,6 +28,6 @@ export default function SignInPage() {
           <OAuthSignIn />
         </CardContent>
       </Card>
-    </Shell>
+    </div>
   );
 }

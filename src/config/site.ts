@@ -1,4 +1,4 @@
-import type { FooterItem, MainNavItem } from "~/types";
+import type { FooterItem, MainNavItem, NavItem } from "~/types";
 
 const links = {
   instagram: "https://instagram.com/insights.nis",
@@ -13,11 +13,11 @@ export const siteConfig = {
     "Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education",
   slogan: "Insights - inspire. create. unite. our stories, your voice.",
   links,
+  commandNav: [{ title: "Home", href: "/" }] satisfies NavItem[],
   mainNav: [
-    { title: "Releases", href: "/releases" },
-    { title: "Articles", href: "/articles" },
-    { title: "Blog", href: "/blog" },
-    { title: "Authors", href: "/authors" },
+    { title: "About", href: "/about" },
+    { title: "Contact", href: "/contact" },
+    { title: "Explore", href: "/explore" },
   ] satisfies MainNavItem[],
   footerNav: [
     {

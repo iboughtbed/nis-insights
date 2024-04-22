@@ -3,7 +3,8 @@ import "~/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 
-import { ReactQueryProvider, ThemeProvider } from "~/components/providers";
+import { ThemeProvider } from "~/components/providers";
+import { SmoothScroll } from "~/components/smooth-scroll";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { Toaster as Sonner } from "~/components/ui/sonner";
 import { siteConfig } from "~/config/site";
@@ -71,24 +72,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen font-sans antialiased",
+          "min-h-screen overflow-x-hidden font-sans antialiased",
           fontSans.variable,
           fontMono.variable,
         )}
       >
-        <ReactQueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div vaul-drawer-wrapper="">{children}</div>
-            <TailwindIndicator />
-            <Sonner richColors />
-            <SpeedInsights />
-          </ThemeProvider>
-        </ReactQueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div vaul-drawer-wrapper="">{children}</div>
+          <SmoothScroll />
+          <TailwindIndicator />
+          <Sonner richColors />
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );

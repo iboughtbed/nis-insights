@@ -3,19 +3,18 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
-import { Shell } from "~/components/shell";
 import { Skeleton } from "~/components/ui/skeleton";
 
 export default function AccountLoading() {
   return (
-    <Shell variant="sidebar">
+    <div className="flex flex-col gap-8 pb-8 pt-6 md:py-8">
       <PageHeader separated>
         <PageHeaderHeading size="sm">Account</PageHeaderHeading>
         <PageHeaderDescription size="sm">
           Manage your account settings
         </PageHeaderDescription>
       </PageHeader>
-      <section className="grid gap-10 rounded-lg border p-4">
+      <div className="grid gap-10 rounded-lg border p-4">
         <div className="space-y-2">
           <Skeleton className="h-5 w-20" />
           <Skeleton className="h-4 w-72" />
@@ -35,7 +34,7 @@ export default function AccountLoading() {
           <Skeleton className="h-8 w-52" />
           <Skeleton className="h-8 w-52" />
         </div>
-      </section>
-    </Shell>
+      </div>
+    </div>
   );
 }

@@ -8,37 +8,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function createId(length = 7) {
+export function generateId(length = 16) {
   return customAlphabet(
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
     length,
   )();
-}
-
-export function formatDateToLocale(date: Date) {
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear() % 100;
-
-  const formattedDay = day < 10 ? `0${day}` : day;
-  const formattedMonth = month < 10 ? `0${month}` : month;
-
-  const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
-
-  return formattedDate;
-}
-
-export function formatDate(
-  date: Date | string | number,
-  options: Intl.DateTimeFormatOptions = {},
-) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: options.month ?? "long",
-    day: options.day ?? "numeric",
-    year: options.year ?? "numeric",
-    timeZone: "Asia/Oral",
-    ...options,
-  }).format(new Date(date));
 }
 
 export function transliterate(input: string) {

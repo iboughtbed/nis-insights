@@ -1,28 +1,17 @@
-"use server";
+import "server-only";
 
+import { count } from "drizzle-orm";
 import { z } from "zod";
 
-import { action } from "~/lib/safe-action";
 import { db } from "~/server/db";
+import { articles } from "~/server/db/schema";
 
-const getArticleSchema = z.object({
-  id: z.string(),
-});
-
-export const getArticle = action(getArticleSchema, async ({ id }) => {
-  const article = await db.article.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      title: true,
-      introduction: true,
-      content: true,
-      coverImage: true,
-      coverImageKey: true,
-      createdAt: true,
+export async function getArticle({ id }: { id: string }) {
+  const article = await db.query.articles.findFirst({
+    where: (model, { eq }) => eq(model.id, id),
+    with: {
       author: {
-        select: {
+        columns: {
           name: true,
           username: true,
         },
@@ -31,38 +20,52 @@ export const getArticle = action(getArticleSchema, async ({ id }) => {
   });
 
   return { article };
-});
+}
 
 const getArticlesSchema = z.object({
   limit: z.number().min(1).max(10).default(10),
   offset: z.number().default(0),
 });
 
-export const getArticles = action(
-  getArticlesSchema,
-  async ({ limit, offset }) => {
-    const articles = await db.article.findMany({
-      skip: offset,
-      take: limit,
-      select: {
+export async function getArticles(input: { limit: number; offset: number }) {
+  try {
+    const { limit, offset } = getArticlesSchema.parse(input);
+
+    const data = await db.query.articles.findMany({
+      limit,
+      offset,
+      columns: {
         id: true,
         title: true,
         introduction: true,
         coverImage: true,
         createdAt: true,
+      },
+      with: {
         author: {
-          select: {
+          columns: {
             username: true,
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: (model, { desc }) => [desc(model.createdAt)],
     });
 
-    const count = await db.article.count();
+    const total = await db
+      .select({ count: count(articles.id) })
+      .from(articles)
+      .then((res) => res[0]?.count ?? 0);
 
-    return { articles, count };
-  },
-);
+    const pageCount = Math.ceil(total / limit);
+
+    return {
+      articles: data,
+      pageCount,
+    };
+  } catch (err) {
+    return {
+      articles: [],
+      pageCount: 0,
+    };
+  }
+}

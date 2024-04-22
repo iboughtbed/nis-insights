@@ -7,7 +7,6 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
-import { Shell } from "~/components/shell";
 import { Separator } from "~/components/ui/separator";
 
 import { AuthorCard } from "./_components/author-card";
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function AuthorsPage() {
   return (
-    <Shell className="md:pb-10">
+    <div className="container flex flex-col gap-8 pb-8 pt-6 md:py-8 md:pb-10">
       <PageHeader>
         <PageHeaderHeading>Meet our team</PageHeaderHeading>
         <PageHeaderDescription>
@@ -30,7 +29,7 @@ export default function AuthorsPage() {
         </PageHeaderDescription>
       </PageHeader>
       <Separator className="mb-2.5" />
-      <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         <React.Suspense
           fallback={Array.from({ length: 4 }).map((_, i) => (
             <AuthorCardSkeleton key={i} />
@@ -40,7 +39,7 @@ export default function AuthorsPage() {
             <AuthorCard key={author.slug} author={author} i={i} />
           ))}
         </React.Suspense>
-      </section>
-    </Shell>
+      </div>
+    </div>
   );
 }

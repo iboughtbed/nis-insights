@@ -16,7 +16,7 @@ export default withAuth(function middleware(req) {
     pathname.startsWith("/new/article") ||
     pathname.startsWith("/edit/article")
   ) {
-    if (token?.role !== "ADMIN" && token.role !== "WRITER") {
+    if (token?.role !== "admin" && token.role !== "writer") {
       url.pathname = "/";
       return NextResponse.redirect(url);
     }
@@ -26,7 +26,7 @@ export default withAuth(function middleware(req) {
     pathname.startsWith("/new/release") ||
     pathname.startsWith("/edit/release")
   ) {
-    if (token.role !== "ADMIN") {
+    if (token.role !== "admin") {
       url.pathname = "/";
       return NextResponse.redirect(url);
     }

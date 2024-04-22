@@ -1,35 +1,26 @@
 import "~/styles/mdx.css";
 
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { format } from "date-fns";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { Markdown } from "~/components/mdx/markdown";
-import { TracingBeam } from "~/components/motion/tracing-beam";
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "~/components/page-header";
-import { Shell } from "~/components/shell";
+import { MemoizedReactMarkdown } from "~/components/mdx/markdown";
+import { TracingBeam } from "~/components/tracing-beam";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
-import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
-import { absoluteUrl, formatDate, truncate } from "~/lib/utils";
+import { absoluteUrl, truncate } from "~/lib/utils";
 import { db } from "~/server/db";
 import { getArticle } from "~/server/queries/article";
 
-export async function generateMetadata({
+export async function generateMetaarticle({
   params,
 }: {
   params: { articleId: string };
 }): Promise<Metadata> {
-  const article = await db.article.findUnique({
-    where: {
-      id: params.articleId,
-    },
-    select: {
+  const article = await db.query.articles.findFirst({
+    where: (model, { eq }) => eq(model.id, params.articleId),
+    columns: {
       title: true,
       introduction: true,
     },
@@ -73,69 +64,60 @@ export default async function ArticlePage({
 }: {
   params: { articleId: string };
 }) {
-  const { data } = await getArticle({ id: params.articleId });
+  const { article } = await getArticle({ id: params.articleId });
 
-  if (!data?.article) {
+  if (!article) {
     notFound();
   }
 
   return (
-    <Shell variant="markdown" className="relative">
+    <div className="container relative flex max-w-3xl flex-col gap-8 py-8 pb-8 pt-6 md:py-8">
       <TracingBeam>
-        <article className="relative">
-          <PageHeader>
-            <PageHeaderHeading size="lg">
-              {data.article.title}
-            </PageHeaderHeading>
-            <PageHeaderDescription className="pt-4">
-              {data.article.introduction}
-            </PageHeaderDescription>
-          </PageHeader>
-          <div className="mb-2 flex items-center gap-2 pt-6">
-            <Image
-              alt="avatar"
-              src="/avatars/morty.png"
-              className="h-8 w-8 rounded-full"
-              width={64}
-              height={64}
-            />
-            <span className="flex flex-col">
-              <span className="text-foreground transition-colors hover:text-foreground/80">
-                {data.article.author.username}
+        <article>
+          <div className="mx-auto max-w-xl">
+            <header>
+              <span className="text-sm">
+                {format(article.createdAt, "MMM dd, yyyy")}
               </span>
-              <span className="flex items-center gap-1 text-sm">
-                <span>{formatDate(data.article.createdAt)}</span>
-                <span>
-                  (
-                  {formatDistanceToNow(data.article.createdAt, {
-                    addSuffix: true,
-                  })}
-                  )
-                </span>
-              </span>
-            </span>
-          </div>
-          {data.article.coverImage && (
-            <>
-              <Separator className="my-4" />
-              <div className="relative mt-6">
+              <div className="flex flex-col">
+                <h1 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  {article.title}
+                </h1>
+                <div className="my-4">
+                  <p>{article.introduction}</p>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center gap-2 pb-4">
+                <Image
+                  alt="avatar"
+                  src="/avatars/morty.png"
+                  className="h-8 w-8 rounded-full"
+                  width={40}
+                  height={40}
+                />
+                <div className="flex flex-col">
+                  <span>{article.author.username}</span>
+                </div>
+              </div>
+              <div className="relative my-10 lg:ml-[-7rem] lg:w-[calc(100%+7rem*2)]">
                 <AspectRatio ratio={16 / 9}>
                   <Image
                     alt="article cover"
-                    src={data.article.coverImage}
-                    className="rounded-lg object-cover"
+                    src={article.coverImage}
+                    className="rounded-lg border object-cover"
                     sizes="(max-width: 768px) 90vw, 50vw"
                     priority
                     fill
                   />
                 </AspectRatio>
               </div>
-            </>
-          )}
-          <Separator className="my-8" />
-          <Markdown source={data.article.content} />
+            </header>
+            <div className="relative">
+              <MemoizedReactMarkdown>{article.content}</MemoizedReactMarkdown>
+            </div>
+          </div>
         </article>
       </TracingBeam>
-    </Shell>
+    </div>
   );
 }

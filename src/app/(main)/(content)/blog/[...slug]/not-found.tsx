@@ -1,15 +1,14 @@
-import { ErrorCard } from "~/components/cards/error-card";
-import { Shell } from "~/components/shell";
+import { ErrorCard } from "~/components/error-card";
 
 export default function BlogNotFound() {
   return (
-    <Shell variant="centered" className="max-w-md">
+    <div className="container flex h-[100dvh] max-w-md flex-col justify-center gap-8 pb-8 pt-6 md:py-8">
       <ErrorCard
         title="Post not found"
         description="The post you are looking for does not exist"
         retryLink="/blog"
         retryLinkText="Go to Blog"
       />
-    </Shell>
+    </div>
   );
 }

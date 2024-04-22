@@ -1,5 +1,6 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
+
 import { getServerAuthSession } from "~/server/auth";
 
 const f = createUploadthing();
@@ -11,15 +12,16 @@ export const appFileRouter = {
     .middleware(async () => {
       const session = await getServerAuthSession();
 
-      if (!session?.user) throw new UploadThingError("Unauthorized");
-
-      if (session.user.role === "USER")
+      if (session?.user.role === "user")
         throw new UploadThingError("Unauthorized");
 
       return {};
     })
     .onUploadComplete(({ file }) => {
-      return { file };
+      return {
+        url: file.url,
+        key: file.key,
+      };
     }),
 
   releaseCoverUploader: f({
@@ -28,15 +30,16 @@ export const appFileRouter = {
     .middleware(async () => {
       const session = await getServerAuthSession();
 
-      if (!session?.user) throw new UploadThingError("Unauthorized");
-
-      if (session.user.role !== "ADMIN")
+      if (session?.user.role !== "admin")
         throw new UploadThingError("Unauthorized");
 
       return {};
     })
     .onUploadComplete(({ file }) => {
-      return { file };
+      return {
+        url: file.url,
+        key: file.key,
+      };
     }),
 } satisfies FileRouter;
 

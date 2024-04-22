@@ -1,6 +1,6 @@
-import { SidebarNav } from "~/components/layouts/sidebar-nav";
-import { SiteFooter } from "~/components/layouts/site-footer";
-import { SiteHeader } from "~/components/layouts/site-header";
+import { SidebarNav } from "~/components/sidebar-nav";
+import { SiteFooter } from "~/components/site-footer";
+import { SiteHeader } from "~/components/site-header";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { dashboardConfig } from "~/config/dashboard";
 import { getServerAuthSession } from "~/server/auth";

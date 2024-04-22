@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "~/components/page-header";
-import { Shell } from "~/components/shell";
 import { getServerAuthSession } from "~/server/auth";
-import { getCounts } from "~/server/queries/dashboard";
-import { DashboardManager } from "./_components/dashboard-manager";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -23,31 +15,9 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
-  const { articlesCount, releasesCount } = await getCounts();
-
   return (
-    <Shell variant="sidebar">
-      <PageHeader className="p-2">
-        <PageHeaderHeading>Dashboard manager</PageHeaderHeading>
-        <PageHeaderDescription>
-          Manage the content by clicking on the cards
-        </PageHeaderDescription>
-      </PageHeader>
-      <section
-        id="content-info"
-        aria-labelledby="content-info-heading"
-        className="w-full overflow-hidden"
-      >
-        {session.user.role !== "USER" && (
-          <DashboardManager
-            role={session.user.role}
-            _count={{
-              articles: articlesCount,
-              releases: releasesCount,
-            }}
-          />
-        )}
-      </section>
-    </Shell>
+    <div className="flex flex-col gap-8 pb-8 pt-6 md:py-8">
+      <div className="w-full overflow-hidden"></div>
+    </div>
   );
 }

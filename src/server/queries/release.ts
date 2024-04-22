@@ -1,20 +1,11 @@
-"use server";
+import "server-only";
 
-import { z } from "zod";
-
-import { action, protectedAction } from "~/lib/safe-action";
 import { db } from "~/server/db";
 
-const getReleaseSchema = z.object({
-  id: z.string(),
-});
-
-export const getRelease = protectedAction(getReleaseSchema, async ({ id }) => {
-  const release = await db.release.findUnique({
-    where: {
-      id,
-    },
-    select: {
+export async function getRelease({ id }: { id: string }) {
+  const data = await db.query.releases.findFirst({
+    where: (model, { eq }) => eq(model.id, id),
+    columns: {
       date: true,
       coverImage: true,
       coverImageKey: true,
@@ -22,37 +13,29 @@ export const getRelease = protectedAction(getReleaseSchema, async ({ id }) => {
     },
   });
 
-  return { release };
-});
+  return { data };
+}
 
-const getReleaseEmbedSchema = z.object({
-  id: z.string(),
-});
-
-export const getReleaseEmbed = action(getReleaseEmbedSchema, async ({ id }) => {
-  const release = await db.release.findUnique({
-    where: {
-      id,
-    },
-    select: {
+export async function getEmbedUrl({ id }: { id: string }) {
+  const data = await db.query.releases.findFirst({
+    where: (model, { eq }) => eq(model.id, id),
+    columns: {
       embedUrl: true,
     },
   });
 
-  return { release };
-});
+  return { data };
+}
 
-export const getReleases = action(z.object({}), async () => {
-  const releases = await db.release.findMany({
-    select: {
+export async function getReleases() {
+  const data = await db.query.releases.findMany({
+    columns: {
       id: true,
       date: true,
       coverImage: true,
     },
-    orderBy: {
-      date: "desc",
-    },
+    orderBy: (model, { desc }) => desc(model.createdAt),
   });
 
-  return { releases };
-});
+  return { data };
+}

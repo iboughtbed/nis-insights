@@ -29,42 +29,13 @@ Discover the pulse of our school with NIS Insights, your go-to source for engagi
 - **Framework:** [Next.js](https://nextjs.org)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com)
 - **User Management:** [NextAuth](https://next-auth.js.org)
-- **ORM:** [Prisma](https://www.prisma.io/)
+- **ORM:** [Drizzle ORM](https://orm.drizzle.team)
 - **UI Components:** [shadcn/ui](https://ui.shadcn.com)
 - **File Uploads:** [uploadthing](https://uploadthing.com)
 
 ## Features to be implemented
 
-Frontend Development:
-
-- [x] Home page
-- [x] Sign in/out pages
-- [x] Release/(-s) pages
-- [x] Article/(-s) pages
-- [x] Dashboard/Account pages
-- [x] New article page:
-  - [x] Markdown rendering (fully optimized)
-  - [x] Editor (fully optimized)
-
-Backend Development:
-
-- [x] Authentication with NextAuth
-- [x] Database models
-  - [x] User
-  - [x] Article
-  - [x] Release
-- [x] Data mutations/fetching
-
-Security:
-
-- [x] Authorization
-- [x] Data handling (Data Access Layer)
-
-Performance:
-
-- [ ] Bundle analyzing and reducing JS
-- [x] Image optimization
-- [x] Responsive design
+<!--  -->
 
 ## Introduction
 

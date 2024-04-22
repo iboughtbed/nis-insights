@@ -1,11 +1,11 @@
 import { type Post } from "contentlayer/generated";
+import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 
 import { PlaceholderImage } from "~/components/placeholder-image";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { formatDate } from "~/lib/utils";
 
 interface PostCardProps {
   post: Post;
@@ -24,7 +24,7 @@ export function PostCard({ post, i }: PostCardProps) {
               alt={post.title}
               fill
               sizes="(min-width: 1024px) 384px, (min-width: 768px) 288px, (min-width: 640px) 224px, 100vw"
-              className="rounded-lg object-cover"
+              className="rounded-lg border object-cover"
               priority={i <= 1}
             />
           ) : (
@@ -32,13 +32,13 @@ export function PostCard({ post, i }: PostCardProps) {
           )}
         </AspectRatio>
         <div className="space-y-2">
+          <CardDescription>{format(post.date, "MMM dd, yyyy")}</CardDescription>
           <CardHeader className="space-y-2.5 p-0">
             <CardTitle className="line-clamp-1">{post.title}</CardTitle>
             <CardDescription className="line-clamp-2">
               {post.description}
             </CardDescription>
           </CardHeader>
-          <CardDescription>{formatDate(post.date)}</CardDescription>
         </div>
       </article>
     </Link>

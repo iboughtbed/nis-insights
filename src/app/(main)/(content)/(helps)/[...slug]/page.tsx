@@ -10,7 +10,6 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "~/components/page-header";
-import { Shell } from "~/components/shell";
 import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
 import { absoluteUrl } from "~/lib/utils";
@@ -81,13 +80,13 @@ export default function Page({ params }: PageProps) {
   }
 
   return (
-    <Shell as="article" variant="markdown">
+    <article className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-8 py-8 pb-8 pt-6 md:py-10 lg:py-10">
       <PageHeader>
         <PageHeaderHeading>{page.title}</PageHeaderHeading>
         <PageHeaderDescription>{page.description}</PageHeaderDescription>
       </PageHeader>
       <Separator />
       <Mdx code={page.body.code} />
-    </Shell>
+    </article>
   );
 }

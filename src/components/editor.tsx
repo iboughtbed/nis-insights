@@ -5,50 +5,34 @@ import "~/styles/mdx.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { EditorMenu } from "~/components/editor-menu";
-import { Markdown } from "~/components/mdx/markdown";
-import { Skeleton } from "~/components/ui/skeleton";
+import { MemoizedReactMarkdown } from "~/components/mdx/markdown";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Textarea } from "~/components/ui/textarea";
 import { commands, type Commands } from "~/config/editor";
-import { useDebounce } from "~/hooks/use-debounce";
-import { useMounted } from "~/hooks/use-mounted";
 
 interface EditorProps {
-  initialContent?: string;
-  setValue: (value: string) => void;
+  content?: string;
+  onValueChange: (value: string) => void;
 }
 
-export function Editor({ initialContent, setValue }: EditorProps) {
-  let content = "";
-
-  if (initialContent) {
-    content = initialContent;
-  } else {
-    if (typeof window !== "undefined") {
-      content = localStorage.getItem("editor-draft") ?? "";
-    }
-  }
-
-  const mounted = useMounted();
+export default function Editor({ content = "", onValueChange }: EditorProps) {
   const [editorContent, setEditorContent] = useState(content);
-  const debouncedContent = useDebounce(editorContent, 5000);
   const [selectedTab, setSelectedTab] = useState<"write" | "preview">("write");
 
-  const [history, setHistory] = useState<string[]>([editorContent]);
-  const [historyIndex, setHistoryIndex] = useState<number>(0);
+  const [history, setHistory] = useState([editorContent]);
+  const [historyIndex, setHistoryIndex] = useState(0);
   const [selection, setSelection] = useState<{ start: number; end: number }>();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    setValue(editorContent);
-    localStorage.setItem("editor-draft", debouncedContent);
-  }, [setValue, editorContent, debouncedContent]);
+    onValueChange(editorContent);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editorContent]);
 
   useEffect(() => {
     if (!selection || !textareaRef.current) return;
-    const { start, end } = selection;
-    textareaRef.current.setSelectionRange(start, end);
+    textareaRef.current.setSelectionRange(selection.start, selection.end);
     textareaRef.current.focus();
   }, [selection]);
 
@@ -166,16 +150,12 @@ export function Editor({ initialContent, setValue }: EditorProps) {
         )}
       </div>
       <TabsContent value="write">
-        {mounted ? (
-          <Textarea
-            className="min-h-[400px] overflow-x-auto text-base"
-            value={editorContent}
-            onChange={onChange}
-            ref={textareaRef}
-          />
-        ) : (
-          <Skeleton className="h-[400px] w-full" />
-        )}
+        <Textarea
+          className="min-h-[400px] overflow-x-auto text-base"
+          value={editorContent}
+          onChange={onChange}
+          ref={textareaRef}
+        />
       </TabsContent>
       <TabsContent
         value="preview"
@@ -184,7 +164,7 @@ export function Editor({ initialContent, setValue }: EditorProps) {
         {editorContent.trim() === "" ? (
           "Nothing to preview"
         ) : (
-          <Markdown source={editorContent} />
+          <MemoizedReactMarkdown>{editorContent}</MemoizedReactMarkdown>
         )}
       </TabsContent>
     </Tabs>

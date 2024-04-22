@@ -1,16 +1,17 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { protectedAction } from "~/lib/safe-action";
-import { createId, slugify } from "~/lib/utils";
+import { generateId, slugify } from "~/lib/utils";
 import { db } from "~/server/db";
+import { articles } from "~/server/db/schema";
 import { utapi } from "~/server/uploadthing";
 
 const createArticleSchema = z.object({
-  title: z.string().trim().min(1),
-  introduction: z.string().trim().min(1),
+  title: z.string().trim().min(1).max(60),
+  introduction: z.string().trim().min(1).max(120),
   content: z.string().trim().min(1),
   coverImage: z.string().url(),
   coverImageKey: z.string(),
@@ -18,97 +19,53 @@ const createArticleSchema = z.object({
 
 export const createArticle = protectedAction(
   createArticleSchema,
-  async (
-    { title, introduction, content, coverImage, coverImageKey },
-    { session },
-  ) => {
-    if (session.user.role === "USER") {
-      throw new Error("Unauthorized");
+  async ({ content, ...input }, { session }) => {
+    if (session.user.role === "user") {
+      throw new Error("Permission denied");
     }
 
-    const id = `${slugify(title)}-${createId()}`;
+    const id = `${slugify(input.title)}-${generateId()}`;
 
     const filteredContent = content
       .split("\n")
       .map((line) => line.trim())
       .join("\n");
 
-    const newArticle = await db.article.create({
-      data: {
-        id,
-        title,
-        introduction,
-        content: filteredContent,
-        coverImage,
-        coverImageKey,
-        author: {
-          connect: {
-            id: session.user.id,
-          },
-        },
-      },
-      select: {
-        id: true,
-      },
+    await db.insert(articles).values({
+      id,
+      authorId: session.user.id,
+      content: filteredContent,
+      ...input,
     });
 
-    return { newArticle };
+    return { id };
   },
 );
 
-const updateArticleSchema = z.object({
-  id: z.string(),
-  title: z.string().trim().min(1).optional(),
-  introduction: z.string().trim().min(1).optional(),
-  content: z.string().trim().min(1).optional(),
-  coverImage: z.string().url().optional(),
-  coverImageKey: z.string().optional(),
-});
+const updateArticleSchema = createArticleSchema
+  .partial()
+  .merge(z.object({ id: z.string() }));
 
 export const updateArticle = protectedAction(
   updateArticleSchema,
-  async (
-    { id, title, introduction, content, coverImage, coverImageKey },
-    { session },
-  ) => {
-    const article = await db.article.findUnique({
-      where: {
-        id,
-      },
-      select: {
+  async ({ id, ...input }, { session }) => {
+    const article = await db.query.articles.findFirst({
+      where: (model, { eq }) => eq(model.id, id),
+      columns: {
         authorId: true,
         coverImageKey: true,
       },
     });
 
     if (article?.authorId !== session.user.id) {
-      throw new Error("Unauthorized");
+      throw new Error("Permission denied");
     }
 
-    const updatedArticle = await db.article.update({
-      where: {
-        id,
-      },
-      data: {
-        title,
-        introduction,
-        content,
-        coverImage,
-        coverImageKey,
-      },
-      select: {
-        id: true,
-      },
-    });
+    await db.update(articles).set(input).where(eq(articles.id, id));
 
-    if (coverImageKey !== article.coverImageKey && article.coverImageKey) {
+    if (article.coverImageKey !== input.coverImageKey) {
       await utapi.deleteFiles(article.coverImageKey);
     }
-
-    revalidatePath("/edit/article");
-    revalidatePath("/article");
-
-    return { updatedArticle };
   },
 );
 
@@ -119,33 +76,19 @@ const deleteArticleSchema = z.object({
 export const deleteArticle = protectedAction(
   deleteArticleSchema,
   async ({ id }, { session }) => {
-    const article = await db.article.findUnique({
-      where: {
-        id,
-      },
-      select: {
+    const article = await db.query.articles.findFirst({
+      where: (model, { eq }) => eq(model.id, id),
+      columns: {
         authorId: true,
-      },
-    });
-
-    if (session.user.id !== article?.authorId) {
-      throw new Error("Unauthorized");
-    }
-
-    const deletedArticle = await db.article.delete({
-      where: {
-        id,
-      },
-      select: {
         coverImageKey: true,
       },
     });
 
-    if (deletedArticle.coverImageKey) {
-      await utapi.deleteFiles(deletedArticle.coverImageKey);
+    if (article?.authorId !== session.user.id) {
+      throw new Error("Permission denied");
     }
 
-    revalidatePath("/edit/article");
-    revalidatePath("/article");
+    await db.delete(articles).where(eq(articles.id, id));
+    await utapi.deleteFiles(article.coverImageKey);
   },
 );

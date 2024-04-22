@@ -1,15 +1,17 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import type { UserRole } from "@prisma/client";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
+import { type Adapter } from "next-auth/adapters";
 import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
 
 import { env } from "~/env";
 import { removeEmailDomain } from "~/lib/utils";
 import { db } from "~/server/db";
+import { createTable, users } from "~/server/db/schema";
+import type { Role } from "~/types";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -22,20 +24,21 @@ declare module "next-auth" {
     user: {
       id: string;
       username: string;
-      role: UserRole;
+      role: Role;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    username: string;
+    // ...other properties
+    // role: UserRole;
+  }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     username: string;
-    role: UserRole;
+    role: Role;
   }
 }
 
@@ -58,40 +61,45 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token.sub) {
         session.user.id = token.sub;
+        session.user.role = token.role;
+        session.user.username = token.username;
         session.user.name = token.name;
         session.user.email = token.email;
-        session.user.username = token.username;
-        session.user.role = token.role;
+        session.user.image = token.picture;
       }
 
       return session;
     },
     async jwt({ token }) {
-      if (!token.sub) return token;
+      const id = token.sub;
+      if (!id) return token;
 
-      const dbUser = await db.user.findUnique({
-        where: {
-          id: token.sub,
-        },
-        select: {
-          name: true,
-          email: true,
-          username: true,
-          role: true,
-        },
+      const user = await db.query.users.findFirst({
+        where: (model, { eq }) => eq(model.id, id),
       });
 
-      if (!dbUser) return token;
+      if (!user) return token;
 
-      token.name = dbUser.name;
-      token.email = dbUser.email;
-      token.username = dbUser.username;
-      token.role = dbUser.role;
+      token.role = user.role;
+      token.username = user.username;
+      token.name = user.name;
+      token.email = user.email;
+      token.picture = user.image;
 
       return token;
     },
   },
-  adapter: PrismaAdapter(db),
+  adapter: {
+    ...(DrizzleAdapter(db, createTable) as Adapter),
+    // @ts-expect-error drizzle adapter does not include extra columns
+    async createUser(data) {
+      return await db
+        .insert(users)
+        .values({ ...data, id: crypto.randomUUID() })
+        .returning()
+        .then((res) => res[0] ?? null);
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -102,7 +110,7 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          username: removeEmailDomain(profile.email),
+          username: removeEmailDomain(profile.email) ?? profile.email,
         };
       },
     }),

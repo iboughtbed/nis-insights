@@ -96,7 +96,7 @@
 }
 
 [data-rehype-pretty-code-figure] {
-  @apply relative;
+  @apply dark relative;
 }
 
 [data-rehype-pretty-code-figure] code {
