@@ -1,28 +1,11 @@
-# [NIS Insights](https://nis-insights.vercel.app)
+# [NIS Insights](https://nis-insights.org)
 
 This is an open source school magazine website build with everything new in Next.js 14. It is bootstrapped with `create-t3-app`.
 
-[![NIS Insights](./public/og.png)](https://nis-insights.vercel.app/)
-
-Discover the pulse of our school with NIS Insights, your go-to source for engaging stories, student perspectives, and captivating visuals in the world of education.
+[![NIS Insights](./public/og.png)](https://nis-insights.org/)
 
 > **Warning**
 > This project is still in development and is not ready for production use.
-
-## Table of contents
-
-- [Project Name](#project-name)
-  - [Table of Contents](#table-of-contents)
-  - [Tech stack](#tech-stack)
-  - [Introduction](#introduction)
-  - [Features](#features)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-  - [Usage](#usage)
-  - [Contributing](#contributing)
-  - [License](#license)
-  - [Acknowledgments](#acknowledgments)
 
 ## Tech Stack
 
@@ -35,18 +18,49 @@ Discover the pulse of our school with NIS Insights, your go-to source for engagi
 
 ## Features to be implemented
 
-<!--  -->
+- [x] Authentication with **NextAuth**
+- [x] ORM using **Drizzle ORM**
+- [x] Database on **Supabase**
+- [x] Validation with **Zod**
+- [x] File uploads with **uploadthing**
+- [x] Blog using **MDX** and **Contentlayer**
+- [ ] Admin dashboard with articles and releases
+
+## Running Locally
+
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/iboughtbed/web-course.git
+   ```
+
+2. Install dependencies using pnpm
+
+   ```bash
+   pnpm install
+   ```
+
+3. Copy the `.env.example` to `.env` and update the variables.
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Start the development server
+
+   ```bash
+   pnpm run dev
+   ```
+
+5. Push the database schema
+
+   ```bash
+   pnpm run db:push
+   ```
 
 ## Introduction
 
 NIS Insights is the digital home of our school magazine club. Explore our latest releases, read engaging articles, and discover talented authors on our platform. We're dedicated to sharing knowledge, creativity, and unique perspectives.
-
-## Features
-
-- Browse and read our latest releases.
-- Explore a variety of articles covering diverse topics.
-- Learn about the talented authors behind the content.
-- Join us as a member to contribute your own articles.
 
 ## Getting Started
 
