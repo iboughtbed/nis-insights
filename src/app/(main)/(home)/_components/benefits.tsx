@@ -91,6 +91,7 @@ export function Benefits() {
                       src="/images/benefits/analytics.png"
                       alt=""
                       className="rounded-xl object-cover"
+                      sizes="20vw"
                       fill
                     />
                   </AspectRatio>
@@ -102,6 +103,7 @@ export function Benefits() {
                     src="/images/benefits/poll.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -116,6 +118,7 @@ export function Benefits() {
                     src="/images/benefits/inspiration-board.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -126,6 +129,7 @@ export function Benefits() {
                     src="/images/benefits/figma.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -140,6 +144,7 @@ export function Benefits() {
                     src="/images/benefits/views.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -154,6 +159,7 @@ export function Benefits() {
                     src="/images/benefits/roadmap.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -164,6 +170,7 @@ export function Benefits() {
                     src="/images/benefits/kanye.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -182,6 +189,7 @@ export function Benefits() {
                       src="/images/benefits/stats.png"
                       alt=""
                       className="rounded-xl object-cover"
+                      sizes="20vw"
                       fill
                     />
                   </AspectRatio>
@@ -193,6 +201,7 @@ export function Benefits() {
                     src="/images/benefits/timeline.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -207,6 +216,7 @@ export function Benefits() {
                     src="/images/benefits/mission.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -217,6 +227,7 @@ export function Benefits() {
                     src="/images/benefits/announcement.png"
                     alt=""
                     className="rounded-xl object-cover"
+                    sizes="20vw"
                     fill
                   />
                 </AspectRatio>
@@ -233,6 +244,7 @@ export function Benefits() {
                 src="/images/benefits/blocks.png"
                 alt=""
                 className="rounded-xl object-cover"
+                sizes="(max-width: 768px) 90vw, 80vw"
                 fill
               />
             </AspectRatio>
@@ -244,6 +256,7 @@ export function Benefits() {
                   src="/images/benefits/discover.png"
                   alt=""
                   className="rounded-xl object-cover"
+                  sizes="(max-width: 768px) 90vw, 80vw"
                   fill
                 />
               </AspectRatio>

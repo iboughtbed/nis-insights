@@ -54,9 +54,9 @@ export function TextVelocity({
   });
 
   return (
-    <div className="m-0 flex flex-nowrap overflow-hidden whitespace-nowrap tracking-tight">
+    <div className="relative m-0 flex flex-nowrap overflow-hidden whitespace-nowrap tracking-tight">
       <motion.div
-        className="flex flex-nowrap whitespace-nowrap text-9xl font-semibold uppercase"
+        className="relative flex flex-nowrap whitespace-nowrap text-9xl font-semibold uppercase"
         style={{ x }}
       >
         {Array.from({ length: 4 }).map((_, index) => (

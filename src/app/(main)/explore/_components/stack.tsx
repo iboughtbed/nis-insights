@@ -31,7 +31,7 @@ export function Stack() {
   });
 
   return (
-    <div ref={ref} className="hidden gap-8 px-16 md:flex 2xl:gap-16">
+    <div ref={ref} className="relative hidden gap-8 px-16 md:flex 2xl:gap-16">
       <div className="flex-1">
         <div className="sticky left-0 top-0 flex h-screen items-center">
           <div>
