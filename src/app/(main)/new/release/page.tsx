@@ -1,5 +1,5 @@
 export default function NewReleasePage() {
-  return <></>
+  return <></>;
 }
 
 // import type { Metadata } from "next";

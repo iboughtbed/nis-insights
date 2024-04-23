@@ -15,7 +15,7 @@ export default function ExplorePage() {
           </div>
         </div>
 
-        <Separator className="mt-8" />
+        <Separator className="my-8" />
 
         <div className="relative pb-10">
           <Stack />

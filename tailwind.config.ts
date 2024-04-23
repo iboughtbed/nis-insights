@@ -13,10 +13,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: {
-        DEFAULT: "1rem",
-        lg: "4rem",
-      },
+      padding: "2rem",
     },
     extend: {
       colors: {

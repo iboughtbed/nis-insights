@@ -75,6 +75,18 @@
   }
 }
 
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    @apply px-16;
+  }
+}
+
 /* Scroll bar */
 
 /* ::-webkit-scrollbar {

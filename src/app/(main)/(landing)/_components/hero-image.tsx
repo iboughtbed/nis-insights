@@ -18,7 +18,7 @@ export function HeroImage() {
   return (
     <div ref={ref} className="relative pb-10 pt-16">
       <div className="relative mx-auto flex flex-col items-center">
-        <div className="w-full max-w-screen-xl md:[perspective:800px]">
+        <div className="w-full max-w-screen-xl [perspective:800px]">
           <motion.div style={{ rotateX }}>
             <AspectRatio ratio={1600 / 960}>
               <Image
