@@ -23,24 +23,6 @@ export const appFileRouter = {
         key: file.key,
       };
     }),
-
-  releaseCoverUploader: f({
-    image: { maxFileSize: "8MB", maxFileCount: 1 },
-  })
-    .middleware(async () => {
-      const session = await getServerAuthSession();
-
-      if (session?.user.role !== "admin")
-        throw new UploadThingError("Unauthorized");
-
-      return {};
-    })
-    .onUploadComplete(({ file }) => {
-      return {
-        url: file.url,
-        key: file.key,
-      };
-    }),
 } satisfies FileRouter;
 
 export type AppFileRouter = typeof appFileRouter;

@@ -77,7 +77,7 @@ export default async function ArticlePage({
         <article>
           <div className="mx-auto max-w-xl">
             <header>
-              <Badge className="mr-2">{article.category}</Badge>
+              <Badge className="mr-2 capitalize">{article.category}</Badge>
               <span className="text-sm">
                 {format(article.createdAt, "MMM dd, yyyy")}
               </span>

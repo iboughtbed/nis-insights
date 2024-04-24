@@ -6,10 +6,11 @@ import { z } from "zod";
 import { protectedAction } from "~/lib/safe-action";
 import { generateId, slugify } from "~/lib/utils";
 import { db } from "~/server/db";
-import { articles } from "~/server/db/schema";
+import { articles, categories } from "~/server/db/schema";
 import { utapi } from "~/server/uploadthing";
 
 const createArticleSchema = z.object({
+  category: z.enum(categories.enumValues),
   title: z.string().trim().min(1).max(60),
   introduction: z.string().trim().min(1).max(120),
   content: z.string().trim().min(1),

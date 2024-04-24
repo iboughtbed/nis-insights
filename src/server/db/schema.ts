@@ -34,7 +34,7 @@ export const releases = createTable("release", {
     .notNull(),
 });
 
-export const category = pgEnum("category", ["community", "guides", "insights"]);
+export const categories = pgEnum("category", ["community", "guides", "insights"]);
 
 export const articles = createTable("article", {
   id: varchar("id", { length: 255 })
@@ -43,7 +43,7 @@ export const articles = createTable("article", {
   authorId: varchar("author_id")
     .notNull()
     .references(() => users.id),
-  category: category("category").notNull().default("insights"),
+  category: categories("category").notNull().default("insights"),
   title: varchar("title", { length: 255 }).notNull(),
   introduction: text("introduction").notNull(),
   content: text("content").notNull(),
@@ -63,11 +63,11 @@ export const articlesRelations = relations(articles, ({ one }) => ({
 
 // next auth
 
-export const role = pgEnum("role", ["user", "writer", "admin"]);
+export const roles = pgEnum("role", ["user", "writer", "admin"]);
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  role: role("role").notNull().default("user"),
+  role: roles("role").notNull().default("user"),
   username: varchar("username", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),

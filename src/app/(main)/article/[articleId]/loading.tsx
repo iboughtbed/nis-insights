@@ -5,7 +5,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 export default function ArticleLoading() {
   return (
     <div className="container relative flex max-w-3xl flex-col gap-8 py-8 pb-8 pt-6 md:py-8">
-      <article className="lg:ml-auto lg:w-[50rem] xl:ml-0 xl:w-auto">
+      <article>
         <div className="mx-auto max-w-xl">
           <header className="mb-10 space-y-6">
             <div className="flex items-center space-x-2">

@@ -1,15 +1,23 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Button } from "~/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "~/components/ui/command";
 import {
   Form,
   FormControl,
@@ -20,25 +28,25 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 import { Textarea } from "~/components/ui/textarea";
+import { cn } from "~/lib/utils";
 import { UploadDropzone } from "~/lib/utils/uploadthing";
 import { createArticle } from "~/server/actions/article";
-
-const Editor = dynamic(() => import("~/components/editor"), { ssr: false });
+import { categories } from "~/server/db/schema";
 
 const formSchema = z.object({
+  category: z.enum(categories.enumValues),
   title: z.string().trim().min(1).max(60),
   introduction: z.string().trim().min(1).max(120),
   content: z.string().trim().min(1),
-  coverImage: z
-    .string({
-      required_error: "Please upload a cover image",
-    })
-    .url(),
+  coverImage: z.string().url(),
   coverImageKey: z.string(),
 });
-
-type FormData = z.infer<typeof formSchema>;
 
 export function CreateArticleForm() {
   const router = useRouter();
@@ -49,27 +57,30 @@ export function CreateArticleForm() {
       router.push(`/article/${id}`);
     },
     onError: () => {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong, try again");
     },
   });
 
-  const form = useForm<FormData>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      category: "insights",
       title: "",
-      introduction: "",
     },
   });
 
-  const onEditorValueChange = useCallback(
-    (content: string) => {
-      form.setValue("content", content);
-    },
-    [form],
-  );
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    execute(values);
+  }
 
-  function onSubmit(data: FormData) {
-    execute(data);
+  function onUpload(files: { key: string; url: string }[]) {
+    const file = files[0];
+
+    if (file) {
+      form.setValue("coverImage", file.url);
+      form.setValue("coverImageKey", file.key);
+      toast.success("Successfully uploaded the cover image");
+    }
   }
 
   return (
@@ -77,46 +88,12 @@ export function CreateArticleForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="coverImage"
-          render={() => (
-            <FormItem>
-              <FormLabel>Cover image</FormLabel>
-              <FormDescription>
-                Upload images with 16:9 resolution for better experience
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <UploadDropzone
-          endpoint="articleCoverUploader"
-          onClientUploadComplete={(res) => {
-            const file = res[0];
-            if (file) {
-              form.setValue("coverImage", file.url);
-              form.setValue("coverImageKey", file.key);
-              toast.success("Uploaded the cover image");
-            }
-          }}
-          onUploadError={() => {
-            toast.error(
-              "Something went wrong. Couldn't upload the cover image",
-            );
-          }}
-        />
-
-        <FormField
-          control={form.control}
           name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
-              <FormDescription>
-                Do I fucking need to explain what this is?
-              </FormDescription>
               <FormControl>
-                <Input placeholder="How to eat spoon" {...field} />
+                <Input placeholder="How to create a website..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,13 +106,9 @@ export function CreateArticleForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Introduction</FormLabel>
-              <FormDescription>
-                Introduction that will appear before your article&apos;s content
-              </FormDescription>
               <FormControl>
                 <Textarea
-                  placeholder="I always wanted to eat spoons and now I'm gonna teach you how to eat it"
-                  className="min-h-[200px]"
+                  placeholder="You can use frameworks like Next.js..."
                   {...field}
                 />
               </FormControl>
@@ -146,28 +119,122 @@ export function CreateArticleForm() {
 
         <FormField
           control={form.control}
-          name="content"
+          name="category"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Category</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between",
+                        !field.value && "text-muted-foreground",
+                      )}
+                    >
+                      {field.value
+                        ? categories.enumValues.find(
+                            (category) => category === field.value,
+                          )
+                        : "Select category"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search category..." />
+                    <CommandEmpty>No cateogries found.</CommandEmpty>
+                    <CommandGroup>
+                      {categories.enumValues.map((category) => (
+                        <CommandItem
+                          value={category}
+                          key={category}
+                          onSelect={() => {
+                            form.setValue("category", category);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              category === field.value
+                                ? "opacity-100"
+                                : "opacity-0",
+                            )}
+                          />
+                          {category}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="coverImage"
           render={() => (
             <FormItem>
+              <FormLabel>Cover image</FormLabel>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <UploadDropzone
+          endpoint="articleCoverUploader"
+          className="border border-input"
+          onClientUploadComplete={onUpload}
+          onUploadError={() =>
+            toast.error("Something went wrong while uploading the cover image")
+          }
+        />
+
+        {form.watch("coverImage") && (
+          <AspectRatio ratio={16 / 9}>
+            <Image
+              src={form.watch("coverImage")}
+              alt=""
+              className="rounded-xl object-cover"
+              sizes="(max-width: 768px) 90vw, 50vw"
+              fill
+            />
+          </AspectRatio>
+        )}
+
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem>
               <FormLabel>Content</FormLabel>
-              <FormDescription>Using markdown</FormDescription>
+              <FormDescription>Markdown supported</FormDescription>
               <FormControl>
-                <Editor onValueChange={onEditorValueChange} />
+                <Textarea
+                  placeholder="To build web application you can use Next.js..."
+                  className="min-h-[400px]"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="mt-4 flex items-center justify-end">
-          <Button
-            type="submit"
-            variant="secondary"
-            disabled={status === "executing"}
-          >
-            Publish
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          variant="outline"
+          className="w-full"
+          disabled={status === "executing" || status === "hasSucceeded"}
+        >
+          Submit
+        </Button>
       </form>
     </Form>
   );

@@ -1,32 +1,18 @@
+import { CreateArticleForm } from "../_components/create-article-form";
+
 export default function NewArticlePage() {
-  return <></>;
+  return (
+    <div className="container relative flex max-w-3xl flex-col">
+      <div className="flex flex-col items-center pb-10 pt-8">
+        <h1 className="text-center text-4xl font-bold tracking-tight">
+          Create a new article
+        </h1>
+        <p className="mt-2 text-balance text-center">Markdown is used</p>
+      </div>
+
+      <div className="pb-10 pt-8">
+        <CreateArticleForm />
+      </div>
+    </div>
+  );
 }
-
-// import type { Metadata } from "next";
-
-// import { CreateArticleForm } from "~/app/(main)/new/_components/create-article-form";
-// import {
-//   PageHeader,
-//   PageHeaderDescription,
-//   PageHeaderHeading,
-// } from "~/components/page-header";
-// import { Shell } from "~/components/shell";
-
-// export const metadata: Metadata = {
-//   title: "New article",
-//   description: "Write your article and share it with the world",
-// };
-
-// export default async function NewArticlePage() {
-//   return (
-//     <Shell variant="markdown">
-//       <PageHeader>
-//         <PageHeaderHeading size="sm">New article</PageHeaderHeading>
-//         <PageHeaderDescription size="sm">
-//           Publish a new article
-//         </PageHeaderDescription>
-//       </PageHeader>
-//       <CreateArticleForm />
-//     </Shell>
-//   );
-// }
