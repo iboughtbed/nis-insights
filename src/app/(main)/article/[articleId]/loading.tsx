@@ -13,6 +13,7 @@ export default function ArticleLoading() {
               <Skeleton className="h-4 w-10" />
             </div>
             <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-8 w-full" />
             <div className="flex items-center space-x-2">
               <Skeleton className="size-10 rounded-full" />
               <div className="space-y-1">
@@ -20,7 +21,7 @@ export default function ArticleLoading() {
                 <Skeleton className="h-3 w-10" />
               </div>
             </div>
-            <div className="relative my-10 md:ml-[-7rem] md:w-[calc(100%+7rem*2)]">
+            <div className="relative my-10">
               <AspectRatio ratio={16 / 9}>
                 <Skeleton className="size-full" />
               </AspectRatio>

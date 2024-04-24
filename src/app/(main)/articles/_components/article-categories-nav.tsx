@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Badge } from "~/components/ui/badge";
+import { buttonVariants } from "~/components/ui/button";
 import {
   Drawer,
   DrawerContent,
@@ -12,6 +13,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "~/components/ui/drawer";
+import { cn } from "~/lib/utils";
 
 export function ArticleCategoriesNav() {
   const pathname = usePathname();
@@ -48,13 +50,20 @@ export function ArticleCategoriesNav() {
           </button>
         </DrawerTrigger>
         <DrawerContent>
-          <div className="mx-auto w-full max-w-sm px-4 pb-8">
+          <div className="mx-auto w-full max-w-sm">
             <DrawerHeader>
               <DrawerTitle>Select a category</DrawerTitle>
             </DrawerHeader>
-            <div className="flex flex-col font-medium">
+            <div className="flex flex-col items-center gap-4 p-4">
               {items.map((item, index) => (
-                <Link key={index} href={item.href} className="border-t py-2">
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={cn(
+                    buttonVariants({ variant: "outline" }),
+                    "w-full",
+                  )}
+                >
                   {item.title}
                 </Link>
               ))}

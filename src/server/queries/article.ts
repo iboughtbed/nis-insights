@@ -9,6 +9,15 @@ import { articles } from "~/server/db/schema";
 export async function getArticle({ id }: { id: string }) {
   const article = await db.query.articles.findFirst({
     where: (model, { eq }) => eq(model.id, id),
+    columns: {
+      authorId: true,
+      category: true,
+      title: true,
+      introduction: true,
+      content: true,
+      coverImage: true,
+      createdAt: true,
+    },
     with: {
       author: {
         columns: {

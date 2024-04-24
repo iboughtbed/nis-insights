@@ -10,7 +10,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const pathname = usePathname();
 
   const darkPathnames = ["/", "/explore"];
-  const lightPathnames = [""];
+  const lightPathnames = ["/articles"];
 
   return (
     <NextThemesProvider

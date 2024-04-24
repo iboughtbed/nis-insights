@@ -27,7 +27,8 @@ export default async function ArticlesPage({
   const { articles, pageCount } = await getArticles({ limit, offset });
 
   return (
-    <div className="bg-circuit container lg:max-w-[60rem] xl:max-w-[76rem]">
+    <div className="bg-circuit container">
+      <div className="absolute inset-0 bg-gradient-to-t from-background" />
       <div className="relative flex flex-col gap-8 pb-8 pt-6 md:py-8 md:pb-10">
         <div>
           <h1 className="mt-16 text-sm font-medium text-indigo-600">

@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { MemoizedReactMarkdown } from "~/components/mdx/markdown";
 import { TracingBeam } from "~/components/tracing-beam";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
+import { Badge } from "~/components/ui/badge";
 import { siteConfig } from "~/config/site";
 import { absoluteUrl, truncate } from "~/lib/utils";
 import { db } from "~/server/db";
@@ -76,6 +77,7 @@ export default async function ArticlePage({
         <article>
           <div className="mx-auto max-w-xl">
             <header>
+              <Badge className="mr-2">{article.category}</Badge>
               <span className="text-sm">
                 {format(article.createdAt, "MMM dd, yyyy")}
               </span>
@@ -99,7 +101,7 @@ export default async function ArticlePage({
                   <span>{article.author.username}</span>
                 </div>
               </div>
-              <div className="relative my-10 lg:ml-[-7rem] lg:w-[calc(100%+7rem*2)]">
+              <div className="relative my-10">
                 <AspectRatio ratio={16 / 9}>
                   <Image
                     alt="article cover"
