@@ -11,7 +11,7 @@ import { StackItem } from "./shared";
 
 export function StackSlider() {
   return (
-    <div className="flex flex-col gap-8 md:hidden">
+    <div className="flex flex-col gap-8 xl:hidden">
       <div className="flex-1">
         <div>
           <h5 className="mb-4 text-sm font-semibold tracking-tighter text-[#a594fd]">

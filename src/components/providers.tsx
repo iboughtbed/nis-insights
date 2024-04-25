@@ -9,7 +9,7 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const pathname = usePathname();
 
-  const darkPathnames = ["/", "/explore"];
+  const darkPathnames = ["/", "/explore", "/releases"];
   const lightPathnames = ["/articles", "/blog"];
 
   return (

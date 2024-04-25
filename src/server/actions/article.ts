@@ -20,22 +20,16 @@ const createArticleSchema = z.object({
 
 export const createArticle = protectedAction(
   createArticleSchema,
-  async ({ content, ...input }, { session }) => {
+  async ({ ...input }, { session }) => {
     if (session.user.role === "user") {
       throw new Error("Permission denied");
     }
 
     const id = `${slugify(input.title)}-${generateId()}`;
 
-    const filteredContent = content
-      .split("\n")
-      .map((line) => line.trim())
-      .join("\n");
-
     await db.insert(articles).values({
       id,
       authorId: session.user.id,
-      content: filteredContent,
       ...input,
     });
 

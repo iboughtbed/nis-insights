@@ -137,7 +137,7 @@ export default async function PostPage({ params }: PostPageProps) {
           ) : null}
         </div>
       </div>
-      <div className="flex w-full flex-col max-xl:max-w-3xl xl:grid xl:grid-cols-[1fr_300px]">
+      <div className="flex w-full flex-col gap-16 max-xl:max-w-3xl xl:grid xl:grid-cols-[1fr_300px]">
         <div className="flex max-w-3xl flex-col gap-8">
           {post.image && (
             <AspectRatio ratio={16 / 9}>

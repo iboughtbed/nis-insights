@@ -3,7 +3,7 @@ import "server-only";
 import { db } from "~/server/db";
 
 export async function getRelease({ id }: { id: string }) {
-  const data = await db.query.releases.findFirst({
+  const release = await db.query.releases.findFirst({
     where: (model, { eq }) => eq(model.id, id),
     columns: {
       date: true,
@@ -13,22 +13,22 @@ export async function getRelease({ id }: { id: string }) {
     },
   });
 
-  return { data };
+  return { release };
 }
 
 export async function getEmbedUrl({ id }: { id: string }) {
-  const data = await db.query.releases.findFirst({
+  const release = await db.query.releases.findFirst({
     where: (model, { eq }) => eq(model.id, id),
     columns: {
       embedUrl: true,
     },
   });
 
-  return { data };
+  return { release };
 }
 
 export async function getReleases() {
-  const data = await db.query.releases.findMany({
+  const releases = await db.query.releases.findMany({
     columns: {
       id: true,
       date: true,
@@ -37,5 +37,5 @@ export async function getReleases() {
     orderBy: (model, { desc }) => desc(model.createdAt),
   });
 
-  return { data };
+  return { releases };
 }
