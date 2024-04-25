@@ -2,6 +2,7 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import Image from "next/image";
 
 import { Callout } from "~/components/mdx/callout";
+import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { cn } from "~/lib/utils";
 
 export const components = {
@@ -143,7 +144,7 @@ export const components = {
   ),
 };
 
-const mdxComponents = { ...components, Image, Callout };
+const mdxComponents = { ...components, Image, Callout, AspectRatio };
 
 interface MdxProps {
   code: string;

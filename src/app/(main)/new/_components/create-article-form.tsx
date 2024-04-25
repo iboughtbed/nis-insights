@@ -1,5 +1,7 @@
 "use client";
 
+import "~/styles/mdx.css";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -9,6 +11,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { Editor } from "~/components/editor";
+import { MemoizedReactMarkdown } from "~/components/mdx/markdown";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Button } from "~/components/ui/button";
 import {
@@ -33,6 +37,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "~/components/ui/resizable";
 import { Textarea } from "~/components/ui/textarea";
 import { cn } from "~/lib/utils";
 import { UploadDropzone } from "~/lib/utils/uploadthing";
@@ -86,155 +95,164 @@ export function CreateArticleForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="How to create a website..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+        <div className="mx-auto max-w-3xl space-y-6">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="How to create a website..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="introduction"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Introduction</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="You can use frameworks like Next.js..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Category</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground",
+                        )}
+                      >
+                        {field.value
+                          ? categories.enumValues.find(
+                              (category) => category === field.value,
+                            )
+                          : "Select category"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search category..." />
+                      <CommandEmpty>No cateogries found.</CommandEmpty>
+                      <CommandGroup>
+                        {categories.enumValues.map((category) => (
+                          <CommandItem
+                            value={category}
+                            key={category}
+                            onSelect={() => {
+                              form.setValue("category", category);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                category === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0",
+                              )}
+                            />
+                            {category}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="coverImage"
+            render={() => (
+              <FormItem>
+                <FormLabel>Cover image</FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <UploadDropzone
+            endpoint="articleCoverUploader"
+            className="border border-input"
+            onClientUploadComplete={onUpload}
+            onUploadError={() =>
+              toast.error(
+                "Something went wrong while uploading the cover image",
+              )
+            }
+          />
+
+          {form.watch("coverImage") && (
+            <AspectRatio ratio={16 / 9}>
+              <Image
+                src={form.watch("coverImage")}
+                alt=""
+                className="rounded-xl object-cover"
+                sizes="(max-width: 768px) 90vw, 50vw"
+                fill
+              />
+            </AspectRatio>
           )}
-        />
 
-        <FormField
-          control={form.control}
-          name="introduction"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Introduction</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="You can use frameworks like Next.js..."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Category</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground",
-                      )}
-                    >
-                      {field.value
-                        ? categories.enumValues.find(
-                            (category) => category === field.value,
-                          )
-                        : "Select category"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search category..." />
-                    <CommandEmpty>No cateogries found.</CommandEmpty>
-                    <CommandGroup>
-                      {categories.enumValues.map((category) => (
-                        <CommandItem
-                          value={category}
-                          key={category}
-                          onSelect={() => {
-                            form.setValue("category", category);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              category === field.value
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                          {category}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="coverImage"
-          render={() => (
-            <FormItem>
-              <FormLabel>Cover image</FormLabel>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <UploadDropzone
-          endpoint="articleCoverUploader"
-          className="border border-input"
-          onClientUploadComplete={onUpload}
-          onUploadError={() =>
-            toast.error("Something went wrong while uploading the cover image")
-          }
-        />
-
-        {form.watch("coverImage") && (
-          <AspectRatio ratio={16 / 9}>
-            <Image
-              src={form.watch("coverImage")}
-              alt=""
-              className="rounded-xl object-cover"
-              sizes="(max-width: 768px) 90vw, 50vw"
-              fill
-            />
-          </AspectRatio>
-        )}
+          <Button
+            type="submit"
+            variant="outline"
+            className="w-full"
+            disabled={status === "executing" || status === "hasSucceeded"}
+          >
+            Submit
+          </Button>
+        </div>
 
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
-            <FormItem>
+          render={() => (
+            <FormItem className="h-full">
               <FormLabel>Content</FormLabel>
               <FormDescription>Markdown supported</FormDescription>
-              <FormControl>
-                <Textarea
-                  placeholder="To build web application you can use Next.js..."
-                  className="min-h-[400px]"
-                  {...field}
-                />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button
-          type="submit"
-          variant="outline"
-          className="w-full"
-          disabled={status === "executing" || status === "hasSucceeded"}
-        >
-          Submit
-        </Button>
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={50}>
+            <Editor onChange={(value) => form.setValue("content", value)} />
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={50} minSize={30} maxSize={70}>
+            <MemoizedReactMarkdown className="px-14 py-3">
+              {form.watch("content")}
+            </MemoizedReactMarkdown>
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </form>
     </Form>
   );

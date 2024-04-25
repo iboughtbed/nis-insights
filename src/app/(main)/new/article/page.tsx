@@ -2,7 +2,7 @@ import { CreateArticleForm } from "../_components/create-article-form";
 
 export default function NewArticlePage() {
   return (
-    <div className="container relative flex max-w-3xl flex-col">
+    <div className="container relative flex flex-col">
       <div className="flex flex-col items-center pb-10 pt-8">
         <h1 className="text-center text-4xl font-bold tracking-tight">
           Create a new article

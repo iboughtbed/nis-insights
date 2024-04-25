@@ -91,14 +91,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const toc = await getTableOfContents(post.body.raw);
 
-  return null;
-
   return (
     <article className="container flex flex-col gap-8 max-xl:items-center lg:max-w-[60rem] xl:max-w-[76rem]">
       <div className="flex max-w-3xl flex-col gap-8 py-8 md:py-10">
         <Link
           href="/blog"
-          className={cn(buttonVariants({ variant: "ghost" }), "self-start")}
+          className={cn(buttonVariants({ variant: "outline" }), "self-start")}
         >
           <ChevronLeftIcon className="mr-2 size-4" aria-hidden="true" />
           See all posts
@@ -107,7 +105,9 @@ export default async function PostPage({ params }: PostPageProps) {
           <h1 className="inline-block text-4xl font-bold leading-tight lg:text-5xl">
             {post.title}
           </h1>
-          <p className="mt-4 text-lg text-gray-700">{post.description}</p>
+          <p className="mt-4 text-lg text-secondary-foreground">
+            {post.description}
+          </p>
           {authors?.length ? (
             <div className="flex items-center space-x-4 pt-4">
               {authors.map((author) =>

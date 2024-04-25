@@ -34,7 +34,11 @@ export const releases = createTable("release", {
     .notNull(),
 });
 
-export const categories = pgEnum("category", ["community", "guides", "insights"]);
+export const categories = pgEnum("category", [
+  "community",
+  "guides",
+  "insights",
+]);
 
 export const articles = createTable("article", {
   id: varchar("id", { length: 255 })

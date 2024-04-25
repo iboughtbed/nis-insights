@@ -1,172 +1,62 @@
-"use client";
+import MonacoEditor from "@monaco-editor/react";
+import { useTheme } from "next-themes";
 
-import "~/styles/mdx.css";
-
-import { useCallback, useEffect, useRef, useState } from "react";
-
-import { EditorMenu } from "~/components/editor-menu";
-import { MemoizedReactMarkdown } from "~/components/mdx/markdown";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { Textarea } from "~/components/ui/textarea";
-import { commands, type Commands } from "~/config/editor";
+import { Skeleton } from "~/components/ui/skeleton";
+import { useMounted } from "~/hooks/use-mounted";
 
 interface EditorProps {
-  content?: string;
-  onValueChange: (value: string) => void;
+  markdown?: string;
+  onChange: (value: string) => void;
 }
 
-export default function Editor({ content = "", onValueChange }: EditorProps) {
-  const [editorContent, setEditorContent] = useState(content);
-  const [selectedTab, setSelectedTab] = useState<"write" | "preview">("write");
+export function Editor({ markdown, onChange }: EditorProps) {
+  const { resolvedTheme } = useTheme();
 
-  const [history, setHistory] = useState([editorContent]);
-  const [historyIndex, setHistoryIndex] = useState(0);
-  const [selection, setSelection] = useState<{ start: number; end: number }>();
+  const mounted = useMounted();
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    onValueChange(editorContent);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editorContent]);
-
-  useEffect(() => {
-    if (!selection || !textareaRef.current) return;
-    textareaRef.current.setSelectionRange(selection.start, selection.end);
-    textareaRef.current.focus();
-  }, [selection]);
-
-  const handleUndo = useCallback(() => {
-    if (historyIndex > 0) {
-      setHistoryIndex(historyIndex - 1);
-      setEditorContent(history[historyIndex - 1] ?? content);
-    }
-  }, [history, historyIndex, content]);
-
-  const handleRedo = useCallback(() => {
-    if (historyIndex < history.length - 1) {
-      setHistoryIndex(historyIndex + 1);
-      setEditorContent(history[historyIndex + 1] ?? content);
-    }
-  }, [history, historyIndex, content]);
-
-  useEffect(() => {
-    const handleUndoRedo = (event: KeyboardEvent) => {
-      if (event.ctrlKey || event.metaKey) {
-        if (event.key === "z") {
-          event.preventDefault();
-          handleUndo();
-        } else if (event.key === "y") {
-          event.preventDefault();
-          handleRedo();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleUndoRedo);
-    return () => {
-      document.removeEventListener("keydown", handleUndoRedo);
-    };
-  }, [handleUndo, handleRedo]);
-
-  const onCommand = useCallback(
-    (command: Commands[number]["title"]) => {
-      if (textareaRef.current) {
-        const selectionStart = textareaRef.current.selectionStart;
-        const selectionEnd = textareaRef.current.selectionEnd;
-
-        const selectedText = textareaRef.current.value.substring(
-          selectionStart,
-          selectionEnd,
-        );
-
-        const commandHandler = commands.find((cmd) => cmd.title === command);
-        if (!commandHandler) return;
-
-        let newSelectedText = commandHandler.handler(
-          !selectedText.length ? undefined : selectedText,
-        );
-
-        const isInlineCommand =
-          commandHandler.title === "Bold" ||
-          commandHandler.title === "Italic" ||
-          commandHandler.title === "Code" ||
-          commandHandler.title === "Link";
-
-        if (!isInlineCommand) {
-          newSelectedText = "\n" + newSelectedText;
-        }
-
-        const newText =
-          textareaRef.current.value.substring(0, selectionStart) +
-          newSelectedText +
-          textareaRef.current.value.substring(selectionEnd);
-
-        setEditorContent(newText);
-
-        const newHistory = history.slice(0, historyIndex + 1);
-        newHistory.push(newText);
-        setHistory(newHistory);
-        setHistoryIndex(newHistory.length - 1);
-
-        const newSelectionStart = selectionStart + newSelectedText.length;
-        const newSelectionEnd = selectionStart + newSelectedText.length;
-
-        setSelection({ start: newSelectionStart, end: newSelectionEnd });
-      }
-    },
-    [history, historyIndex],
-  );
-
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const newContent = e.target.value;
-      setEditorContent(newContent);
-
-      const newHistory = history.slice(0, historyIndex + 1);
-      newHistory.push(newContent);
-      setHistory(newHistory);
-      setHistoryIndex(newHistory.length - 1);
-    },
-    [history, historyIndex],
-  );
+  function handleEditorChange(value: string | undefined) {
+    onChange(value ?? "");
+  }
 
   return (
-    <Tabs
-      defaultValue="write"
-      onValueChange={(value) => setSelectedTab(value as "write" | "preview")}
-    >
-      <div className="flex flex-wrap items-center justify-between">
-        <TabsList>
-          <TabsTrigger value="write">Write</TabsTrigger>
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-        </TabsList>
-        {selectedTab === "write" && (
-          <EditorMenu
-            onCommand={onCommand}
-            handleRedo={handleRedo}
-            handleUndo={handleUndo}
-          />
-        )}
-      </div>
-      <TabsContent value="write">
-        <Textarea
-          className="min-h-[400px] overflow-x-auto text-base"
-          value={editorContent}
-          onChange={onChange}
-          ref={textareaRef}
+    <div className="relative min-h-[400px] w-full">
+      {mounted ? (
+        <MonacoEditor
+          language="markdown"
+          value={markdown}
+          theme={resolvedTheme === "dark" ? "vs-dark" : "vs-light"}
+          onChange={handleEditorChange}
+          options={{
+            minimap: {
+              enabled: false,
+            },
+            wordWrap: "on",
+            wrappingIndent: "indent",
+            scrollBeyondLastLine: false,
+            scrollbar: {
+              vertical: "hidden",
+              horizontal: "hidden",
+            },
+            lineNumbers: "off",
+            overviewRulerLanes: 0,
+            lineDecorationsWidth: 0,
+            lineNumbersMinChars: 0,
+            // glyphMargin: false,
+            // folding: false,
+            renderLineHighlight: "none",
+            fontSize: 14,
+            padding: {
+              top: 12,
+              bottom: 650,
+            },
+            cursorBlinking: "smooth",
+            dragAndDrop: true,
+          }}
+          className="min-h-[400px]"
         />
-      </TabsContent>
-      <TabsContent
-        value="preview"
-        className="h-[400px] overflow-y-scroll rounded-md border px-3 py-2"
-      >
-        {editorContent.trim() === "" ? (
-          "Nothing to preview"
-        ) : (
-          <MemoizedReactMarkdown>{editorContent}</MemoizedReactMarkdown>
-        )}
-      </TabsContent>
-    </Tabs>
+      ) : (
+        <Skeleton className="h-40 w-full" />
+      )}
+    </div>
   );
 }

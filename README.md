@@ -24,6 +24,8 @@ This is an open source school magazine website build with everything new in Next
 - [x] Validation with **Zod**
 - [x] File uploads with **uploadthing**
 - [x] Blog using **MDX** and **Contentlayer**
+- [ ] Markdown preview, editor with **Monaco**
+- [ ] AI tools for markdown editor
 - [ ] Admin dashboard with articles and releases
 
 ## Running Locally
