@@ -4,7 +4,7 @@ import { count } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "~/server/db";
-import { articles } from "~/server/db/schema";
+import { articles, categories } from "~/server/db/schema";
 
 export async function getArticle({ id }: { id: string }) {
   const article = await db.query.articles.findFirst({
@@ -34,13 +34,17 @@ export async function getArticle({ id }: { id: string }) {
 const getArticlesSchema = z.object({
   limit: z.number().min(1).max(10).default(10),
   offset: z.number().default(0),
+  category: z.enum(categories.enumValues).optional().catch(undefined),
 });
 
-export async function getArticles(input: { limit: number; offset: number }) {
+export async function getArticles(input: z.infer<typeof getArticlesSchema>) {
   try {
-    const { limit, offset } = getArticlesSchema.parse(input);
+    const { limit, offset, category } = getArticlesSchema.parse(input);
 
     const data = await db.query.articles.findMany({
+      where: category
+        ? (model, { eq }) => eq(model.category, category)
+        : undefined,
       limit,
       offset,
       columns: {

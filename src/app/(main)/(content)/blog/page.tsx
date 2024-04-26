@@ -25,7 +25,7 @@ export default function BlogPage() {
             Explore our journey and growth
           </p>
           <p className="mt-4 text-lg text-gray-700">
-            Learn more about NIS Insights and our impact on community
+            Explore the latest news and updates from the community
           </p>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">

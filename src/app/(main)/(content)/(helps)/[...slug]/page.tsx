@@ -5,11 +5,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Mdx } from "~/components/mdx/mdx-components";
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "~/components/page-header";
 import { Separator } from "~/components/ui/separator";
 import { siteConfig } from "~/config/site";
 import { absoluteUrl } from "~/lib/utils";
@@ -81,10 +76,14 @@ export default function Page({ params }: PageProps) {
 
   return (
     <article className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-8 py-8 pb-8 pt-6 md:py-10 lg:py-10">
-      <PageHeader>
-        <PageHeaderHeading>{page.title}</PageHeaderHeading>
-        <PageHeaderDescription>{page.description}</PageHeaderDescription>
-      </PageHeader>
+      <div>
+        <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
+          {page.title}
+        </h1>
+        <p className="max-w-[750px] text-base text-muted-foreground sm:text-lg">
+          {page.description}
+        </p>
+      </div>
       <Separator />
       <Mdx code={page.body.code} />
     </article>

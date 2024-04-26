@@ -15,7 +15,8 @@ export default async function ArticlesPage({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
-  const { page, per_page } = articlesSearchParamsSchema.parse(searchParams);
+  const { page, per_page, category } =
+    articlesSearchParamsSchema.parse(searchParams);
 
   const pageAsNumber = Number(page);
   const fallbackPage =
@@ -24,7 +25,11 @@ export default async function ArticlesPage({
   const limit = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
   const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0;
 
-  const { articles, pageCount } = await getArticles({ limit, offset });
+  const { articles, pageCount } = await getArticles({
+    limit,
+    offset,
+    category,
+  });
 
   return (
     <div className="bg-circuit container">

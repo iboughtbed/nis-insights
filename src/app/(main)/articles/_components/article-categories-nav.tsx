@@ -20,9 +20,9 @@ export function ArticleCategoriesNav() {
 
   const items = [
     { title: "All categories", href: "/articles" },
-    { title: "Community", href: "/articles/community" },
-    { title: "Guides", href: "/articles/guides" },
-    { title: "Insights", href: "/articles/insights" },
+    { title: "Community", href: "/articles?category=community" },
+    { title: "Guides", href: "/articles?category=guides" },
+    { title: "Insights", href: "/articles?category=insights" },
   ];
 
   return (
