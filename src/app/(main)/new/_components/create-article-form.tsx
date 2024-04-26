@@ -243,11 +243,16 @@ export function CreateArticleForm() {
         />
 
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={50}>
+          <ResizablePanel defaultSize={50} className="border">
             <Editor onChange={(value) => form.setValue("content", value)} />
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={50} minSize={30} maxSize={70}>
+          <ResizablePanel
+            defaultSize={50}
+            minSize={30}
+            maxSize={70}
+            className="border"
+          >
             <MemoizedReactMarkdown className="px-14 py-3">
               {form.watch("content")}
             </MemoizedReactMarkdown>

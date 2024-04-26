@@ -1,0 +1,236 @@
+---
+title: Redesigning and refactoring the website
+description: Insights website got a new design
+image: "/images/blog/blog-post-3.jpg"
+date: "2024-04-26"
+authors:
+  - iboughtbed
+---
+
+Recently I redesigned and refactored the website.
+
+## What's new?
+
+### 1. Fresh and modern design
+
+I have been working on the design for a week. This version was mostly inspired by [Chronicle](https://chroniclehq.com).
+In 7 days, I made 3 prototypes.
+
+Version 1
+![website design version 1](/images/blog/examples/design-version-1.png)
+
+Version 2
+![website design version 2](/images/blog/examples/design-version-2.png)
+
+Current version
+![website design current version](/og.png)
+
+---
+
+### 2. Animations
+
+#### Smooth scroll
+
+Smooth scroll was done using [Lenis](https://lenis.darkroom.engineering/).
+
+I used [Framer Motion](https://www.framer.com/motion) for animations.
+
+One of the pages that has the most animations is home page.  
+Home page has different sections:
+
+- Hero section
+- Benefits section
+- Mission section
+- Features section
+
+#### Hero section
+
+Hero seciton has a heading and a hero image. The heading has a colorful animated background.
+
+![colorful animation](/images/heading-animation.webp)
+
+And a banner which I designed in figma. I took an inspiration from a magazine called fyrre magazine.
+The image has a property to rotate on scroll with perspective shift.
+
+![a banner for our website](/images/hero-image.png)
+
+#### Benefits section
+
+Benefit sections has an animated grid that moves its elements on scroll.
+This was inspired by the Chronicle website. The animations were done using
+Framer Motion's hook `useScroll`, tracking the scroll progress and changing
+the `y` value of elements.
+
+#### Mission section
+
+Mission section consists of a text revealed on scroll. The opacity is changing
+based on the scroll progress.
+
+#### Features section
+
+Features section has animated boxes that reveal a gradient border on hover. All of This
+was purely done using CSS
+
+---
+
+### 3. Tech stack
+
+I moved from [Prisma](https://prisma.io) to [Drizzle ORM](https://orm.drizzle.team).
+The main advantages of Drizzle are speed performance and the fact that it's written
+in TypeScript. Also you get to understand SQL and have much more power over your
+database models and tables. The migration wasn't that hard, because Drizzle has it's
+own guies for the migration from Prisma.
+
+---
+
+## Benefits
+
+### 1. Optimized performance
+
+I have optimized the website performance by reducing slow code, and using best practices.
+
+I refactored the codebase and optimized it:
+
+- Next.js built-in optimization
+- Seperated server actions and taint (server-only)
+- Security and authorization
+- Moved from Prisma to Drizzle
+- Removed unnecessary code
+- Optimized the markdown editor and preview
+
+#### Next.js built-in optimization
+
+Next.js provides build in optimizations like built-in components, metadata (SEO), static assets
+and analytics.
+
+#### Server actions and server-only code
+
+Before this I used server actions to fetch data, but it has its own limitations and initially
+was made for data mutations. By moving to server-only code, I've eliminated the need for
+server actions. Server actions send `POST` request and is turned to an endpoint. While
+`server-only` code only runs on server and cannot be accessed by the client.
+
+```diff title="server/queries/article.ts"
+- "use server"
++ import "sever-only"
+
+```
+
+#### Security and authorization
+
+I'm really serious about security. I try to make my app as secure as possible,
+trying to use best practices. I've choosed a specific Data Handling Model - Data Access Layer.
+
+> We recommend that you stick to one approach and don't mix and match too much.
+> This makes it clear for both developers working in your code base and security auditors for what to expect.
+> Exceptions pop out as suspicious.
+>
+> [Next.js Blog - How to Think About Security in Next.js](https://nextjs.org/blog/security-nextjs-server-components-actions)
+
+For reading data I use server-only files to retrieve data from database. These function can
+only be called in Server Components. For writing data (data mutations) I use server actions.
+It is important to first validate inputs and authorize the user.
+
+For example, not everyone can write articles, or delete someone else's articles.
+
+```ts title="/server/actions/article.ts" {4-6}
+export const createArticle = protectedAction(
+  createArticleSchema,
+  async ({ ...input }, { session }) => {
+    if (session.user.role === "user") {
+      throw new Error("Permission denied");
+    }
+
+    ...
+  },
+);
+
+```
+
+```ts title="/server/actions/article.ts" {12-14}
+export const deleteArticle = protectedAction(
+  deleteArticleSchema,
+  async ({ id }, { session }) => {
+    const article = await db.query.articles.findFirst({
+      where: (model, { eq }) => eq(model.id, id),
+      columns: {
+        authorId: true,
+        ...
+      },
+    });
+
+    if (article?.authorId !== session.user.id) {
+      throw new Error("Permission denied");
+    }
+
+    ...
+  },
+);
+```
+
+In this case, the server actions have validations with zod, authentication and
+authorization. The server actions are only available for authenticated users.
+I created a `next-safe-action` client `protectedAction` that has middleware to
+authenticate a user and throw an error if not signed in.
+
+These make sure no data is leaked to client, no sensitive information is available on client-side,
+and no user can access data or mutate it without permissions.
+
+#### Moving to Drizzle
+
+As I mentioned before, Drizzle is fast and fully in typescript.
+
+#### Removing unnecessary code
+
+When you write code, your code has to be clean. I'm a perfectionist, and I like to keep my code clean
+and performant.
+
+#### Monaco editor and React Markdown
+
+I've made my own custom markdown editor, which was slow, so I decided to use another editor.
+I found an editor from Microsoft - [Monaco](https://github.com/microsoft/monaco-editor).
+It's fast, has many features from VS Code and supports syntax highlighting.
+
+To render the markdown and preview it I used `react-markdown` library.
+React Markdown provides a component to render markdown with `remark` and `rehype`
+plugins. Also I've used Tailwind's Typography plugin for markdown.
+
+```tsx title="/components/mdx/markdown.tsx" {5-11}
+import { components } from "./mdx-components";
+
+function Markdown({ className, ...props }: Options) {
+  return (
+    <ReactMarkdown
+      className={cn("prose dark:prose-invert overflow-hidden", className)}
+      components={components}
+      remarkPlugins={[remarkGfm, remarkBreaks]}
+      rehypePlugins={[...]}
+      {...props}
+    />
+  );
+}
+```
+
+To achieve a better performance, I wrapped the `Markdown` component with `React.memo`.
+
+```tsx title="/components/mdx/markdown.tsx"
+export const MemoizedReactMarkdown: React.FC<Options> = React.memo(
+  Markdown,
+  (prevProps, nextProps) =>
+    prevProps.children === nextProps.children &&
+    prevProps.className === nextProps.className,
+);
+```
+
+By default It's secure, because It's sanitized and secure
+
+---
+
+## Conclusion
+
+The website redesign and refactor represent a significant milestone in our commitment to providing
+a seamless, engaging experience for our users. We're excited about the improvements and
+the positive impact they will have on our digital presence.  
+We welcome your feedback as we continue to iterate and enhance our platform.
+
+Stay tuned for further updates and insights on our journey towards excellence in web development!

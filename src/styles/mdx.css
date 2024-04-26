@@ -124,7 +124,7 @@
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-line] {
-  @apply bg-zinc-700/50;
+  background-color: hsla(213, 71%, 20%, 1);
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-line] span {
