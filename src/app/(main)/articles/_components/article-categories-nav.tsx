@@ -2,7 +2,7 @@
 
 import { SectionIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { Badge } from "~/components/ui/badge";
 import { buttonVariants } from "~/components/ui/button";
@@ -16,13 +16,15 @@ import {
 import { cn } from "~/lib/utils";
 
 export function ArticleCategoriesNav() {
-  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const category = searchParams.get("category") ?? "";
 
   const items = [
-    { title: "All categories", href: "/articles" },
-    { title: "Community", href: "/articles?category=community" },
-    { title: "Guides", href: "/articles?category=guides" },
-    { title: "Insights", href: "/articles?category=insights" },
+    { title: "All categories", category: "" },
+    { title: "Community", category: "community" },
+    { title: "Guides", category: "guides" },
+    { title: "Insights", category: "insights" },
   ];
 
   return (
@@ -30,9 +32,9 @@ export function ArticleCategoriesNav() {
       <nav className="mt-10 hidden sm:block">
         <div className="flex gap-4 font-medium">
           {items.map((item, index) => (
-            <Link key={index} href={item.href}>
+            <Link key={index} href={`/articles?category=${item.category}`}>
               <Badge
-                variant={item.href === pathname ? "default" : "outline"}
+                variant={item.category === category ? "default" : "outline"}
                 className="text-sm"
               >
                 {item.title}
@@ -46,7 +48,7 @@ export function ArticleCategoriesNav() {
         <DrawerTrigger asChild>
           <button className="flex items-center gap-2 sm:hidden">
             <SectionIcon className="size-4" />
-            {items.find((item) => item.href === pathname)?.title}
+            {items.find((item) => item.category === category)?.title}
           </button>
         </DrawerTrigger>
         <DrawerContent>
@@ -58,7 +60,7 @@ export function ArticleCategoriesNav() {
               {items.map((item, index) => (
                 <Link
                   key={index}
-                  href={item.href}
+                  href={`/articles?category=${item.category}`}
                   className={cn(
                     buttonVariants({ variant: "outline" }),
                     "w-full",

@@ -2,7 +2,7 @@ import {
   defineDocumentType,
   makeSource,
   type ComputedFields,
-} from "contentlayer/source-files";
+} from "contentlayer2/source-files";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode, { type LineElement } from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -111,7 +111,6 @@ export default makeSource({
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
       [
-        // @ts-expect-error - rehype-pretty-code types are not compatible with rehype plugins
         rehypePrettyCode,
         {
           theme: "github-dark",

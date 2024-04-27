@@ -1,4 +1,4 @@
-import { useMDXComponent } from "next-contentlayer/hooks";
+import { useMDXComponent } from "next-contentlayer2/hooks";
 import Image from "next/image";
 
 import { Callout } from "~/components/mdx/callout";
@@ -136,7 +136,7 @@ export const components = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded py-[0.2rem] font-mono text-sm",
+        "relative rounded bg-muted py-[0.2rem] font-mono text-sm",
         className,
       )}
       {...props}
