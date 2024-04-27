@@ -136,7 +136,7 @@ export const components = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded bg-muted py-[0.2rem] font-mono text-sm",
+        "relative rounded bg-muted py-[0.2rem] font-mono text-sm dark:bg-[#0a0a0a]",
         className,
       )}
       {...props}

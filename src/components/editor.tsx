@@ -9,7 +9,10 @@ interface EditorProps {
   onChange: (value: string) => void;
 }
 
-export function Editor({ markdown, onChange }: EditorProps) {
+export function Editor({
+  markdown = "### Edit the content here...",
+  onChange,
+}: EditorProps) {
   const { resolvedTheme } = useTheme();
 
   const mounted = useMounted();
