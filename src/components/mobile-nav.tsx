@@ -52,6 +52,7 @@ export function MobileNav({ items }: MobileNavProps) {
                     buttonVariants({ variant: "outline" }),
                     "w-full",
                   )}
+                  onOpenChange={setOpen}
                 >
                   {item.title}
                 </MobileLink>
