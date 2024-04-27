@@ -14,7 +14,6 @@ function Markdown({ className, ...props }: Options) {
     <ReactMarkdown
       className={cn("prose overflow-hidden dark:prose-invert", className)}
       components={components}
-      // @ts-expect-error remark-gfm 3.0.1 not competible with this version
       remarkPlugins={[remarkGfm, remarkBreaks]}
       rehypePlugins={[
         rehypeSlug,

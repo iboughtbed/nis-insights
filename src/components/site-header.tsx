@@ -4,16 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icons } from "~/components/icons";
+import { MobileNav } from "~/components/mobile-nav";
 import { Button, buttonVariants } from "~/components/ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "~/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,46 +26,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 py-5 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
       <div className="container relative flex items-center justify-between">
-        <Drawer shouldScaleBackground={false}>
-          <DrawerTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="rounded-3xl border border-current text-sm md:hidden"
-            >
-              Menu
-            </Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <div className="mx-auto w-full max-w-sm">
-              <DrawerHeader>
-                <DrawerTitle>Navigate To</DrawerTitle>
-              </DrawerHeader>
-              <div className="flex flex-col items-center gap-4 p-4">
-                {siteConfig.mainNav
-                  .slice()
-                  .reverse()
-                  .map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      className={cn(
-                        buttonVariants({ variant: "outline" }),
-                        "w-full",
-                      )}
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
-              </div>
-              <DrawerFooter>
-                <DrawerClose asChild>
-                  <Button variant="outline">Close</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </div>
-          </DrawerContent>
-        </Drawer>
+        <MobileNav items={siteConfig.mainNav} />
 
         <div className="hidden items-center gap-2 text-sm md:flex">
           {siteConfig.mainNav.map((item, index) => (

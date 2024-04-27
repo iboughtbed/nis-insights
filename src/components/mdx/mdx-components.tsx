@@ -127,7 +127,7 @@ export const components = {
   pre: ({ className, ...props }: React.HtmlHTMLAttributes<HTMLPreElement>) => (
     <pre
       className={cn(
-        "dark relative mb-4 mt-6 max-h-[640px] overflow-x-auto rounded-lg border !bg-[#0a0a0a] p-4 font-mono text-sm font-semibold text-muted-foreground",
+        "dark relative mb-4 mt-6 max-h-[640px] overflow-x-auto rounded-lg border p-4 font-mono text-sm font-semibold text-muted-foreground dark:!bg-[#0a0a0a]",
         className,
       )}
       {...props}
@@ -136,7 +136,7 @@ export const components = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded bg-[#0a0a0a] py-[0.2rem] font-mono text-sm",
+        "relative rounded py-[0.2rem] font-mono text-sm",
         className,
       )}
       {...props}

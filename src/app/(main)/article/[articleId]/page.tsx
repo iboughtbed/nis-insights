@@ -14,7 +14,7 @@ import { absoluteUrl, truncate } from "~/lib/utils";
 import { db } from "~/server/db";
 import { getArticle } from "~/server/queries/article";
 
-export async function generateMetaarticle({
+export async function generateMetadata({
   params,
 }: {
   params: { articleId: string };
