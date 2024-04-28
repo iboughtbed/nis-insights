@@ -7,6 +7,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -43,6 +44,7 @@ import {
   ResizablePanelGroup,
 } from "~/components/ui/resizable";
 import { Textarea } from "~/components/ui/textarea";
+import { useDraft } from "~/hooks/use-draft";
 import { cn } from "~/lib/utils";
 import { UploadDropzone } from "~/lib/utils/uploadthing";
 import { createArticle } from "~/server/actions/article";
@@ -60,8 +62,11 @@ const formSchema = z.object({
 export function CreateArticleForm() {
   const router = useRouter();
 
+  const [draft, setDraft] = useDraft();
+
   const { execute, status } = useAction(createArticle, {
     onSuccess: ({ id }) => {
+      setDraft({});
       toast.success("Successfully created a new article, redirecting...");
       router.push(`/article/${id}`);
     },
@@ -73,10 +78,13 @@ export function CreateArticleForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      category: "insights",
-      title: "",
+      ...draft,
     },
   });
+
+  React.useEffect(() => {
+    form.reset({ ...draft });
+  }, [form, draft]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     execute(values);
@@ -88,6 +96,13 @@ export function CreateArticleForm() {
     if (file) {
       form.setValue("coverImage", file.url);
       form.setValue("coverImageKey", file.key);
+
+      setDraft((draft) => ({
+        ...draft,
+        coverImage: file.url,
+        coverImageKey: file.key,
+      }));
+
       toast.success("Successfully uploaded the cover image");
     }
   }
@@ -103,7 +118,16 @@ export function CreateArticleForm() {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="How to create a website..." {...field} />
+                  <Input
+                    placeholder="How to create a website..."
+                    {...field}
+                    onChange={(e) => {
+                      setDraft((draft) => ({
+                        ...draft,
+                        title: e.target.value,
+                      }));
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,6 +144,12 @@ export function CreateArticleForm() {
                   <Textarea
                     placeholder="You can use frameworks like Next.js..."
                     {...field}
+                    onChange={(e) => {
+                      setDraft((draft) => ({
+                        ...draft,
+                        introduction: e.target.value,
+                      }));
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -164,6 +194,10 @@ export function CreateArticleForm() {
                             key={category}
                             onSelect={() => {
                               form.setValue("category", category);
+                              setDraft((draft) => ({
+                                ...draft,
+                                category,
+                              }));
                             }}
                           >
                             <Check
@@ -244,7 +278,15 @@ export function CreateArticleForm() {
 
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={50} className="border">
-            <Editor onChange={(value) => form.setValue("content", value)} />
+            <Editor
+              onChange={(value) => {
+                form.setValue("content", value);
+                setDraft((draft) => ({
+                  ...draft,
+                  content: value,
+                }));
+              }}
+            />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel

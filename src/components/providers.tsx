@@ -1,5 +1,6 @@
 "use client";
 
+import { Provider as JotaiProvider } from "jotai";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 import { usePathname } from "next/navigation";
@@ -13,17 +14,19 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const lightPathnames = ["/articles", "/blog"];
 
   return (
-    <NextThemesProvider
-      forcedTheme={
-        darkPathnames.includes(pathname)
-          ? "dark"
-          : lightPathnames.includes(pathname)
-            ? "light"
-            : undefined
-      }
-      {...props}
-    >
-      <TooltipProvider>{children}</TooltipProvider>
-    </NextThemesProvider>
+    <JotaiProvider>
+      <NextThemesProvider
+        forcedTheme={
+          darkPathnames.includes(pathname)
+            ? "dark"
+            : lightPathnames.includes(pathname)
+              ? "light"
+              : undefined
+        }
+        {...props}
+      >
+        <TooltipProvider>{children}</TooltipProvider>
+      </NextThemesProvider>
+    </JotaiProvider>
   );
 }

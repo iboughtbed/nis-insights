@@ -2,6 +2,7 @@ import MonacoEditor from "@monaco-editor/react";
 import { useTheme } from "next-themes";
 
 import { Skeleton } from "~/components/ui/skeleton";
+import { useDraft } from "~/hooks/use-draft";
 import { useMounted } from "~/hooks/use-mounted";
 
 interface EditorProps {
@@ -9,11 +10,9 @@ interface EditorProps {
   onChange: (value: string) => void;
 }
 
-export function Editor({
-  markdown = "### Edit the content here...",
-  onChange,
-}: EditorProps) {
+export function Editor({ markdown, onChange }: EditorProps) {
   const { resolvedTheme } = useTheme();
+  const [draft] = useDraft();
 
   const mounted = useMounted();
 
@@ -26,7 +25,7 @@ export function Editor({
       {mounted ? (
         <MonacoEditor
           language="markdown"
-          value={markdown}
+          value={markdown ?? draft.content}
           theme={resolvedTheme === "dark" ? "vs-dark" : "vs-light"}
           onChange={handleEditorChange}
           options={{
