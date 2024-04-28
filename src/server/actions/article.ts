@@ -39,7 +39,7 @@ export const createArticle = protectedAction(
 
 const updateArticleSchema = createArticleSchema
   .partial()
-  .merge(z.object({ id: z.string() }));
+  .extend({ id: z.string() });
 
 export const updateArticle = protectedAction(
   updateArticleSchema,

@@ -47,7 +47,11 @@ export default async function ArticlesPage({
           </p>
         </div>
         <ArticleCategoriesNav />
-        <Articles articles={articles} pageCount={pageCount} />
+        {!!articles.length ? (
+          <Articles articles={articles} pageCount={pageCount} />
+        ) : (
+          <p>No articles yet...</p>
+        )}
       </div>
     </div>
   );
