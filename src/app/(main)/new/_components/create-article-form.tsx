@@ -77,14 +77,15 @@ export function CreateArticleForm() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      ...draft,
+    values: {
+      category: draft.category ?? "insights",
+      title: draft.title ?? "",
+      introduction: draft.introduction ?? "",
+      content: draft.content ?? "",
+      coverImage: draft.coverImage ?? "",
+      coverImageKey: draft.coverImageKey ?? "",
     },
   });
-
-  React.useEffect(() => {
-    form.reset({ ...draft });
-  }, [form, draft]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     execute(values);
@@ -256,7 +257,6 @@ export function CreateArticleForm() {
 
           <Button
             type="submit"
-            variant="outline"
             className="w-full"
             disabled={status === "executing" || status === "hasSucceeded"}
           >

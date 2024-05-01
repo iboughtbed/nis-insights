@@ -1,76 +1,114 @@
-.hljs {
-  color: #abb2bf;
-  /* background: #282c34; */
-}
+/* highlight.js */
 
-.hljs-comment,
-.hljs-quote {
-  color: #5c6370;
-  font-style: italic;
+.hljs {
+  color: #e1e4e8;
+  background: #0d1117;
 }
 
 .hljs-doctag,
 .hljs-keyword,
-.hljs-formula {
-  color: #c678dd;
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+  /* prettylights-syntax-keyword */
+  color: #ff7b72;
 }
 
-.hljs-section,
-.hljs-name,
-.hljs-selector-tag,
-.hljs-deletion,
-.hljs-subst {
-  color: #e06c75;
-}
-
-.hljs-literal {
-  color: #56b6c2;
-}
-
-.hljs-string,
-.hljs-regexp,
-.hljs-addition,
-.hljs-attribute,
-.hljs-meta .hljs-string {
-  color: #98c379;
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+  /* prettylights-syntax-entity */
+  color: #d2a8ff;
 }
 
 .hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
 .hljs-variable,
-.hljs-template-variable,
-.hljs-type,
-.hljs-selector-class,
 .hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-number {
-  color: #d19a66;
+.hljs-selector-class,
+.hljs-selector-id {
+  /* prettylights-syntax-constant */
+  color: #79c0ff;
 }
 
-.hljs-symbol,
-.hljs-bullet,
-.hljs-link,
-.hljs-meta,
-.hljs-selector-id,
-.hljs-title {
-  color: #61aeee;
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+  /* prettylights-syntax-string */
+  color: #a5d6ff;
 }
 
 .hljs-built_in,
-.hljs-title.class_,
-.hljs-class .hljs-title {
-  color: #e6c07b;
+.hljs-symbol {
+  /* prettylights-syntax-variable */
+  color: #ffa657;
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+  /* prettylights-syntax-comment */
+  color: #8b949e;
+}
+
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+  /* prettylights-syntax-entity-tag */
+  color: #7ee787;
+}
+
+.hljs-subst {
+  /* prettylights-syntax-storage-modifier-import */
+  color: #c9d1d9;
+}
+
+.hljs-section {
+  /* prettylights-syntax-markup-heading */
+  color: #1f6feb;
+  font-weight: bold;
+}
+
+.hljs-bullet {
+  /* prettylights-syntax-markup-list */
+  color: #f2cc60;
 }
 
 .hljs-emphasis {
+  /* prettylights-syntax-markup-italic */
+  color: #c9d1d9;
   font-style: italic;
 }
 
 .hljs-strong {
+  /* prettylights-syntax-markup-bold */
+  color: #c9d1d9;
   font-weight: bold;
 }
 
-.hljs-link {
-  text-decoration: underline;
+.hljs-addition {
+  color: #85e89d;
+}
+
+.hljs-deletion {
+  color: #fdaeb7;
+}
+
+.hljs-char.escape_,
+.hljs-link,
+.hljs-property,
+.hljs-params,
+.hljs-punctuation,
+.hljs-tag {
+  /* purposely ignored */
 }
 
 /* shiki */
