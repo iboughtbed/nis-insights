@@ -1,10 +1,10 @@
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-import type { categories } from "~/server/db/schema";
+import type { categories } from "~/lib/constants";
 
 type Draft = {
-  category?: (typeof categories.enumValues)[number];
+  category?: (typeof categories)[number];
   title?: string;
   introduction?: string;
   content?: string;

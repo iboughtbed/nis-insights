@@ -3,8 +3,9 @@ import "server-only";
 import { count } from "drizzle-orm";
 import { z } from "zod";
 
+import { categories } from "~/lib/constants";
 import { db } from "~/server/db";
-import { articles, categories } from "~/server/db/schema";
+import { articles } from "~/server/db/schema";
 
 export async function getArticle({ id }: { id: string }) {
   const article = await db.query.articles.findFirst({
@@ -34,7 +35,7 @@ export async function getArticle({ id }: { id: string }) {
 const getArticlesSchema = z.object({
   limit: z.number().min(1).max(10).default(10),
   offset: z.number().default(0),
-  category: z.enum(categories.enumValues).optional().catch(undefined),
+  category: z.enum(categories).optional().catch(undefined),
 });
 
 export async function getArticles(input: z.infer<typeof getArticlesSchema>) {

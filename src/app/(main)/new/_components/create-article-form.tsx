@@ -45,13 +45,13 @@ import {
 } from "~/components/ui/resizable";
 import { Textarea } from "~/components/ui/textarea";
 import { useDraft } from "~/hooks/use-draft";
+import { categories } from "~/lib/constants";
 import { cn } from "~/lib/utils";
 import { UploadDropzone } from "~/lib/utils/uploadthing";
 import { createArticle } from "~/server/actions/article";
-import { categories } from "~/server/db/schema";
 
 const formSchema = z.object({
-  category: z.enum(categories.enumValues),
+  category: z.enum(categories),
   title: z.string().trim().min(1).max(60),
   introduction: z.string().trim().min(1).max(120),
   content: z.string().trim().min(1),
@@ -176,7 +176,7 @@ export function CreateArticleForm() {
                         )}
                       >
                         {field.value
-                          ? categories.enumValues.find(
+                          ? categories.find(
                               (category) => category === field.value,
                             )
                           : "Select category"}
@@ -189,7 +189,7 @@ export function CreateArticleForm() {
                       <CommandInput placeholder="Search category..." />
                       <CommandEmpty>No cateogries found.</CommandEmpty>
                       <CommandGroup>
-                        {categories.enumValues.map((category) => (
+                        {categories.map((category) => (
                           <CommandItem
                             value={category}
                             key={category}

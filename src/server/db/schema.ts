@@ -11,6 +11,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
+import { categories } from "~/lib/constants";
 import { generateId } from "~/lib/utils";
 
 /**
@@ -34,11 +35,7 @@ export const releases = createTable("release", {
     .notNull(),
 });
 
-export const categories = pgEnum("category", [
-  "community",
-  "guides",
-  "insights",
-]);
+export const categoriesEnum = pgEnum("category", categories);
 
 export const articles = createTable("article", {
   id: varchar("id", { length: 255 })
@@ -47,7 +44,7 @@ export const articles = createTable("article", {
   authorId: varchar("author_id")
     .notNull()
     .references(() => users.id),
-  category: categories("category").notNull().default("insights"),
+  category: categoriesEnum("category").notNull().default("insights"),
   title: varchar("title", { length: 255 }).notNull(),
   introduction: text("introduction").notNull(),
   content: text("content").notNull(),
