@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
+
 import { CreateArticleForm } from "../_components/create-article-form";
+
+export const metadata: Metadata = {
+  title: "New article",
+  description: "Create a new article",
+};
 
 export default function NewArticlePage() {
   return (

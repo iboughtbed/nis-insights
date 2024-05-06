@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 
 // import { getReleases } from "~/server/queries/release";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
+
+export const metadata: Metadata = {
+  title: "Releases",
+  description: "Read our latest releases on the latest events in our school",
+};
 
 export default async function ReleasesPage() {
   // const { releases } = await getReleases();

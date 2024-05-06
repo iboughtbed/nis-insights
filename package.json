@@ -18,7 +18,7 @@
     "shadcn:add": "pnpm dlx shadcn-ui@latest add"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^0.7.0",
+    "@auth/drizzle-adapter": "^1.0.1",
     "@hookform/resolvers": "^3.3.4",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
