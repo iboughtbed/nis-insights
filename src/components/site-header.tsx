@@ -25,7 +25,7 @@ interface SiteHeaderProps {
 export function SiteHeader({ user }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 py-5 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
-      <div className="container relative flex items-center justify-between">
+      <div className="container relative flex h-8 items-center justify-between">
         <MobileNav items={siteConfig.mainNav} />
 
         <div className="hidden items-center gap-2 text-sm md:flex">
