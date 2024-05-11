@@ -64,10 +64,6 @@ This is an open source school magazine website build with everything new in Next
 
 NIS Insights is the digital home of our school magazine club. Explore our latest releases, read engaging articles, and discover talented authors on our platform. We're dedicated to sharing knowledge, creativity, and unique perspectives.
 
-## Getting Started
-
-Get started with NIS Insights and become a part of our community.
-
 ## Usage
 
 Visit our website to:
@@ -78,18 +74,11 @@ Visit our website to:
 
 ## Contributing
 
-We welcome new members and contributors to enhance our platform. To contribute:
-
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes and commit them.
-4. Open a pull request.
-
-Please note that we are selective about contributors to maintain the quality of our content.
+Contributions are welcome! Please open an issue if you have any questions or suggestions. Your contributions will be acknowledged. See the [contributing guide](./CONTRIBUTING.md) for more information.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). See the [LICENSE](LICENSE) file for details.
+Licensed under the MIT License. Check the [LICENSE](./LICENSE.md) file for details.
 
 ## Acknowledgments
 
