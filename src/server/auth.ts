@@ -10,7 +10,12 @@ import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
 import { env } from "~/env";
 import { removeEmailDomain } from "~/lib/utils";
 import { db } from "~/server/db";
-import { createTable, users } from "~/server/db/schema";
+import {
+  accounts,
+  sessions,
+  users,
+  verificationTokens,
+} from "~/server/db/schema";
 import type { Role } from "~/types";
 
 /**
@@ -89,17 +94,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
-  adapter: {
-    ...(DrizzleAdapter(db, createTable) as Adapter),
-    // @ts-expect-error drizzle adapter does not include extra columns
-    async createUser(data) {
-      return await db
-        .insert(users)
-        .values({ ...data, id: crypto.randomUUID() })
-        .returning()
-        .then((res) => res[0] ?? null);
-    },
-  },
+  adapter: DrizzleAdapter(db, {
+    accountsTable: accounts,
+    sessionsTable: sessions,
+    usersTable: users,
+    verificationTokensTable: verificationTokens,
+  }) as Adapter,
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
