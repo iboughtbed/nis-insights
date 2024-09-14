@@ -84,3 +84,7 @@ Licensed under the MIT License. Check the [LICENSE](./LICENSE.md) file for detai
 
 - Thank you to our dedicated team of writers and contributors.
 - Inspired by the passion for sharing knowledge within our school community.
+
+## Trigger vercel
+
+- 1
