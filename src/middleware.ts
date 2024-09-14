@@ -8,8 +8,6 @@ export default withAuth(
 
     const url = new URL(req.nextUrl.origin);
 
-    console.log({ pathname });
-
     if (pathname === "/") {
       console.log("main");
 
