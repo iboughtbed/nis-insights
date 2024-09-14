@@ -11,7 +11,11 @@ export default withAuth(function middleware(req) {
     if (token?.sub) {
       url.pathname = "/dashboard";
       return NextResponse.redirect(url);
+    } else {
+      return NextResponse.next();
     }
+
+
   }
 
   if (!token?.sub) {
