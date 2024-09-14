@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { buttonVariants } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
 
 import { getServerAuthSession } from "~/server/auth";
 
@@ -16,8 +19,12 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8 pb-8 pt-6 md:py-8">
-      <div className="w-full overflow-hidden"></div>
+    <div className="flex flex-col gap-8 pb-8 pt-6  md:py-8">
+      <div className="w-full overflow-hidden">
+        <Link href="/new/article" className={cn(buttonVariants())}>
+          New Article
+        </Link>
+      </div>
     </div>
   );
 }

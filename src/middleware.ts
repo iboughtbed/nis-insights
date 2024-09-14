@@ -12,6 +12,11 @@ export default withAuth(function middleware(req) {
     return NextResponse.redirect(url);
   }
 
+  if (pathname === "/") {
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  }
+
   if (
     pathname.startsWith("/new/article") ||
     pathname.startsWith("/edit/article")
@@ -34,5 +39,5 @@ export default withAuth(function middleware(req) {
 });
 
 export const config = {
-  matcher: ["/new/:path*", "/edit/:path", "/dashboard/:path*"],
+  matcher: ["/", "/new/:path*", "/edit/:path", "/dashboard/:path*"],
 };
