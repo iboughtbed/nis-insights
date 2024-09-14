@@ -7,13 +7,15 @@ export default withAuth(function middleware(req) {
 
   const url = new URL(req.nextUrl.origin);
 
-  if (!token?.sub) {
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+  if (pathname === "/") {
+    if (token?.sub) {
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
   }
 
-  if (pathname === "/") {
-    url.pathname = "/dashboard";
+  if (!token?.sub) {
+    url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
