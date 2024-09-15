@@ -8,17 +8,15 @@ export default withAuth(
 
     const url = new URL(req.nextUrl.origin);
 
-    if (pathname === "/") {
-      console.log("main");
-
-      if (token?.sub) {
-        url.pathname = "/dashboard";
-        return NextResponse.redirect(url);
-      } else {
-        console.log("red");
-        return NextResponse.next();
-      }
-    }
+    // if (pathname === "/") {
+    //   if (token?.sub) {
+    //     url.pathname = "/dashboard";
+    //     return NextResponse.redirect(url);
+    //   } else {
+    //     console.log("red");
+    //     return NextResponse.next();
+    //   }
+    // }
 
     if (!token?.sub) {
       url.pathname = "/";
@@ -58,5 +56,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/", "/new/:path*", "/edit/:path", "/dashboard/:path*"],
+  matcher: ["/new/:path*", "/edit/:path", "/dashboard/:path*"],
 };
