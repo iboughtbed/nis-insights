@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <TailwindIndicator />
           <Sonner richColors />
           <SpeedInsights />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
