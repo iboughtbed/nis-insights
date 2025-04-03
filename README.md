@@ -7,6 +7,31 @@ This is an open source school magazine website build with everything new in Next
 > **Warning**
 > This project is still in development and is not ready for production use.
 
+This repository is a learning exercise in web design and development.  
+**Created at 15 years old as a practice project.**
+
+---
+
+## About
+
+- **Purpose:**  
+  This project was developed solely as an educational experiment to practice designing a website. It allowed me to explore layout, styling, and responsive design concepts.
+
+- **Inspiration & Design:**  
+  Some design ideas were inspired by established websites. However, this project is a personal exercise and is not intended to replicate any particular site for commercial purposes.
+
+---
+
+## Disclaimer
+
+- **Non-Commercial Use:**  
+  This project is for practice only and is not deployed as an official website or used for any commercial endeavor.
+
+- **Design Rights:**  
+  All design elements or inspirations taken from other sources are the exclusive property of their rightful owners. This repository is intended for personal learning and does not claim ownership of any externally originated design ideas.
+
+---
+
 ## Tech Stack
 
 - **Framework:** [Next.js](https://nextjs.org)
@@ -82,6 +107,7 @@ Licensed under the MIT License. Check the [LICENSE](./LICENSE.md) file for detai
 
 ## Acknowledgments
 
+- I created this project purely as an exercise in learning web design at a young age. All rights regarding any design inspirations remain with their respective owners.
 - Thank you to our dedicated team of writers and contributors.
 - Inspired by the passion for sharing knowledge within our school community.
 
